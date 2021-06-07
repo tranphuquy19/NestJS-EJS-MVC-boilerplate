@@ -11,7 +11,7 @@ services:
     container_name: nest_pgsql
     image: postgres
     environment:
-      POSTGRES_DB: nest_db
+      POSTGRES_DB: ${POSTGRES_DB:-nest_db}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-11231123}
       PGDATA: /data/postgres

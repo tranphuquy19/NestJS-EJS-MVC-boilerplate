@@ -8,25 +8,25 @@ import flash = require('connect-flash');
 import passport from 'passport';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.enableCors();
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.enableCors();
+    app.useStaticAssets(join(__dirname, '..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..', 'views'));
 
-  app.use(
-    session({
-      secret: 'nest cats',
-      resave: false,
-      saveUninitialized: false,
-    }),
-  );
+    app.use(
+        session({
+            secret: 'nest cats',
+            resave: false,
+            saveUninitialized: false,
+        }),
+    );
 
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(flash());
+    app.use(passport.initialize());
+    app.use(passport.session());
+    app.use(flash());
 
-  app.setViewEngine('ejs');
-  await app.listen(4000);
+    app.setViewEngine('ejs');
+    await app.listen(4000);
 }
 bootstrap();

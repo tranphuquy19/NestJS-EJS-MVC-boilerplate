@@ -11,6 +11,7 @@ import passport from 'passport';
 
 import redis from 'redis';
 import connectRedis from 'connect-redis';
+import { sessionMaxAge } from '@config';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -40,7 +41,7 @@ async function bootstrap() {
             cookie: {
                 secure: false, // if true only transmit cookie over https
                 httpOnly: false, // if true prevent client side JS from reading the cookie
-                maxAge: process.env.SESSION_MAX_AGE, // session max age in miliseconds
+                maxAge: sessionMaxAge, // session max age in miliseconds
             },
         }),
     );

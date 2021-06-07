@@ -1,0 +1,62 @@
+version : '3'
+
+# To install: $ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
+# To start:     $ docker-compose up -d
+# To tear-down: $ docker-compose down --volumes
+# Approve permission (pgadmin): sudo chown -R 5050:5050 $DATA_FOLDER/pgadmin/data
+# To copy backupfile: $ FILE_NAME=schema.sql sudo cp .docker/pgadmin/data/storage/$FILE_NAME $DATA_FOLDER/postgres/backup/$FILE_NAME
+
+services:
+  postgres:
+    container_name: nest_pgsql
+    image: postgres
+    environment:
+      POSTGRES_DB: nest_db
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-11231123}
+      PGDATA: /data/postgres
+    volumes:
+       - ${DATA_FOLDER}/postgres/data:/var/lib/postgresql/data
+    networks:
+      - nest_network
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: nest_pgadmin
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-tranphuquy19@gmail.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-11231123}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - ${DATA_FOLDER}/pgadmin/data:/var/lib/pgadmin
+       - ${DATA_FOLDER}/pgadmin/servers.json:/pgadmin4/servers.json
+    networks:
+      - nest_network
+    ports:
+      - "5433:80"
+    restart: unless-stopped
+
+  redis:
+      image: redis:alpine
+      container_name: nest_redis
+      networks:
+        - nest_network
+      ports:
+        - 6379:6379
+      volumes:
+        - ${DATA_FOLDER}/redis/data:/data
+
+networks:
+  dora_network:
+      driver: bridge
+      ipam:
+          driver: default
+          config:
+              - subnet: "172.57.0.0/24"
+                gateway: 172.57.0.1

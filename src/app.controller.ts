@@ -17,20 +17,20 @@ export class AppController {
     @Get('/')
     @Page('login')
     index(@Req() req: Request): { message: string[] } {
-        return { message: req.flash('loginError') };
+      return { message: req.flash('loginError') };
     }
-
+    
     @UseGuards(LoginGuard)
     @Post('/login')
     login(@Res() res: Response) {
-        res.redirect('/home');
+      res.redirect('/home');
     }
-
+    
     @UseGuards(AuthenticatedGuard)
     @Get('/home')
     @Page('home')
     getHome(@Req() req: Request) {
-        return { user: req.user };
+      return { user: req.user };
     }
 
     @UseGuards(AuthenticatedGuard)

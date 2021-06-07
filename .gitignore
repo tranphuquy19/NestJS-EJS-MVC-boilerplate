@@ -32,3 +32,8 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# DATA_FOLDER
+.docker/pgadmin/data
+.docker/postgres/data
+.docker/redis/data

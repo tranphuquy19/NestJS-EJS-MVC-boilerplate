@@ -11,7 +11,7 @@ import passport from 'passport';
 
 import redis from 'redis';
 import connectRedis from 'connect-redis';
-import { sessionMaxAge } from '@config';
+import { sessionMaxAge, sessionSecret } from '@config';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -35,7 +35,7 @@ async function bootstrap() {
     app.use(
         session({
             store: new RedisStore({ client: redisClient }),
-            secret: 'nest cats',
+            secret: sessionSecret,
             resave: false,
             saveUninitialized: false,
             cookie: {

@@ -41,7 +41,7 @@ async function bootstrap() {
             cookie: {
                 secure: false, // if true only transmit cookie over https
                 httpOnly: false, // if true prevent client side JS from reading the cookie
-                maxAge: sessionMaxAge, // session max age in miliseconds
+                maxAge: sessionMaxAge, // session max age in miliseconds, restart redis server after change this value
             },
         }),
     );

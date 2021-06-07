@@ -6,8 +6,14 @@ import { AuthenticatedGuard, AuthExceptionFilter, LoginGuard, Page } from './sha
 @UseFilters(AuthExceptionFilter)
 export class AppController {
     @Get('/')
+    index(@Req() req: Request, @Res() res: Response): void {
+        if (!req.user) return res.redirect('/login');
+        else return res.redirect('/home');
+    }
+
+    @Get('/login')
     @Page('login')
-    index(@Req() req: Request): { message: string[] } {
+    _login(@Req() req: Request): { message: string[] } {
         return { message: req.flash('loginError') };
     }
 

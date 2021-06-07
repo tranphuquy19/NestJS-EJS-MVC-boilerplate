@@ -12,6 +12,7 @@
     "incremental": true,
     "esModuleInterop": true,
     "paths": {
+      "@*": ["src/*"],
       "@auth/*": ["src/modules/auth/*"],
       "@users/*": ["src/modules/users/*"]
     }

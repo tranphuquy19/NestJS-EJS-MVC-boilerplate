@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { LocalStrategy } from '@shared';
 import { UsersModule } from '@users/users.module';
 import { AuthService } from './auth.service';
-import { LocalStrategy } from '../../shared/strategies/local.strategy';
 import { SessionSerializer } from './session.serializer';
 
 @Module({

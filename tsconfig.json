@@ -14,7 +14,8 @@
     "paths": {
       "@*": ["src/*"],
       "@auth/*": ["src/modules/auth/*"],
-      "@users/*": ["src/modules/users/*"]
+      "@users/*": ["src/modules/users/*"],
+      "@file-uploader/*": ["src/modules/file-uploader/*"]
     }
   },
   "exclude": ["src/node_modules", "dist", "*.js"],

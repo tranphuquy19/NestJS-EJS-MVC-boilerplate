@@ -8,12 +8,12 @@ version : '3'
 
 services:
   postgres:
-    container_name: nest_pgsql
+    container_name: ${STACK_NAME:-nest}_pgsql
     image: postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-nest_db}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-11231123}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-P@s5word}
       PGDATA: /data/postgres
     volumes:
        - ${DATA_FOLDER}/postgres/data:/var/lib/postgresql/data
@@ -24,14 +24,14 @@ services:
     restart: unless-stopped
   
   pgadmin:
-    container_name: nest_pgadmin
+    container_name: ${STACK_NAME:-nest}_pgadmin
     image: dpage/pgadmin4
     depends_on:
       - postgres
       - redis
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-tranphuquy19@gmail.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-11231123}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P@s5word}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
        - ${DATA_FOLDER}/pgadmin/data:/var/lib/pgadmin
@@ -44,7 +44,7 @@ services:
 
   redis:
       image: redis:alpine
-      container_name: nest_redis
+      container_name: ${STACK_NAME:-nest}_redis
       networks:
         - nest_network
       ports:
@@ -53,7 +53,7 @@ services:
         - ${DATA_FOLDER}/redis/data:/data
 
 networks:
-  dora_network:
+  nest_network:
       driver: bridge
       ipam:
           driver: default

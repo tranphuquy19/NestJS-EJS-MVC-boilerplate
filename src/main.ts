@@ -11,12 +11,38 @@ import passport from 'passport';
 
 import redis from 'redis';
 import connectRedis from 'connect-redis';
-import { sessionMaxAge, sessionSecret } from '@config';
+import { apiUrl, NODE_ENV, sessionMaxAge, sessionSecret } from '@config';
+import helmet = require('helmet');
+import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-    app.enableCors();
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            transform: true,
+            validationError: { target: false },
+        }),
+    );
+
+    if (NODE_ENV === 'development') {
+        app.enableCors();
+
+        const swaggerBuilder = new DocumentBuilder()
+            .setTitle('NestJs MVC Boilerplate')
+            .setDescription('NestJs MVC boilerplate description')
+            .addBearerAuth()
+            .addServer(apiUrl)
+            .setVersion(require('../package.json').version)
+            .build();
+        const docs = SwaggerModule.createDocument(app, swaggerBuilder);
+        SwaggerModule.setup('/docs', app, docs);
+    } else {
+        app.use(helmet());
+    }
+
     app.useStaticAssets(join(__dirname, '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', 'views'));
 

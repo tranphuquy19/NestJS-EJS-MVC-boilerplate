@@ -11,7 +11,7 @@ import passport from 'passport';
 
 import redis from 'redis';
 import connectRedis from 'connect-redis';
-import { apiUrl, NODE_ENV, PORT, sessionMaxAge, sessionSecret } from '@config';
+import { apiUrl, NODE_ENV, PORT, redisPort, redisUrl, sessionMaxAge, sessionSecret } from '@config';
 import helmet = require('helmet');
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -49,8 +49,8 @@ async function bootstrap() {
 
     const RedisStore = connectRedis(session);
     const redisClient = redis.createClient({
-        host: 'localhost',
-        port: 6379,
+        host: redisUrl,
+        port: redisPort,
     });
     redisClient.on('error', (err) => {
         console.error('Could not establish a connection with redis. ' + err);

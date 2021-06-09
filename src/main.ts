@@ -30,7 +30,7 @@ async function bootstrap() {
             validationError: { target: false },
         }),
     );
-
+    app.enable('trust proxy');
     if (NODE_ENV === 'development') {
         app.enableCors();
         app.use(morgan('combined'));
@@ -56,7 +56,7 @@ async function bootstrap() {
             else
                 app.use(morgan('common', { stream: accessLogStream }));
         }
-        
+
         app.disable('x-powered-by');
     }
 

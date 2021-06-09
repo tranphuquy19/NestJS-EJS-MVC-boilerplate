@@ -49,7 +49,7 @@ async function bootstrap() {
         app.use(compression());
 
         if (enableLogging) {
-            const logFile = isAbsolute(logDir) ? path.join(logDir, 'access.log') : join(__dirname, '..', 'logs', 'access.logs');
+            const logFile = isAbsolute(logDir) ? path.join(logDir, 'access.log') : join(__dirname, '..', 'logs', 'access.log');
             const accessLogStream = createWriteStream(logFile, { flags: 'a' });
             if (onlyErrorRequests)
                 app.use(morgan('common', { stream: accessLogStream, skip: (req, res) => res.statusCode < 400 }));

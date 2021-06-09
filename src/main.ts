@@ -31,19 +31,20 @@ async function bootstrap() {
         }),
     );
     app.enable('trust proxy');
+
     if (NODE_ENV === 'development') {
         app.enableCors();
         app.use(morgan('short'));
 
         const swaggerBuilder = new DocumentBuilder()
-            .setTitle('NestJs MVC Boilerplate')
-            .setDescription('NestJs MVC boilerplate description')
+            .setTitle('NestJS EJS MVC Boilerplate')
+            .setDescription(require('../package.json').description)
             .addBearerAuth()
             .addServer(apiUrl)
             .setVersion(require('../package.json').version)
             .build();
         const docs = SwaggerModule.createDocument(app, swaggerBuilder);
-        SwaggerModule.setup('/docs', app, docs);
+        SwaggerModule.setup('/docs', app, docs); // Route to http://API_URL:PORT/docs-json to get Swagger json-docs
     } else {
         app.use(helmet());
         app.use(compression());

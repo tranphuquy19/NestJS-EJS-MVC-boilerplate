@@ -33,7 +33,7 @@ async function bootstrap() {
     app.enable('trust proxy');
     if (NODE_ENV === 'development') {
         app.enableCors();
-        app.use(morgan('combined'));
+        app.use(morgan('short'));
 
         const swaggerBuilder = new DocumentBuilder()
             .setTitle('NestJs MVC Boilerplate')

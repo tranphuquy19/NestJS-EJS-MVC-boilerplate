@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
+import { isAbsolute, join } from 'path';
 import { AppModule } from './app.module';
 
 import session from 'express-session';
@@ -11,10 +11,14 @@ import passport from 'passport';
 
 import redis from 'redis';
 import connectRedis from 'connect-redis';
-import { apiUrl, NODE_ENV, PORT, redisPort, redisUrl, sessionMaxAge, sessionSecret } from '@config';
+import { apiUrl, enableLogging, logDir, NODE_ENV, onlyErrorRequests, PORT, redisPort, redisUrl, sessionMaxAge, sessionSecret } from '@config';
 import helmet = require('helmet');
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import morgan from 'morgan';
+import compression = require('compression');
+import { createWriteStream } from 'fs';
+import path = require('path');
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -29,6 +33,7 @@ async function bootstrap() {
 
     if (NODE_ENV === 'development') {
         app.enableCors();
+        app.use(morgan('combined'));
 
         const swaggerBuilder = new DocumentBuilder()
             .setTitle('NestJs MVC Boilerplate')
@@ -41,6 +46,17 @@ async function bootstrap() {
         SwaggerModule.setup('/docs', app, docs);
     } else {
         app.use(helmet());
+        app.use(compression());
+
+        if (enableLogging) {
+            const logFile = isAbsolute(logDir) ? path.join(logDir, 'access.log') : join(__dirname, '..', 'logs', 'access.logs');
+            const accessLogStream = createWriteStream(logFile, { flags: 'a' });
+            if (onlyErrorRequests)
+                app.use(morgan('common', { stream: accessLogStream, skip: (req, res) => res.statusCode < 400 }));
+            else
+                app.use(morgan('common', { stream: accessLogStream }));
+        }
+        
         app.disable('x-powered-by');
     }
 

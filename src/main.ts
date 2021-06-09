@@ -11,7 +11,7 @@ import passport from 'passport';
 
 import redis from 'redis';
 import connectRedis from 'connect-redis';
-import { apiUrl, enableLogging, logDir, NODE_ENV, onlyErrorRequests, PORT, redisPort, redisUrl, sessionMaxAge, sessionSecret } from '@config';
+import { apiUrl, enableLogging, logDir, logFormat, NODE_ENV, onlyErrorRequests, PORT, redisPort, redisUrl, sessionMaxAge, sessionSecret } from '@config';
 import helmet = require('helmet');
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -52,9 +52,9 @@ async function bootstrap() {
             const logFile = isAbsolute(logDir) ? path.join(logDir, 'access.log') : join(__dirname, '..', 'logs', 'access.log');
             const accessLogStream = createWriteStream(logFile, { flags: 'a' });
             if (onlyErrorRequests)
-                app.use(morgan('common', { stream: accessLogStream, skip: (req, res) => res.statusCode < 400 }));
+                app.use(morgan(logFormat, { stream: accessLogStream, skip: (req, res) => res.statusCode < 400 }));
             else
-                app.use(morgan('common', { stream: accessLogStream }));
+                app.use(morgan(logFormat, { stream: accessLogStream }));
         }
 
         app.disable('x-powered-by');

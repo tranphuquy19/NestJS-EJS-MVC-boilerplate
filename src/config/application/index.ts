@@ -7,6 +7,7 @@ export const fullApiUrl = `${apiUrl}/${process.env.API_VERSION}`;
 export const enableLogging = !!process.env.ENABLE_LOGGING;
 export const logDir = process.env.LOG_DIR;
 export const onlyErrorRequests = !!process.env.ONLY_ERROR_REQUESTS;
+export const logFormat = process.env.LOG_FORMAT;
 
 export const sessionSecret = process.env.SESSION_SECRET;
 export const sessionMaxAge = +process.env.SESSION_MAX_AGE;

@@ -13,6 +13,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "generate:vapid": "./node_modules/.bin/web-push generate-vapid-keys",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -51,7 +52,8 @@
     "sitemap": "^7.0.0",
     "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.34",
-    "validator": "^13.6.0"
+    "validator": "^13.6.0",
+    "web-push": "^3.4.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.6",
@@ -73,6 +75,7 @@
     "@types/passport-local": "^1.0.33",
     "@types/redis": "^2.8.29",
     "@types/supertest": "^2.0.10",
+    "@types/web-push": "^3.3.0",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
     "eslint": "^7.20.0",

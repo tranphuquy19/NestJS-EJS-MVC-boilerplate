@@ -11,3 +11,6 @@ export const logFormat = process.env.LOG_FORMAT;
 
 export const sessionSecret = process.env.SESSION_SECRET;
 export const sessionMaxAge = +process.env.SESSION_MAX_AGE;
+
+export const publicVapidKey = process.env.PUBLIC_VAPID_KEY;
+export const privateVapidKey = process.env.PRIVATE_VAPID_KEY;

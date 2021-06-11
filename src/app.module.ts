@@ -3,6 +3,7 @@ import { AuthModule } from '@auth/auth.module';
 import { FileUploaderModule } from '@file-uploader/file-uploader.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { NotificationModule } from '@notification/notification.module';
 import { SitemapModule } from '@sitemap/sitemap.module';
 import { UsersModule } from '@users/users.module';
 import { AccessControlModule } from 'nest-access-control';
@@ -17,6 +18,7 @@ import { AppService } from './app.service';
         UsersModule,
         FileUploaderModule,
         SitemapModule,
+        NotificationModule,
     ],
     controllers: [AppController],
     providers: [AppService],

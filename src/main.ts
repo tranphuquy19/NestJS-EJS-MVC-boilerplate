@@ -25,7 +25,7 @@ import {
     sessionSecret,
 } from '@config';
 import helmet = require('helmet');
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import morgan from 'morgan';
 import compression = require('compression');
@@ -88,10 +88,10 @@ async function bootstrap() {
         port: redisPort,
     });
     redisClient.on('error', (err) => {
-        console.error('Could not establish a connection with redis. ' + err);
+        Logger.log(`Could not establish a connection with redis. ${err}`, 'Bootstrap');
     });
     redisClient.on('connect', () => {
-        console.info('Connected to redis successfully');
+        Logger.log('Connected to redis successfully', 'Bootstrap');
     });
 
     app.use(

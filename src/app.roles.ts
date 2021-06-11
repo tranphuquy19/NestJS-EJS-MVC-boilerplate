@@ -1,4 +1,4 @@
-import { RolesBuilder } from "nest-access-control";
+import { RolesBuilder } from 'nest-access-control';
 
 export enum AppRoles {
     ADMIN = 'ADMIN',

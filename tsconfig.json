@@ -15,7 +15,8 @@
       "@*": ["src/*"],
       "@auth/*": ["src/modules/auth/*"],
       "@users/*": ["src/modules/users/*"],
-      "@file-uploader/*": ["src/modules/file-uploader/*"]
+      "@file-uploader/*": ["src/modules/file-uploader/*"],
+      "@sitemap/*": ["src/modules/sitemap/*"]
     }
   },
   "exclude": ["src/node_modules", "dist", "*.js"],

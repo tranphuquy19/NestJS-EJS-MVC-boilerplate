@@ -1,9 +1,16 @@
-import { AppRoles } from "@app.roles";
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { IUserModel } from "../dto";
+import { AppRoles } from '@app.roles';
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
+import { IUserModel } from '../dto';
 
 @Entity('user')
-export class UserEntity extends BaseEntity  implements IUserModel {
+export class UserEntity extends BaseEntity implements IUserModel {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 

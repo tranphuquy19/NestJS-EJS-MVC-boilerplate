@@ -58,16 +58,98 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## Features
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### View engine
 
-## Stay in touch
+- [x] EJS
+- [x] EJS Partials
+- [ ] EJS Helpers
+- [x] Page render decorator [page.decorator.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/page.decorator.ts#L3)
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### API
 
-## License
+- [x] API versioning controller decorator [api-v1.controller.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/api-v1-controller.decorator.ts#L3)
 
-Nest is [MIT licensed](LICENSE).
+
+### Caching
+
+- [ ] API Response
+- [x] Static files
+- [x] Database queries
+- [ ] CDN
+
+### Authentication
+
+- [x] Cookies/Session
+- [x] Using Redis as Session Store
+- [x] Basic auth
+- [ ] JWT auth
+- [ ] Web-socket auth
+
+### Structure
+
+- [x] Repository pattern
+- [x] Module path Aliases
+
+### Authorization
+
+- [x] Role-base Access Control (RBAC)
+- [x] Attribute-base Access Control (ABAC)
+- [ ] Can update grants at runtime
+
+### SEO
+
+- [x] Sitemap generator
+
+### Notification
+
+- [x] Self-hosted push notification
+- [ ] Store subscriptions in Redis
+
+### I18n
+
+- [x] Support EJS `<%= __('home') %>`, using [i18n](https://www.npmjs.com/package/i18n) package
+- [x] Using Cookie
+
+### File Uploader
+
+- [x] Uploader decorator [uploader.decorator.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/uploader.decorator.ts#L7)
+- [ ] Auto resize images
+- [ ] Auto generate video thumbnails
+
+### Logging
+
+- [x] Log requests (using [morgan](https://github.com/expressjs/morgan))
+- [x] Log requests in `development` environment
+- [x] Log to file in `production` environment
+
+### Real-time application
+
+- [ ] Socket.IO
+- [ ] Redis Pub/Sub
+
+### Security
+
+- [x] Using [helmet](https://github.com/helmetjs/helmet) package
+- [x] CORS
+- [ ] CRFS
+- [x] Schema validation
+
+### App containerization
+
+- [x] Dockerfile (`development`, `production`)
+- [x] Docker-compose
+- [ ] Kubernetes
+- [ ] Skaffold
+
+### CI/CD
+
+- [ ] Github actions
+- [ ] Multi-Stage pipelines
+
+### Documentations
+
+- [x] Swagger docs `http://localhost:4000/docs`
+- [x] Swagger json-docs (just append `-json` to Swagger path. Example: `http://localhost:4000/docs-json`)
+

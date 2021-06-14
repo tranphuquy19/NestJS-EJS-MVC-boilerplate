@@ -18,6 +18,7 @@
       "@file-uploader/*": ["src/modules/file-uploader/*"],
       "@sitemap/*": ["src/modules/sitemap/*"],
       "@notification/*": ["src/modules/notification/*"],
+      "@redis/*": ["src/modules/redis/*"],
     }
   },
   "exclude": ["src/node_modules", "dist", "*.js"],

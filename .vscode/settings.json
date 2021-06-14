@@ -3,6 +3,7 @@
         "changefreq",
         "originalname",
         "resave",
-        "typeorm"
+        "typeorm",
+        "unflatten"
     ]
 }

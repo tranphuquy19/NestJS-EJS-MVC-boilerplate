@@ -17,8 +17,15 @@ export class NotificationService {
         const subscription = req.body;
         this.subscriptions.push(subscription);
 
-        webPush.sendNotification(subscription, JSON.stringify({ title: 'subscribe notification successfully', icon: `${apiUrl}/cat.png` }))
-            .catch(err => this.logger.error(err));
+        webPush
+            .sendNotification(
+                subscription,
+                JSON.stringify({
+                    title: 'subscribe notification successfully',
+                    icon: `${apiUrl}/cat.png`,
+                }),
+            )
+            .catch((err) => this.logger.error(err));
     }
 
     setupWebPush(): void {
@@ -26,15 +33,18 @@ export class NotificationService {
     }
 
     fireNotification(): void {
-        this.subscriptions.forEach(subscription => {
-            webPush.sendNotification(subscription,
-                JSON.stringify({
-                    title: 'Test notification',
-                    icon: `${apiUrl}/cat.png`,
-                    body: 'Meo meo',
-                    vibrate: [300, 100, 400]
-                }))
-                .catch(err => this.logger.log(err));
+        this.subscriptions.forEach((subscription) => {
+            webPush
+                .sendNotification(
+                    subscription,
+                    JSON.stringify({
+                        title: 'Test notification',
+                        icon: `${apiUrl}/cat.png`,
+                        body: 'Meo meo',
+                        vibrate: [300, 100, 400],
+                    }),
+                )
+                .catch((err) => this.logger.log(err));
         });
     }
 }

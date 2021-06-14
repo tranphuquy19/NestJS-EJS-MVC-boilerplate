@@ -32,6 +32,21 @@ import compression = require('compression');
 import { createWriteStream } from 'fs';
 import path = require('path');
 
+import I18n from 'i18n';
+import { NextFunction, Request, Response } from 'express';
+
+I18n.configure({
+    locales: ['en', 'vi'],
+    directory: `./src/i18n/locales`,
+    cookie: 'lang',
+    defaultLocale: 'en',
+    missingKeyFn: (locale, value) => {
+        console.log(locale);
+        console.log(value);
+        return value;
+    },
+});
+
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -110,9 +125,26 @@ async function bootstrap() {
 
     app.use(passport.initialize());
     app.use(passport.session());
+    app.use(I18n.init);
     app.use(flash());
 
     app.setViewEngine('ejs');
+
+    //handle for multiple language
+    app.use((req: Request, res: Response, next: NextFunction) => {
+        //set header
+        res.header('Access-Control-Allow-Methods', 'POST, GET, PUT');
+        res.header('Access-Control-Allow-Headers', '*');
+
+        const lang = req.cookies['lang'] || '';
+        if (!lang) {
+            I18n.setLocale('en');
+            res.cookie('lang', 'en', { maxAge: 86400 * 30 });
+        } else I18n.setLocale(lang);
+
+        next();
+    });
+
     await app.listen(PORT);
 }
 bootstrap();

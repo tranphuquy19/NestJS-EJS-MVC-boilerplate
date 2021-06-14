@@ -199,6 +199,7 @@ $ npm run test:cov
 - [ ] Unit test
 - [ ] E2E
 - [ ] Coverage
+- [ ] Performance
 
 ### Documentations
 

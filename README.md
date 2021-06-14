@@ -190,8 +190,9 @@ $ npm run test:cov
 ### CI/CD
 
 - [ ] Github actions
-- [ ] Multi-Stage pipelines
 - [ ] Circle CI
+- [ ] Gitlab pipeline
+- [ ] Multi-Stage pipelines
 
 ### Testing
 

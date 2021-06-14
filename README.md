@@ -94,8 +94,8 @@ $ npm run test:cov
 
 ### Authorization
 
-- [x] Role-base Access Control (RBAC)
-- [x] Attribute-base Access Control (ABAC)
+- [x] Role-based Access Control (RBAC)
+- [x] Attribute-based Access Control (ABAC)
 - [ ] Can update grants at runtime
 
 ### SEO

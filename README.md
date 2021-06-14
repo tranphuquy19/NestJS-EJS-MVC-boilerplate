@@ -129,12 +129,19 @@ $ npm run test:cov
 - [ ] Socket.IO
 - [ ] Redis Pub/Sub
 
+### Database
+
+- [x] Pagination
+- [ ] Transaction
+- [x] Synchronizing Table Schemas
+
 ### Security
 
 - [x] Using [helmet](https://github.com/helmetjs/helmet) package
 - [x] CORS
 - [ ] CRFS
 - [x] Schema validation
+- [ ] Rate limit
 
 ### App containerization
 

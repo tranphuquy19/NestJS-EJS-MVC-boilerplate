@@ -101,6 +101,12 @@ $ npm run test:cov
 - [ ] Interval
 - [ ] Cron job
 
+### HTTP client
+
+- [ ] RESTful client
+- [ ] GraphQL client
+- [ ] SOAP client
+
 ### Send mail
 
 - [ ] Nodemailer (smtp, password)
@@ -121,10 +127,12 @@ $ npm run test:cov
 - [x] Role-based Access Control (RBAC)
 - [x] Attribute-based Access Control (ABAC)
 - [ ] Can update grants at runtime
+- [x] Implemented builder pattern
 
 ### SEO
 
 - [x] Sitemap generator
+- [ ] Google Analytics
 
 ### Notification
 
@@ -167,7 +175,7 @@ $ npm run test:cov
 - [x] Using [helmet](https://github.com/helmetjs/helmet) package
 - [x] CORS
 - [ ] CRFS
-- [x] Schema validation
+- [x] Schema validation (validation pipes)
 - [ ] Rate limit
 
 ### App containerization

@@ -92,6 +92,7 @@ $ npm run test:cov
 - [ ] Web-socket auth
 - [ ] OAuth Google
 - [ ] OAuth Facebook
+- [ ] OAuth Github
 - [ ] Verify email
 - [ ] Time-based One-time password (TOTP)
 
@@ -169,6 +170,7 @@ $ npm run test:cov
 - [ ] Transaction
 - [x] Synchronizing Table Schemas
 - [ ] Data seeding
+- [ ] Multi-database
 
 ### Security
 

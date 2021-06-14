@@ -145,6 +145,8 @@ async function bootstrap() {
         next();
     });
 
-    await app.listen(PORT);
+    await app.listen(PORT, '0.0.0.0', () => {
+        Logger.log(`Nest listening on http://0.0.0.0:${PORT}`, 'Bootstrap');
+    });
 }
 bootstrap();

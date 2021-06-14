@@ -122,7 +122,7 @@ $ npm run test:cov
 
 - [x] Log requests (using [morgan](https://github.com/expressjs/morgan))
 - [x] Log requests in `development` environment
-- [x] Log to file in `production` environment
+- [x] Write logs to file in `production` environment
 
 ### Real-time application
 

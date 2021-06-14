@@ -107,7 +107,7 @@ async function bootstrap() {
         app.disable('x-powered-by');
     }
 
-    app.useStaticAssets(join(__dirname, '..', 'public'));
+    app.useStaticAssets(join(__dirname, '..', 'public'), { maxAge: sessionMaxAge });
     app.setBaseViewsDir(join(__dirname, '..', 'views'));
 
     const RedisStore = connectRedis(session);

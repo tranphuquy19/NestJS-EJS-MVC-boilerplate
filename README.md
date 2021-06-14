@@ -69,7 +69,11 @@ $ npm run test:cov
 
 ### API
 
-- [x] API versioning controller decorator [api-v1.controller.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/api-v1-controller.decorator.ts#L3)
+- [x] RESTful API
+- [x] API versioning decorator [api-v1.controller.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/api-v1-controller.decorator.ts#L3)
+- [ ] API Pagination
+
+### GraphQL
 
 
 ### Caching
@@ -86,6 +90,26 @@ $ npm run test:cov
 - [x] Basic auth
 - [ ] JWT auth
 - [ ] Web-socket auth
+- [ ] OAuth Google
+- [ ] OAuth Facebook
+- [ ] Verify email
+- [ ] Time-based One-time password (TOTP)
+
+### Task scheduler
+
+- [ ] Timeout
+- [ ] Interval
+- [ ] Cron job
+
+### Send mail
+
+- [ ] Nodemailer (smtp, password)
+- [ ] Email templates
+
+### Payment
+
+- [ ] Paypal
+- [ ] Stripe
 
 ### Structure
 
@@ -117,6 +141,8 @@ $ npm run test:cov
 - [x] Uploader decorator [uploader.decorator.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/uploader.decorator.ts#L7)
 - [ ] Auto resize images
 - [ ] Auto generate video thumbnails
+- [ ] Cloudinary
+- [ ] AWS S3
 
 ### Logging
 
@@ -155,6 +181,13 @@ $ npm run test:cov
 
 - [ ] Github actions
 - [ ] Multi-Stage pipelines
+- [ ] Circle CI
+
+### Testing
+
+- [ ] Unit test
+- [ ] E2E
+- [ ] Coverage
 
 ### Documentations
 

@@ -130,20 +130,20 @@ async function bootstrap() {
 
     app.setViewEngine('ejs');
 
-    //handle for multiple language
-    app.use((req: Request, res: Response, next: NextFunction) => {
-        //set header
-        res.header('Access-Control-Allow-Methods', 'POST, GET, PUT');
-        res.header('Access-Control-Allow-Headers', '*');
+    // //handle for multiple language
+    // app.use((req: Request, res: Response, next: NextFunction) => {
+    //     //set header
+    //     res.header('Access-Control-Allow-Methods', 'POST, GET, PUT');
+    //     res.header('Access-Control-Allow-Headers', '*');
 
-        const lang = req.cookies['lang'] || '';
-        if (!lang) {
-            I18n.setLocale('en');
-            res.cookie('lang', 'en', { maxAge: 86400 * 30 });
-        } else I18n.setLocale(lang);
+    //     const lang = req.cookies['lang'] || '';
+    //     if (!lang) {
+    //         I18n.setLocale('en');
+    //         res.cookie('lang', 'en', { maxAge: 86400 * 30 });
+    //     } else I18n.setLocale(lang);
 
-        next();
-    });
+    //     next();
+    // });
 
     await app.listen(PORT, '0.0.0.0', () => {
         Logger.log(`Nest listening on http://0.0.0.0:${PORT}`, 'Bootstrap');

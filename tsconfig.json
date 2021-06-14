@@ -19,6 +19,7 @@
       "@sitemap/*": ["src/modules/sitemap/*"],
       "@notification/*": ["src/modules/notification/*"],
       "@redis/*": ["src/modules/redis/*"],
+      "@locales/*": ["src/modules/locales/*"],
     }
   },
   "exclude": ["src/node_modules", "dist", "*.js"],

@@ -9,10 +9,13 @@ import session from 'express-session';
 import flash = require('connect-flash');
 import passport from 'passport';
 
+import cookieParser from 'cookie-parser';
+
 import redis from 'redis';
 import connectRedis from 'connect-redis';
 import {
     apiUrl,
+    defaultLocale,
     enableLogging,
     logDir,
     logFormat,
@@ -36,19 +39,23 @@ import I18n from 'i18n';
 import { NextFunction, Request, Response } from 'express';
 
 I18n.configure({
-    locales: ['en', 'vi'],
+    locales: ['en', 'vi', 'jp'],
     directory: `./src/i18n/locales`,
     cookie: 'lang',
-    defaultLocale: 'en',
+    defaultLocale: defaultLocale,
+    fallbacks: { nl: defaultLocale },
+    syncFiles: true, // comment this on production
+    updateFiles: true, // comment this on production
+    autoReload: true, // comment this on production
     missingKeyFn: (locale, value) => {
-        console.log(locale);
-        console.log(value);
         return value;
     },
 });
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+    app.use(cookieParser());
 
     app.useGlobalPipes(
         new ValidationPipe({
@@ -62,6 +69,7 @@ async function bootstrap() {
     if (NODE_ENV === 'development') {
         app.enableCors();
         app.use(morgan('short'));
+        app.disable('view cache');
 
         const swaggerBuilder = new DocumentBuilder()
             .setTitle('NestJS EJS MVC Boilerplate')
@@ -130,20 +138,20 @@ async function bootstrap() {
 
     app.setViewEngine('ejs');
 
-    // //handle for multiple language
-    // app.use((req: Request, res: Response, next: NextFunction) => {
-    //     //set header
-    //     res.header('Access-Control-Allow-Methods', 'POST, GET, PUT');
-    //     res.header('Access-Control-Allow-Headers', '*');
+    // handle for multiple language
+    app.use((req: Request, res: Response, next: NextFunction) => {
+        //set header
+        res.header('Access-Control-Allow-Methods', 'POST, GET, PUT');
+        res.header('Access-Control-Allow-Headers', '*');
 
-    //     const lang = req.cookies['lang'] || '';
-    //     if (!lang) {
-    //         I18n.setLocale('en');
-    //         res.cookie('lang', 'en', { maxAge: 86400 * 30 });
-    //     } else I18n.setLocale(lang);
+        const lang = req.cookies['lang'] || '';
+        if (!lang) {
+            I18n.setLocale(defaultLocale);
+            res.cookie('lang', defaultLocale, { maxAge: sessionMaxAge });
+        } else I18n.setLocale(lang);
 
-    //     next();
-    // });
+        next();
+    });
 
     await app.listen(PORT, '0.0.0.0', () => {
         Logger.log(`Nest listening on http://0.0.0.0:${PORT}`, 'Bootstrap');

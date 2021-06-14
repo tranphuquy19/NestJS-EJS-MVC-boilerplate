@@ -1,1 +1,10 @@
-{}
+{
+	"home": "Home",
+	"login": "Login",
+	"profile": "Get profile",
+	"triggerPushNotification": "Trigger Push Notification",
+	"username": "Username",
+	"password": "Password",
+	"logout": "Log out",
+	"about_x": "About %s"
+}

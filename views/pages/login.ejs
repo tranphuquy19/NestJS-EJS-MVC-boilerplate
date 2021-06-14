@@ -3,33 +3,40 @@
 
 <%- include('../partials/head.ejs') %>
 
-<body>
-    <div class="mdl-layout mdl-js-layout mdl-color--grey-100">
-        <main class="mdl-layout__content">
-            <div class="mdl-card mdl-shadow--6dp">
-                <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
-                    <h2 class="mdl-card__title-text">Nest Cats</h2>
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-color--grey-100">
+            <main class="mdl-layout__content">
+                <div class="mdl-card mdl-shadow--6dp">
+                    <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
+                        <h2 class="mdl-card__title-text">
+                            <%= __('login') %>
+                        </h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <form action="/login" method="post">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" name="username" id="username" />
+                                <label class="mdl-textfield__label" for="username"><%= __('username') %> </label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="password" name="password" id="password" />
+                                <label class="mdl-textfield__label" for="password"><%= __('password') %> </label>
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"><%= __('login') %> </button>
+                                <span class="mdl-textfield__error">
+                                    <%= message %>
+                                </span>
+                            </div>
+                            <div class="mdl-card--border">
+                                <a class="mdl-button" href='/locales/en'>English</a>
+                                <a class="mdl-button" href='/locales/vi'>Tiếng Việt</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="mdl-card__supporting-text">
-                    <form action="/login" method="post">
-                        <div class="mdl-textfield mdl-js-textfield">
-                            <input class="mdl-textfield__input" type="text" name="username" id="username" />
-                            <label class="mdl-textfield__label" for="username">Username</label>
-                        </div>
-                        <div class="mdl-textfield mdl-js-textfield">
-                            <input class="mdl-textfield__input" type="password" name="password" id="password" />
-                            <label class="mdl-textfield__label" for="password">Password</label>
-                        </div>
-                        <div class="mdl-card__actions mdl-card--border">
-                            <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Log
-                                In</button>
-                            <span class="mdl-textfield__error"><%= message %></span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </main>
-    </div>
-</body>
+            </main>
+        </div>
+    </body>
 
 </html>

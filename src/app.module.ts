@@ -1,6 +1,7 @@
 import { roles } from '@/app.roles';
 import { AuthModule } from '@auth/auth.module';
 import { FileUploaderModule } from '@file-uploader/file-uploader.module';
+import { LocalesModule } from '@locales/locales.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NotificationModule } from '@notification/notification.module';
@@ -21,6 +22,7 @@ import { AppService } from './app.service';
         SitemapModule,
         NotificationModule,
         RedisModule,
+        LocalesModule,
     ],
     controllers: [AppController],
     providers: [AppService],

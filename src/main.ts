@@ -15,6 +15,7 @@ import redis from 'redis';
 import connectRedis from 'connect-redis';
 import {
     apiUrl,
+    clientUrl,
     defaultLocale,
     enableLogging,
     logDir,
@@ -83,6 +84,10 @@ async function bootstrap() {
     } else {
         app.use(helmet());
         app.use(compression());
+        app.enableCors({
+            origin: [apiUrl, clientUrl],
+            credentials: true
+        });
 
         if (enableLogging) {
             const logFile = isAbsolute(logDir)

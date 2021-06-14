@@ -5,6 +5,7 @@ export const email = process.env.EMAIL; // for web-push
 
 export const apiUrl = process.env.API_URL;
 export const fullApiUrl = `${apiUrl}/${process.env.API_VERSION}`;
+export const clientUrl = process.env.CLIENT_URL;
 
 export const enableLogging = !!process.env.ENABLE_LOGGING;
 export const logDir = process.env.LOG_DIR;

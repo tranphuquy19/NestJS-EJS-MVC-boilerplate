@@ -134,6 +134,7 @@ $ npm run test:cov
 - [x] Pagination
 - [ ] Transaction
 - [x] Synchronizing Table Schemas
+- [ ] Data seeding
 
 ### Security
 

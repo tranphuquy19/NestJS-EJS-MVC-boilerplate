@@ -180,6 +180,16 @@ $ npm run test:cov
 - [x] Schema validation (validation pipes)
 - [ ] Rate limit
 
+### Health checks
+
+- [ ] Get stats
+- [ ] Stats reports
+- [ ] Email health check report
+
+### Backup
+
+- [ ] Database backup
+
 ### App containerization
 
 - [x] Dockerfile (`development`, `production`)

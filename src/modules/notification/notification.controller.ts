@@ -1,6 +1,4 @@
-import { Param, Req } from '@nestjs/common';
-import { Get } from '@nestjs/common';
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Get, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { NotificationService } from './notification.service';
 

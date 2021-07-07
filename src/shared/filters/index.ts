@@ -1,1 +1,1 @@
-export * from './auth-exception.filter';
+export * from './local-auth-exception.filter';

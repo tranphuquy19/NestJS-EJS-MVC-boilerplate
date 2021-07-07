@@ -8,7 +8,7 @@ import path, { isAbsolute, join } from 'path';
 
 /**
  * Application config for production environment
- * @param app 
+ * @param app
  */
 export function prodConfig(app: NestExpressApplication) {
     app.use(helmet());

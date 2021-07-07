@@ -13,7 +13,7 @@ interface IRequestFlash extends Request {
 }
 
 @Catch(HttpException)
-export class AuthExceptionFilter implements ExceptionFilter {
+export class LocalAuthExceptionFilter implements ExceptionFilter {
     catch(exception: HttpException, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();

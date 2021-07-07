@@ -1,3 +1,5 @@
+const parseDuration = require('parse-duration');
+
 module.exports = {
     'type': process.env.DATABASE_TYPE,
     'host': process.env.DATABASE_HOST,
@@ -8,7 +10,7 @@ module.exports = {
     'synchronize': true,
     'dropSchema': false,
     'logging': false,
-    'cache': process.env.DATABASE_ENABLE_CACHE ? { 'duration': process.env.DATABASE_CACHE_DURATION } : false,
+    'cache': process.env.DATABASE_ENABLE_CACHE ? { 'duration': parseDuration(process.env.DATABASE_CACHE_DURATION, 'ms') } : false,
     'entities': [
         './dist/**/*.entity{.ts,.js}',
     ],

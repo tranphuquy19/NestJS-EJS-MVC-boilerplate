@@ -7,7 +7,7 @@ import {
     redisPort,
     redisUrl,
     sessionMaxAge,
-    sessionSecret
+    sessionSecret,
 } from '@config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -23,6 +23,7 @@ import redis from 'redis';
 import { devConfig } from './app.dev';
 import { AppModule } from './app.module';
 import { prodConfig } from './app.prod';
+import parseDuration from 'parse-duration';
 
 import flash = require('connect-flash');
 
@@ -84,7 +85,7 @@ async function bootstrap() {
             cookie: {
                 secure: false, // if true only transmit cookie over https
                 httpOnly: false, // if true prevent client side JS from reading the cookie
-                maxAge: sessionMaxAge, // session max age in miliseconds, restart redis server after change this value
+                maxAge: parseDuration(sessionMaxAge, 'ms'), // session max age in milliseconds. Please restart Redis server after change this value!
             },
         }),
     );
@@ -105,14 +106,14 @@ async function bootstrap() {
         const lang = req.cookies['lang'] || '';
         if (!lang) {
             I18n.setLocale(defaultLocale);
-            res.cookie('lang', defaultLocale, { maxAge: sessionMaxAge });
+            res.cookie('lang', defaultLocale, { maxAge: parseDuration(sessionMaxAge, 'ms') });
         } else I18n.setLocale(lang);
 
         next();
     });
 
     await app.listen(PORT, '0.0.0.0', () => {
-        Logger.log(`Nest listening on http://0.0.0.0:${PORT}`, 'Bootstrap');
+        Logger.log(`Nest listening on http://localhost:${PORT}`, 'Bootstrap');
     });
 }
 bootstrap();

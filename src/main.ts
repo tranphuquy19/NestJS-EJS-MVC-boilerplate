@@ -61,8 +61,8 @@ async function bootstrap() {
         prodConfig(app);
     }
 
-    app.useStaticAssets(join(__dirname, '..', 'public'), { maxAge: sessionMaxAge });
-    app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.useStaticAssets(join(__dirname, '..', '..', 'public'), { maxAge: sessionMaxAge });
+    app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
 
     const RedisStore = connectRedis(session);
     const redisClient = redis.createClient({

@@ -93,7 +93,7 @@ $ npm run test:cov
 - [x] Cookies/Session
 - [x] Using Redis as Session Store
 - [x] Basic auth
-- [ ] JWT auth
+- [x] JWT auth
 - [ ] Web-socket auth
 - [ ] OAuth Google
 - [ ] OAuth Facebook

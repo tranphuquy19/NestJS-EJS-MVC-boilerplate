@@ -60,6 +60,11 @@ $ npm run test:cov
 
 ## Features
 
+### Environments
+
+- [x] production
+- [x] development
+
 ### View engine
 
 - [x] EJS

@@ -1,4 +1,4 @@
-import { apiUrl } from '@config';
+import { apiUrl, PORT } from '@config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import morgan from 'morgan';
@@ -17,6 +17,7 @@ export function devConfig(app: NestExpressApplication) {
         .setTitle('NestJS EJS MVC Boilerplate')
         .setDescription(description)
         .addBearerAuth()
+        .addServer(`http://localhost:${PORT}`)
         .addServer(apiUrl)
         .setVersion(version)
         .build();

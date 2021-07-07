@@ -94,7 +94,7 @@ $ npm run test:cov
 - [x] Using Redis as Session Store
 - [x] Basic auth
 - [x] JWT auth
-- [ ] Refresh token
+- [x] Refresh token
 - [ ] Web-socket auth
 - [ ] OAuth Google
 - [ ] OAuth Facebook

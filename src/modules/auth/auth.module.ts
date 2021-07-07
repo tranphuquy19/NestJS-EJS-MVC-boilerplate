@@ -1,7 +1,7 @@
 import { jwtSecretKey } from '@config';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtAuthStrategy, LocalStrategy } from '@shared';
+import { JwtAuthStrategy, JwtRefreshStrategy, LocalStrategy } from '@shared';
 import { UsersModule } from '@users/users.module';
 import { JwtAuthController, LocalAuthController } from './controllers';
 import { AuthService } from './services';
@@ -18,6 +18,12 @@ import { SessionSerializer } from './session.serializer';
         }),
     ],
     controllers: [LocalAuthController, JwtAuthController],
-    providers: [AuthService, LocalStrategy, JwtAuthStrategy, SessionSerializer],
+    providers: [
+        AuthService,
+        LocalStrategy,
+        JwtAuthStrategy,
+        JwtRefreshStrategy,
+        SessionSerializer,
+    ],
 })
 export class AuthModule {}

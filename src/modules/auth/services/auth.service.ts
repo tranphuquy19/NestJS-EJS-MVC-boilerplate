@@ -30,6 +30,14 @@ export class AuthService {
         } else return this.getAuthToken(user);
     }
 
+    async jwtRefresh(data: any) {
+        console.log(data);
+        const user = await this.usersService.findById(data.id);
+        if (!user) {
+            throw new UnauthorizedException();
+        } else return this.getAuthToken(user);
+    }
+
     getAuthToken(user: any) {
         const subject = { sub: user.id };
 

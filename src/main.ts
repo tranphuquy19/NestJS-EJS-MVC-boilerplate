@@ -1,43 +1,30 @@
 import 'dotenv/config';
 
-import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { isAbsolute, join } from 'path';
-import { AppModule } from './app.module';
-
-import session from 'express-session';
-import flash = require('connect-flash');
-import passport from 'passport';
-
-import cookieParser from 'cookie-parser';
-
-import redis from 'redis';
-import connectRedis from 'connect-redis';
 import {
-    apiUrl,
-    clientUrl,
     defaultLocale,
-    enableLogging,
-    logDir,
-    logFormat,
     NODE_ENV,
-    onlyErrorRequests,
     PORT,
     redisPort,
     redisUrl,
     sessionMaxAge,
-    sessionSecret,
+    sessionSecret
 } from '@config';
-import helmet = require('helmet');
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import morgan from 'morgan';
-import compression = require('compression');
-import { createWriteStream } from 'fs';
-import path = require('path');
-
-import I18n from 'i18n';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import connectRedis from 'connect-redis';
+import cookieParser from 'cookie-parser';
 import { NextFunction, Request, Response } from 'express';
+import session from 'express-session';
+import I18n from 'i18n';
+import passport from 'passport';
+import { join } from 'path';
+import redis from 'redis';
+import { devConfig } from './app.dev';
+import { AppModule } from './app.module';
+import { prodConfig } from './app.prod';
+
+import flash = require('connect-flash');
 
 I18n.configure({
     locales: ['en', 'vi', 'jp'],
@@ -68,43 +55,9 @@ async function bootstrap() {
     app.enable('trust proxy');
 
     if (NODE_ENV === 'development') {
-        app.enableCors();
-        app.use(morgan('short'));
-        app.disable('view cache');
-
-        const swaggerBuilder = new DocumentBuilder()
-            .setTitle('NestJS EJS MVC Boilerplate')
-            .setDescription(require('../package.json').description)
-            .addBearerAuth()
-            .addServer(apiUrl)
-            .setVersion(require('../package.json').version)
-            .build();
-        const docs = SwaggerModule.createDocument(app, swaggerBuilder);
-        SwaggerModule.setup('/docs', app, docs); // Route to http://API_URL:PORT/docs-json to get Swagger json-docs
+        devConfig(app);
     } else {
-        app.use(helmet());
-        app.use(compression());
-        app.enableCors({
-            origin: [apiUrl, clientUrl],
-            credentials: true
-        });
-
-        if (enableLogging) {
-            const logFile = isAbsolute(logDir)
-                ? path.join(logDir, 'access.log')
-                : join(__dirname, '..', 'logs', 'access.log');
-            const accessLogStream = createWriteStream(logFile, { flags: 'a' });
-            if (onlyErrorRequests)
-                app.use(
-                    morgan(logFormat, {
-                        stream: accessLogStream,
-                        skip: (req, res) => res.statusCode < 400,
-                    }),
-                );
-            else app.use(morgan(logFormat, { stream: accessLogStream }));
-        }
-
-        app.disable('x-powered-by');
+        prodConfig(app);
     }
 
     app.useStaticAssets(join(__dirname, '..', 'public'), { maxAge: sessionMaxAge });

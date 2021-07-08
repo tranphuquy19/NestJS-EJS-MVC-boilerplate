@@ -2,10 +2,7 @@ import 'dotenv/config';
 
 import { AppModule } from '@app/app.module';
 import { appGlobalConfig, configI18n, configSession, devConfig, prodConfig } from '@app/config';
-import {
-    NODE_ENV,
-    PORT, sessionMaxAge
-} from '@config';
+import { NODE_ENV, PORT, sessionMaxAge } from '@config';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';

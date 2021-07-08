@@ -1,9 +1,9 @@
-import { defaultLocale, sessionMaxAge } from "@config";
-import { NestExpressApplication } from "@nestjs/platform-express";
-import { isApiRequest } from "@shared";
-import { NextFunction, Request, Response } from "express";
-import I18n from "i18n";
-import parseDuration from "parse-duration";
+import { defaultLocale, sessionMaxAge } from '@config';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { isApiRequest } from '@shared';
+import { NextFunction, Request, Response } from 'express';
+import I18n from 'i18n';
+import parseDuration from 'parse-duration';
 
 I18n.configure({
     locales: ['en', 'vi', 'jp'],

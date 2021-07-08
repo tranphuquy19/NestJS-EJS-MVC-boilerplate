@@ -1,10 +1,10 @@
-import { redisPort, redisUrl, sessionMaxAge, sessionSecret } from "@config";
-import { Logger } from "@nestjs/common";
-import { NestExpressApplication } from "@nestjs/platform-express";
-import connectRedis from "connect-redis";
+import { redisPort, redisUrl, sessionMaxAge, sessionSecret } from '@config';
+import { Logger } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import connectRedis from 'connect-redis';
 import session from 'express-session';
-import parseDuration from "parse-duration";
-import passport from "passport";
+import parseDuration from 'parse-duration';
+import passport from 'passport';
 import redis from 'redis';
 import flash = require('connect-flash');
 
@@ -37,6 +37,6 @@ export function configSession(app: NestExpressApplication) {
 
     app.use(passport.initialize());
     app.use(passport.session());
-    
+
     app.use(flash());
 }

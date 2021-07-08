@@ -1,10 +1,11 @@
 {
-    "home": "Trang chủ",
-    "login": "Đăng nhập",
-    "profile": "Trang cá nhân",
-    "triggerPushNotification": "Đăng ký nhận thông báo",
-    "username": "Username",
-    "password": "Mật khẩu",
-    "logout": "Đăng xuất",
-    "about_x": "Thông tin về %s"
+	"home": "Trang chủ",
+	"login": "Đăng nhập",
+	"profile": "Trang cá nhân",
+	"triggerPushNotification": "Đăng ký nhận thông báo",
+	"username": "Username",
+	"password": "Mật khẩu",
+	"logout": "Đăng xuất",
+	"about_x": "Thông tin về %s",
+	"pleaseTryAgain": "Xin vui lòng thử lại!"
 }

@@ -24,7 +24,7 @@ export class LocalAuthExceptionFilter implements ExceptionFilter {
             exception instanceof UnauthorizedException ||
             exception instanceof ForbiddenException
         ) {
-            request.flash('loginError', 'Please try again!');
+            request.flash('loginError', 'pleaseTryAgain');
             response.redirect(LOGIN_PAGE);
         } else {
             response.redirect(ERROR_PAGE);

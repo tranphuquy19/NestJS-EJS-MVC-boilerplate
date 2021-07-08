@@ -5,5 +5,7 @@
 	"username": "username",
 	"password": "password",
 	"about_x": "about_x",
-	"logout": "logout"
+	"logout": "logout",
+	"pleaseTryAgain": "Please try again!",
+	"": ""
 }

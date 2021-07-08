@@ -24,9 +24,11 @@
                             </div>
                             <div class="mdl-card__actions mdl-card--border">
                                 <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"><%= __('login') %> </button>
-                                <span class="mdl-textfield__error">
-                                    <%= __(`${message}`) %>
-                                </span>
+                                <% if (message) { %>
+                                    <span class="mdl-textfield__error">
+                                        <%= __(`${message}`) %>
+                                    </span>
+                                <% } %>
                             </div>
                             <div class="mdl-card--border">
                                 <a class="mdl-button" href='/locales/en'>English</a>

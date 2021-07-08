@@ -1,4 +1,4 @@
-import { apiUrl, PORT } from '@config';
+import { apiUrls } from '@config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import morgan from 'morgan';
@@ -13,14 +13,20 @@ export function devConfig(app: NestExpressApplication) {
     app.use(morgan('short'));
     app.disable('view cache');
 
-    const swaggerBuilder = new DocumentBuilder()
+    let swaggerBuilder = new DocumentBuilder()
         .setTitle('NestJS EJS MVC Boilerplate')
         .setDescription(description)
-        .addBearerAuth()
-        .addServer(`http://localhost:${PORT}`)
-        .addServer(apiUrl)
-        .setVersion(version)
-        .build();
-    const docs = SwaggerModule.createDocument(app, swaggerBuilder);
+        .addBearerAuth();
+
+    apiUrls.forEach(apiUrl => {
+        swaggerBuilder = swaggerBuilder.addServer(apiUrl);
+    });
+
+    swaggerBuilder = swaggerBuilder
+        .setVersion(version);
+
+    const swaggerConfig = swaggerBuilder.build();
+
+    const docs = SwaggerModule.createDocument(app, swaggerConfig);
     SwaggerModule.setup('/docs', app, docs); // Route to http://API_URL:PORT/docs-json to get Swagger json-docs
 }

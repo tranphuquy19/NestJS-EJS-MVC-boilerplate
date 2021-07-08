@@ -3,7 +3,8 @@ export const PORT = +process.env.PORT;
 
 export const email = process.env.EMAIL; // for web-push
 
-export const apiUrl = process.env.API_URL;
+export const apiUrls = process.env.API_URLS.split('|');
+export const apiUrl = apiUrls[0];
 export const fullApiUrl = `${apiUrl}/${process.env.API_VERSION}`;
 export const clientUrl = process.env.CLIENT_URL;
 

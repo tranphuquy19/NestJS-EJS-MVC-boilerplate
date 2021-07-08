@@ -77,6 +77,7 @@ $ npm run test:cov
 - [x] RESTful API
 - [x] API versioning decorator [api-v1.controller.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/api-v1-controller.decorator.ts#L3)
 - [ ] API Pagination
+- [x] Multiple domains support
 
 ### GraphQL
 

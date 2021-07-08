@@ -1,6 +1,6 @@
 import { Controller, Get, Req, Res, UseFilters, UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard, LocalAuthExceptionFilter, LOGIN_PAGE, Page } from '@shared';
 import { Request, Response } from 'express';
-import { AuthenticatedGuard, LocalAuthExceptionFilter, LOGIN_PAGE, Page } from './shared';
 
 @Controller()
 @UseFilters(LocalAuthExceptionFilter)

@@ -2,13 +2,14 @@ import { apiUrls } from '@config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import morgan from 'morgan';
-import { description, version } from '../package.json';
+import { description, version } from '../../../../package.json';
 
 /**
  * Application config for development environment
  * @param app
  */
 export function devConfig(app: NestExpressApplication) {
+    app.enable('trust proxy');
     app.enableCors();
     app.use(morgan('short'));
     app.disable('view cache');

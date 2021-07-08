@@ -15,6 +15,7 @@
     "paths": {
       "@*": ["src/*"],
       "@auth/*": ["src/modules/auth/*"],
+      "@app/*": ["src/modules/app/*"],
       "@user/*": ["src/modules/user/*"],
       "@file-uploader/*": ["src/modules/file-uploader/*"],
       "@sitemap/*": ["src/modules/sitemap/*"],

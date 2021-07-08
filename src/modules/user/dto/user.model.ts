@@ -1,4 +1,4 @@
-import { AppRoles } from '@/app.roles';
+import { AppRoles } from "@config";
 
 export interface IUserModel {
     name: string;

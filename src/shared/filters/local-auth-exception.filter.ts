@@ -1,11 +1,12 @@
 import {
-    ExceptionFilter,
-    Catch,
     ArgumentsHost,
+    Catch,
+    ExceptionFilter,
+    ForbiddenException,
     HttpException,
     UnauthorizedException,
-    ForbiddenException,
 } from '@nestjs/common';
+import { ERROR_PAGE, LOGIN_PAGE } from '@shared';
 import { Request, Response } from 'express';
 
 interface IRequestFlash extends Request {
@@ -24,9 +25,9 @@ export class LocalAuthExceptionFilter implements ExceptionFilter {
             exception instanceof ForbiddenException
         ) {
             request.flash('loginError', 'Please try again!');
-            response.redirect('/');
+            response.redirect(LOGIN_PAGE);
         } else {
-            response.redirect('/error');
+            response.redirect(ERROR_PAGE);
         }
     }
 }

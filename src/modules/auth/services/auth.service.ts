@@ -1,14 +1,14 @@
 import { jwtRefreshTokenExpiration, jwtTokenExpiration } from '@config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '@users/users.service';
+import { UserService } from '@user/user.service';
 import parseDuration from 'parse-duration';
 import { LoginInputDTO } from '../dto';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly usersService: UsersService,
+        private readonly usersService: UserService,
         private readonly jwtService: JwtService,
     ) {}
 

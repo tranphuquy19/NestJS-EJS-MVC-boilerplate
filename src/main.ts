@@ -111,7 +111,9 @@ async function bootstrap() {
             const lang = req.cookies['lang'] || '';
             if (!lang) {
                 I18n.setLocale(defaultLocale);
-                res.cookie('lang', defaultLocale, { maxAge: parseDuration(sessionMaxAge, 'ms') });
+                res.cookie('lang', defaultLocale, {
+                    maxAge: parseDuration(sessionMaxAge, 'ms'),
+                });
             } else I18n.setLocale(lang);
             next();
         }

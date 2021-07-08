@@ -7,7 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { NotificationModule } from '@notification/notification.module';
 import { RedisModule } from '@redis/redis.module';
 import { SitemapModule } from '@sitemap/sitemap.module';
-import { UsersModule } from '@users/users.module';
+import { UserModule } from '@user/user.module';
 import { AccessControlModule } from 'nest-access-control';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -17,7 +17,7 @@ import { AppService } from './app.service';
         TypeOrmModule.forRoot(),
         AccessControlModule.forRoles(roles),
         AuthModule,
-        UsersModule,
+        UserModule,
         FileUploaderModule,
         SitemapModule,
         NotificationModule,

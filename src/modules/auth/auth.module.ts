@@ -2,14 +2,14 @@ import { jwtSecretKey } from '@config';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthStrategy, JwtRefreshStrategy, LocalStrategy } from '@shared';
-import { UsersModule } from '@users/users.module';
+import { UserModule } from '@user/user.module';
 import { JwtAuthController, LocalAuthController } from './controllers';
 import { AuthService } from './services';
 import { SessionSerializer } from './session.serializer';
 
 @Module({
     imports: [
-        UsersModule,
+        UserModule,
         JwtModule.register({
             secret: jwtSecretKey,
             signOptions: {

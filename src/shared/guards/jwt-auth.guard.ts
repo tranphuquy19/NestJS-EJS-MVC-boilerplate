@@ -16,9 +16,7 @@ export class JwtAuthGuard extends AuthGuard(STRATEGY_JWT_AUTH) {
             throw err || new HttpException(`${info}`, HttpStatus.UNAUTHORIZED);
         }
 
-        if (!user)
-            return { roles: ['GUEST'] }
-        else
-            return user;
+        if (!user) return { roles: ['GUEST'] };
+        else return user;
     }
 }

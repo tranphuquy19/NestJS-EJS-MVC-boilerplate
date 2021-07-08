@@ -11,13 +11,13 @@ export function fullUrl(req: Request): string {
     return url.format({
         protocol: req.protocol,
         host: req.get('host'),
-        pathname: req.originalUrl
+        pathname: req.originalUrl,
     });
 }
 
 /**
  * Check if the request is API request
- * @param url 
+ * @param url
  */
 export function isApiRequest(req: Request): boolean {
     const url = fullUrl(req);

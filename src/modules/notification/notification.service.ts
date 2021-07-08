@@ -1,7 +1,7 @@
-import { apiUrl, email, privateVapidKey, publicVapidKey } from '@config';
+import { apiHost, email, privateVapidKey, publicVapidKey } from '@config';
 import { Injectable, Logger } from '@nestjs/common';
-import webPush from 'web-push';
 import { Request } from 'express';
+import webPush from 'web-push';
 
 @Injectable()
 export class NotificationService {
@@ -22,7 +22,7 @@ export class NotificationService {
                 subscription,
                 JSON.stringify({
                     title: 'subscribe notification successfully',
-                    icon: `${apiUrl}/cat.png`,
+                    icon: `${apiHost}/cat.png`,
                 }),
             )
             .catch((err) => this.logger.error(err));
@@ -39,7 +39,7 @@ export class NotificationService {
                     subscription,
                     JSON.stringify({
                         title: 'Test notification',
-                        icon: `${apiUrl}/cat.png`,
+                        icon: `${apiHost}/cat.png`,
                         body: 'Meo meo',
                         vibrate: [300, 100, 400],
                     }),

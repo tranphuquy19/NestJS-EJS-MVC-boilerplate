@@ -18,12 +18,11 @@ export function devConfig(app: NestExpressApplication) {
         .setDescription(description)
         .addBearerAuth();
 
-    apiUrls.forEach(apiUrl => {
+    apiUrls.forEach((apiUrl) => {
         swaggerBuilder = swaggerBuilder.addServer(apiUrl);
     });
 
-    swaggerBuilder = swaggerBuilder
-        .setVersion(version);
+    swaggerBuilder = swaggerBuilder.setVersion(version);
 
     const swaggerConfig = swaggerBuilder.build();
 

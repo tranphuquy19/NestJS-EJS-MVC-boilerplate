@@ -1,4 +1,4 @@
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ExecutionContext, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { STRATEGY_JWT_AUTH } from '@shared';
 
@@ -11,10 +11,14 @@ export class JwtAuthGuard extends AuthGuard(STRATEGY_JWT_AUTH) {
         return result;
     }
 
-    handleRequest(err: any, user: any, info: any) {
-        if (err || !user) {
-            throw err || new UnauthorizedException(`${info}`);
+    handleRequest(err: any, user: any, info: Error) {
+        if (err || info) {
+            throw err || new HttpException(`${info}`, HttpStatus.UNAUTHORIZED);
         }
-        return user;
+
+        if (!user)
+            return { roles: ['GUEST'] }
+        else
+            return user;
     }
 }

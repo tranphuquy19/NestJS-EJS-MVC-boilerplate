@@ -26,6 +26,7 @@ import { prodConfig } from './app.prod';
 import parseDuration from 'parse-duration';
 
 import flash = require('connect-flash');
+import { isApiRequest } from '@shared';
 
 I18n.configure({
     locales: ['en', 'vi', 'jp'],
@@ -99,17 +100,21 @@ async function bootstrap() {
 
     // handle for multiple language
     app.use((req: Request, res: Response, next: NextFunction) => {
-        //set header
-        res.header('Access-Control-Allow-Methods', 'POST, GET, PUT');
-        res.header('Access-Control-Allow-Headers', '*');
+        // Skip the create cookies with API requests
+        if (isApiRequest(req)) {
+            next();
+        } else {
+            //set header
+            res.header('Access-Control-Allow-Methods', 'POST, GET, PUT');
+            res.header('Access-Control-Allow-Headers', '*');
 
-        const lang = req.cookies['lang'] || '';
-        if (!lang) {
-            I18n.setLocale(defaultLocale);
-            res.cookie('lang', defaultLocale, { maxAge: parseDuration(sessionMaxAge, 'ms') });
-        } else I18n.setLocale(lang);
-
-        next();
+            const lang = req.cookies['lang'] || '';
+            if (!lang) {
+                I18n.setLocale(defaultLocale);
+                res.cookie('lang', defaultLocale, { maxAge: parseDuration(sessionMaxAge, 'ms') });
+            } else I18n.setLocale(lang);
+            next();
+        }
     });
 
     await app.listen(PORT, '0.0.0.0', () => {

@@ -10,11 +10,12 @@ export class LocalStrategy extends PassportStrategy(Strategy, STRATEGY_LOCAL) {
         super();
     }
 
-    async validate(username: string, password: string) {
-        const user = await this.authService.validateUser(username, password);
+    async validate(_username: string, _password: string) {
+        const user = await this.authService.validateUser(_username, _password);
         if (!user) {
             throw new UnauthorizedException();
         }
-        return user;
+        const { id, username, roles, ..._ } = user; // ignore other fields in session stored
+        return { id, username, roles };
     }
 }

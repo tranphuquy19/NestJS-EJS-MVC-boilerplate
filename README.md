@@ -22,6 +22,10 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+## Project badges
+
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/tranphuquy19/NestJS-EJS-MVC-boilerplate.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tranphuquy19/NestJS-EJS-MVC-boilerplate/alerts/) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/tranphuquy19/NestJS-EJS-MVC-boilerplate.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tranphuquy19/NestJS-EJS-MVC-boilerplate/context:javascript)
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
@@ -186,6 +190,7 @@ $ npm run test:cov
 - [ ] CRFS
 - [x] Schema validation (validation pipes)
 - [ ] Rate limit
+- [x] LGTM scan
 
 ### Health checks
 

@@ -5,6 +5,7 @@
         "originalname",
         "resave",
         "typeorm",
-        "unflatten"
+        "unflatten",
+        "uuidv"
     ]
 }

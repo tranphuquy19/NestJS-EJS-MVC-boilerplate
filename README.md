@@ -149,7 +149,7 @@ $ npm run test:cov
 ### Notification
 
 - [x] Self-hosted push notification
-- [ ] Store subscriptions in Redis
+- [x] Store subscriptions in Redis
 
 ### I18n
 

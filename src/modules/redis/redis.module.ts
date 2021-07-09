@@ -9,7 +9,10 @@ import { RedisService } from './redis.service';
         {
             provide: 'RedisClient',
             useFactory: () => {
-                const redisClient = createClient({ host: redisUrl, port: redisPort });
+                const redisClient = createClient({
+                    host: redisUrl,
+                    port: redisPort,
+                });
                 redisClient.on('error', (err) => {
                     Logger.log(
                         `Could not establish a connection with redis. ${err}`,
@@ -23,5 +26,6 @@ import { RedisService } from './redis.service';
             },
         },
     ],
+    exports: [RedisService],
 })
 export class RedisModule {}

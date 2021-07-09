@@ -12,7 +12,7 @@ export class NotificationController {
     }
 
     @Get('fire-notification')
-    fireNotification(): void {
+    fireNotification(): Promise<void> {
         return this.notificationService.fireNotification();
     }
 }

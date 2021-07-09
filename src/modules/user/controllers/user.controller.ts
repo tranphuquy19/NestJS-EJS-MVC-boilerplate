@@ -1,6 +1,6 @@
-import { Controller, Get, Req, Res, UseFilters, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { AuthenticatedGuard, LocalAuthExceptionFilter, Page } from '@shared';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { UserService } from '../user.service';
 
 @Controller()
@@ -11,7 +11,7 @@ export class UserController {
     @UseGuards(AuthenticatedGuard)
     @Get('/profile')
     @Page('profile')
-    async getProfile(@Req() req: Request, @Res() res: Response) {
+    async getProfile(@Req() req: Request) {
         const user = await this.userService.findById(req.user['id']);
         return { user };
     }

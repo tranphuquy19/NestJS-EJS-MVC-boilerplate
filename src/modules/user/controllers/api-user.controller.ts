@@ -1,4 +1,4 @@
-import { Body, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Get, Req, UseGuards } from '@nestjs/common';
 import { ApiV1Controller, JwtAuthGuard } from '@shared';
 import { Request } from 'express';
 

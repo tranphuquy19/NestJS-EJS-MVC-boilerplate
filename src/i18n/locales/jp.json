@@ -9,5 +9,5 @@
 	"logout": "ログアウト",
 	"welcome_x": "%sを歓迎します！",
 	"pleaseTryAgain": "もう一度やり直してください！",
-	"": ""
+	"": "#renderError"
 }

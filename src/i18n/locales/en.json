@@ -9,5 +9,5 @@
 	"about_x": "About %s",
 	"welcome_x": "Welcome %s!",
 	"pleaseTryAgain": "Please try again!",
-	"": ""
+	"": "#renderError"
 }

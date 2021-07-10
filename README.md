@@ -126,7 +126,7 @@ $ npm run test:cov
 
 ### Payment
 
-- [ ] Paypal
+- [ ] PayPal
 - [ ] Stripe
 
 ### Structure
@@ -150,6 +150,9 @@ $ npm run test:cov
 
 - [x] Self-hosted push notification
 - [x] Store subscriptions in Redis
+- [x] Push notification to specific users
+- [x] Push notification to all users
+- [ ] Push notification to guest users
 
 ### I18n
 

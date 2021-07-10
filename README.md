@@ -151,7 +151,7 @@ $ npm run test:cov
 - [x] Self-hosted push notification
 - [x] Store subscriptions in Redis
 - [x] Push notification to specific users
-- [x] Push notification to all users
+- [x] Push notification to logged in users
 - [ ] Push notification to guest users
 
 ### I18n

@@ -1,11 +1,13 @@
 {
-	"profile": "profile",
-	"triggerPushNotification": "triggerPushNotification",
-	"login": "login",
-	"username": "username",
-	"password": "password",
-	"about_x": "about_x",
-	"logout": "logout",
-	"pleaseTryAgain": "Please try again!",
+	"home": "ホーム",
+	"profile": "プロファイルを取得する",
+	"triggerPushNotification": "トリガープッシュ通知",
+	"login": "ログイン",
+	"username": "ユーザー名",
+	"password": "パスワード",
+	"about_x": "%sについて",
+	"logout": "ログアウト",
+	"welcome_x": "%sを歓迎します！",
+	"pleaseTryAgain": "もう一度やり直してください！",
 	"": ""
 }

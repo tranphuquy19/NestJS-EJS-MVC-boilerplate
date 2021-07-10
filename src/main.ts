@@ -1,7 +1,14 @@
 import 'dotenv/config';
 
 import { AppModule } from '@app/app.module';
-import { appGlobalConfig, configI18n, configSession, devConfig, prodConfig } from '@app/config';
+import {
+    appGlobalConfig,
+    configI18n,
+    configServiceWorker,
+    configSession,
+    devConfig,
+    prodConfig,
+} from '@app/config';
 import { NODE_ENV, PORT, sessionMaxAge } from '@config';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -12,6 +19,7 @@ async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
     appGlobalConfig(app);
+    configServiceWorker();
 
     if (NODE_ENV === 'development') {
         devConfig(app);

@@ -29,6 +29,26 @@ export class RedisService {
         });
     }
 
+    /**
+     *
+     * @param expired amount time for redis value to be expired( 1 = 60s )
+     */
+    setObjectHashKey(hash: string, key: string, value: Record<string, any>, expired?: number) {
+        const flatValue: Record<string, any> = flat(value);
+        const convertToString = JSON.stringify(flatValue);
+
+        return new Promise<boolean>((res, rej) => {
+            this.redisRepository.hset(hash, key, convertToString, (error) => {
+                if (error) {
+                    this.logger.error(error);
+                    return rej(false);
+                }
+                if (expired) this.redisRepository.expire(hash, expired * 60);
+                return res(true);
+            });
+        });
+    }
+
     deleteByKey(key: string) {
         return new Promise<boolean>((res, rej) => {
             this.redisRepository.del(key, (error) => {

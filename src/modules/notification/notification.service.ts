@@ -1,9 +1,10 @@
 import { apiHost, email, privateVapidKey, publicVapidKey } from '@config';
-import { RedisService } from '@redis/redis.service';
 import { Injectable, Logger } from '@nestjs/common';
-import { Request } from 'express';
-import webPush from 'web-push';
+import { RedisService } from '@redis/redis.service';
+import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
+import webPush from 'web-push';
+import { NotificationFiringDTO } from './dto';
 
 @Injectable()
 export class NotificationService {
@@ -14,15 +15,14 @@ export class NotificationService {
         this.setupWebPush();
     }
 
-    subscribe(req: Request): void {
-        const subscription = req.body;
-        this.redisService.setObjectByKey(this.prefix + '-' + uuidv4(), subscription);
+    subscribe(subscription: any, userId: string): void {
+        this.redisService.setObjectByKey(`${this.prefix}:${userId}:${uuidv4()}`, subscription);
 
         webPush
             .sendNotification(
                 subscription,
                 JSON.stringify({
-                    title: 'subscribe notification successfully',
+                    title: 'Subscribe notification successfully',
                     icon: `${apiHost}/cat.png`,
                 }),
             )
@@ -33,7 +33,7 @@ export class NotificationService {
         webPush.setVapidDetails(`mailto:${email}`, publicVapidKey, privateVapidKey);
     }
 
-    async fireNotification(): Promise<void> {
+    async fireAll(option: NotificationFiringDTO): Promise<any> {
         const keys = await this.redisService.getAllKeyWithPattern(`${this.prefix}*`);
         const subscriptionPromises = keys.map((key) =>
             this.redisService.getObjectByKey<webPush.PushSubscription>(key),
@@ -42,16 +42,30 @@ export class NotificationService {
 
         subscriptions.forEach((subscription) => {
             webPush
-                .sendNotification(
-                    subscription,
-                    JSON.stringify({
-                        title: 'Test notification',
-                        icon: `${apiHost}/cat.png`,
-                        body: 'Meo meo',
-                        vibrate: [300, 100, 400],
-                    }),
-                )
+                .sendNotification(subscription, JSON.stringify(option.payload))
                 .catch((err) => this.logger.log(err));
         });
+        return { status: 'OK' };
+    }
+
+    async fireToSpecifiedUsers(option: NotificationFiringDTO): Promise<any> {
+        const userTargetKeyPromises = option.userIds.map((userId) =>
+            this.redisService.getAllKeyWithPattern(`${this.prefix}:${userId}*`),
+        );
+        const userTargetKeys = await Promise.all(userTargetKeyPromises);
+        const userTargetKeysFlatten = _.flattenDeep(userTargetKeys);
+
+        const subscriptionPromises = userTargetKeysFlatten.map((key) =>
+            this.redisService.getObjectByKey<webPush.PushSubscription>(key),
+        );
+        const subscriptions = await Promise.all(subscriptionPromises);
+
+        subscriptions.map((subscription) => {
+            webPush
+                .sendNotification(subscription, JSON.stringify(option.payload))
+                .catch((err) => this.logger.log(err));
+        });
+
+        return { status: 'OK' };
     }
 }

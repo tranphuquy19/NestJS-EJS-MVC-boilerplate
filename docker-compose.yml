@@ -51,6 +51,7 @@ services:
         - 6379:6379
       volumes:
         - ${DATA_FOLDER}/redis/data:/data
+      restart: unless-stopped
 
 networks:
   nest_network:

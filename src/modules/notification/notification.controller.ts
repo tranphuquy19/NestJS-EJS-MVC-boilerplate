@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Req } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard, User } from '@shared';
+import { NotificationFiringDTO } from './dto';
 import { NotificationService } from './notification.service';
 
 @Controller()
@@ -7,12 +8,17 @@ export class NotificationController {
     constructor(private readonly notificationService: NotificationService) {}
 
     @Post('subscribe')
-    subscribe(@Req() req: Request) {
-        return this.notificationService.subscribe(req);
+    @UseGuards(AuthenticatedGuard)
+    subscribe(@Body() subscription: any, @User('id') userId: string) {
+        return this.notificationService.subscribe(subscription, userId);
     }
 
-    @Get('fire-notification')
-    fireNotification(): Promise<void> {
-        return this.notificationService.fireNotification();
+    @Post('fire-notification')
+    fireNotification(@Body() option: NotificationFiringDTO): Promise<void> {
+        if (option.type === 'all') {
+            return this.notificationService.fireAll(option);
+        } else {
+            return this.notificationService.fireToSpecifiedUsers(option);
+        }
     }
 }

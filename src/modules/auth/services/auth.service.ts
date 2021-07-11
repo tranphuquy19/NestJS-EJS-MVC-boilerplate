@@ -31,7 +31,6 @@ export class AuthService {
     }
 
     async jwtRefresh(data: any) {
-        console.log(data);
         const user = await this.usersService.findById(data.id);
         if (!user) {
             throw new UnauthorizedException();

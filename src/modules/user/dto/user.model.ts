@@ -1,23 +1,25 @@
 import { AppRoles } from '@config';
 
 export interface IUserModel {
-    name: string;
-    phoneNumber: string;
     address: string;
     email: string;
+    name: string;
     password: string;
+    phoneNumber: string;
     roles: AppRoles[];
+    username: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
 
 export class UserModel implements IUserModel {
-    address: string;
-    name: string;
+    address!: string;
+    email!: string;
+    name!: string;
     password: string;
-    email: string;
-    phoneNumber: string;
+    phoneNumber!: string;
     roles: AppRoles[];
-    createdAt?: Date;
-    updatedAt?: Date;
+    username: string;
+    createdAt!: Date;
+    updatedAt!: Date;
 }

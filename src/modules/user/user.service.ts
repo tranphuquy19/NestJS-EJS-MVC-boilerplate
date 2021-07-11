@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CreateUserDTO } from './dto';
+import { UserEntity } from './entities';
+import { UserRepository } from './repositories';
 
 @Injectable()
 export class UserService {
     private readonly users: any[];
 
-    constructor() {
+    constructor(private readonly userRepository: UserRepository) {
         this.users = [
             {
                 id: 'd50cd1a4-2f4f-49b3-abe1-be46fb8f0505',
@@ -34,7 +37,20 @@ export class UserService {
         return this.users.find((user) => user.username === username);
     }
 
-    async findById(id: string): Promise<any> {
-        return this.users.find((user) => user.id === id);
+    async findById(userId: string): Promise<UserEntity> {
+        return this.userRepository.findOne(userId);
+    }
+
+    async findAll(): Promise<UserEntity[]> {
+        return this.userRepository.find();
+    }
+
+    async create(data: CreateUserDTO): Promise<UserEntity> {
+        const user = this.userRepository.create(data);
+        try {
+            return await this.userRepository.save(user);
+        } catch (err) {
+            throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

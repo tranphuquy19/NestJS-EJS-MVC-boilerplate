@@ -14,4 +14,7 @@ module.exports = {
     'entities': [
         './dist/**/*.entity{.ts,.js}',
     ],
+    'subscribers': [
+        './dist/**/*.subscriber{.ts,.js}',
+    ]
 };

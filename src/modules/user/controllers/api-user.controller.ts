@@ -27,7 +27,6 @@ export class ApiUserController {
 
     @Post()
     createUser(@Body() data: CreateUserDTO): Promise<UserEntity> {
-        console.log(data);
         return this.userService.create(data);
     }
 }

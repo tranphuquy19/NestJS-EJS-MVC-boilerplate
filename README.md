@@ -153,6 +153,7 @@ $ npm run test:cov
 - [x] Push notification to specific users
 - [x] Push notification to logged in users
 - [ ] Push notification to guest users
+- [ ] Unsubscribe notification
 
 ### I18n
 

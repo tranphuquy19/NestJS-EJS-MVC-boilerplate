@@ -16,7 +16,6 @@ export class NotificationController {
     @Post('unsubscribe')
     @UseGuards(AuthenticatedGuard)
     unsubscribe(@Body() subscription: any, @User('id') userId: string) {
-        console.log(userId, subscription);
         return this.notificationService.unsubscribe(subscription, userId);
     }
 

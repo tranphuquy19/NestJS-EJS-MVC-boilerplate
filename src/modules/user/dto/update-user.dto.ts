@@ -3,7 +3,6 @@ import { RolesValidator } from '@shared';
 import {
     ArrayUnique,
     IsEmail,
-    IsNotEmpty,
     IsOptional,
     IsPhoneNumber,
     IsString,
@@ -15,9 +14,9 @@ import {
 } from 'class-validator';
 import { IUserModel } from './user.model';
 
-export type ICreateUserDTO = Omit<IUserModel, 'createAt' | 'updateAt'>;
+export type IUpdateUserDTO = Omit<IUserModel, 'createAt' | 'updateAt'>;
 
-export class CreateUserDTO implements ICreateUserDTO {
+export class UpdateUserDTO implements IUpdateUserDTO {
     @IsOptional()
     @IsString()
     address: string;
@@ -36,7 +35,7 @@ export class CreateUserDTO implements ICreateUserDTO {
     @IsString()
     name: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     @MinLength(8)
     @MaxLength(32)
@@ -56,7 +55,7 @@ export class CreateUserDTO implements ICreateUserDTO {
     @Validate(RolesValidator)
     roles: AppRoles[];
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     @Matches(/^[a-z0-9_-]{3,16}$/, {
         message: 'Invalid username',

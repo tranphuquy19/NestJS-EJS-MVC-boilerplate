@@ -1,7 +1,7 @@
-import { Controller, Get, Req, UseFilters, UseGuards } from '@nestjs/common';
-import { AuthenticatedGuard, LocalAuthExceptionFilter, Page } from '@shared';
-import { Request } from 'express';
+import { Controller, Get, UseFilters, UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard, LocalAuthExceptionFilter, Page, ReqUser, User } from '@shared';
 import { UserService } from '../user.service';
+import { image, name } from 'faker';
 
 @Controller()
 @UseFilters(LocalAuthExceptionFilter)
@@ -11,8 +11,9 @@ export class UserController {
     @UseGuards(AuthenticatedGuard)
     @Get('/profile')
     @Page('profile')
-    async getProfile(@Req() req: Request) {
-        const user = await this.userService.findById(req.user['id']);
-        return { user };
+    async getProfile(@User('id') { id }: ReqUser) {
+        const user = await this.userService.findById(id);
+        const pet = { image: image.cats(400, 200), name: name.firstName() }; // just random something to render at FE
+        return { user: { ...user, pet } };
     }
 }

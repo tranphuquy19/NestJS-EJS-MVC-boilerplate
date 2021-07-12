@@ -1,5 +1,6 @@
 import { AppRoles } from '@config';
 import bcrypt from 'bcrypt';
+import { AvatarGenerator } from 'random-avatar-generator';
 import {
     AfterLoad,
     BaseEntity,
@@ -13,6 +14,8 @@ import {
 } from 'typeorm';
 import { IUserModel } from '../dto';
 
+const avatarGenerator = new AvatarGenerator();
+
 @Entity('user')
 export class UserEntity extends BaseEntity implements IUserModel {
     @PrimaryGeneratedColumn('uuid')
@@ -20,6 +23,9 @@ export class UserEntity extends BaseEntity implements IUserModel {
 
     @Column({ type: 'text', nullable: true })
     address: string;
+
+    @Column({ type: 'text', nullable: false })
+    avatarUrl: string;
 
     @Column({ type: 'text', nullable: false, unique: true })
     username: string;
@@ -51,6 +57,11 @@ export class UserEntity extends BaseEntity implements IUserModel {
     @BeforeUpdate()
     async hashPassword(): Promise<void> {
         this.password = await bcrypt.hash(this.password, 10);
+    }
+
+    @BeforeInsert()
+    randomAvatar(): void {
+        this.avatarUrl = avatarGenerator.generateRandomAvatar(this.username);
     }
 
     async comparePassword(attempt: string): Promise<boolean> {

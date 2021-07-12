@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserDTO } from './dto';
+import { CreateUserDTO, UpdateUserDTO } from './dto';
 import { UserEntity } from './entities';
 import { UserRepository } from './repositories';
 
@@ -33,16 +33,16 @@ export class UserService {
         ];
     }
 
-    async findOne(username: string): Promise<any> {
-        return this.users.find((user) => user.username === username);
+    async findByUsername(username: string): Promise<UserEntity> {
+        return await this.userRepository.findOne({ username });
     }
 
     async findById(userId: string): Promise<UserEntity> {
-        return this.userRepository.findOne(userId);
+        return await this.userRepository.findOne(userId);
     }
 
     async findAll(): Promise<UserEntity[]> {
-        return this.userRepository.find();
+        return await this.userRepository.find();
     }
 
     async create(data: CreateUserDTO): Promise<UserEntity> {
@@ -51,6 +51,34 @@ export class UserService {
             return await this.userRepository.save(user);
         } catch (err) {
             throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    async update(userId: string, data: UpdateUserDTO): Promise<UserEntity> {
+        const user = await this.findById(userId);
+        if (!user) {
+            throw new HttpException(`User with ID: ${userId} not found!`, HttpStatus.NOT_FOUND);
+        } else {
+            Object.assign(user, data);
+            try {
+                return await this.userRepository.save(user);
+            } catch (err) {
+                throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+    }
+
+    async delete(userId: string) {
+        const user = await this.findById(userId);
+        if (!user) {
+            throw new HttpException(`User with ID: ${userId} not found!`, HttpStatus.NOT_FOUND);
+        } else {
+            try {
+                await this.userRepository.delete(userId);
+                return { message: 'OK' };
+            } catch (err) {
+                throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
     }
 }

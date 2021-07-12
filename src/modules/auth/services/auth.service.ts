@@ -1,6 +1,7 @@
 import { jwtRefreshTokenExpiration, jwtTokenExpiration } from '@config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { CreateUserDTO } from '@user/dto';
 import { UserService } from '@user/user.service';
 import parseDuration from 'parse-duration';
 import { LoginInputDTO } from '../dto';
@@ -8,16 +9,14 @@ import { LoginInputDTO } from '../dto';
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly usersService: UserService,
+        private readonly userService: UserService,
         private readonly jwtService: JwtService,
     ) {}
 
     async validateUser(username: string, password: string): Promise<any> {
-        const user = await this.usersService.findOne(username);
-        if (user && user.password === password) {
-            /* eslint-disable @typescript-eslint/no-unused-vars */
-            const { password, ...result } = user;
-            return result;
+        const user = await this.userService.findByUsername(username);
+        if (await user.comparePassword(password)) {
+            return user;
         }
         return null;
     }
@@ -31,10 +30,15 @@ export class AuthService {
     }
 
     async jwtRefresh(data: any) {
-        const user = await this.usersService.findById(data.id);
+        const user = await this.userService.findById(data.id);
         if (!user) {
             throw new UnauthorizedException();
         } else return this.getAuthToken(user);
+    }
+
+    async jwtRegister(data: CreateUserDTO) {
+        const user = await this.userService.create(data);
+        return this.getAuthToken(user);
     }
 
     getAuthToken(user: any) {

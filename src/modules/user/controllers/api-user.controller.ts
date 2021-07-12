@@ -1,7 +1,7 @@
-import { Body, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiV1Controller, JwtAuthGuard } from '@shared';
 import { Request } from 'express';
-import { CreateUserDTO } from '../dto';
+import { CreateUserDTO, UpdateUserDTO } from '../dto';
 import { UserEntity } from '../entities';
 import { UserService } from '../user.service';
 
@@ -28,5 +28,15 @@ export class ApiUserController {
     @Post()
     createUser(@Body() data: CreateUserDTO): Promise<UserEntity> {
         return this.userService.create(data);
+    }
+
+    @Patch(':id')
+    updateUser(@Param('id') userId: string, @Body() data: UpdateUserDTO) {
+        return this.userService.update(userId, data);
+    }
+
+    @Delete(':id')
+    deleteUser(@Param('id') userId: string) {
+        return this.userService.delete(userId);
     }
 }

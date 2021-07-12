@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
-import { JwtRefreshGuard } from '@shared';
-import { Request } from 'express';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { JwtRefreshGuard, ReqUser, User } from '@shared';
+import { CreateUserDTO } from '@user/dto';
 import { LoginInputDTO } from '../dto';
 import { AuthService } from '../services';
 
@@ -16,8 +16,12 @@ export class JwtAuthController {
 
     @UseGuards(JwtRefreshGuard)
     @Post('refresh')
-    async refresh(@Req() req: Request) {
-        const authToken = await this.authService.jwtRefresh(req.user);
-        return authToken;
+    async refresh(@User() user: ReqUser) {
+        return await this.authService.jwtRefresh(user);
+    }
+
+    @Post('register')
+    async register(@Body() data: CreateUserDTO) {
+        return await this.authService.jwtRegister(data);
     }
 }

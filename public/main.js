@@ -48,7 +48,7 @@ const requestNotificationPermission = async () => {
 };
 
 const triggerPush = document.querySelector('.trigger-push');
-if(triggerPush) {
+if (triggerPush) {
     triggerPush.addEventListener('click', () => {
         if ('serviceWorker' in navigator) {
             triggerPushNotification().catch((error) => console.error(error));
@@ -59,7 +59,7 @@ if(triggerPush) {
 }
 
 const logoutButton = document.querySelector('.logout-button');
-if(logoutButton) {
+if (logoutButton) {
     logoutButton.addEventListener('click', async (e) => {
         await triggerPushNotification(true);
         e.preventDefault();

@@ -5,6 +5,9 @@
         "middlewares",
         "originalname",
         "resave",
+        "sadd",
+        "smembers",
+        "srem",
         "typeorm",
         "unflatten",
         "uuidv"

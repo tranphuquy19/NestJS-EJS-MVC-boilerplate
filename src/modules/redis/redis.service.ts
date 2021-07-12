@@ -13,7 +13,7 @@ export class RedisService {
      *
      * @param expired amount time for redis value to be expired( 1 = 60s )
      */
-    setObjectByKey(key: string, value: Record<string, any>, expired?: number) {
+    setObjectByKey(key: string, value: Record<string, any>, expired?: number): Promise<boolean> {
         const flatValue: Record<string, any> = flat(value);
         const convertToString = JSON.stringify(flatValue);
 
@@ -29,27 +29,7 @@ export class RedisService {
         });
     }
 
-    /**
-     *
-     * @param expired amount time for redis value to be expired( 1 = 60s )
-     */
-    setObjectHashKey(hash: string, key: string, value: Record<string, any>, expired?: number) {
-        const flatValue: Record<string, any> = flat(value);
-        const convertToString = JSON.stringify(flatValue);
-
-        return new Promise<boolean>((res, rej) => {
-            this.redisRepository.hset(hash, key, convertToString, (error) => {
-                if (error) {
-                    this.logger.error(error);
-                    return rej(false);
-                }
-                if (expired) this.redisRepository.expire(hash, expired * 60);
-                return res(true);
-            });
-        });
-    }
-
-    deleteByKey(key: string) {
+    deleteByKey(key: string): Promise<boolean> {
         return new Promise<boolean>((res, rej) => {
             this.redisRepository.del(key, (error) => {
                 if (error) {
@@ -61,7 +41,7 @@ export class RedisService {
         });
     }
 
-    getObjectByKey<T>(key: string) {
+    getObjectByKey<T>(key: string): Promise<T> {
         return new Promise<T>((res, rej) => {
             this.redisRepository.get(key, (err, data) => {
                 if (err) {
@@ -79,7 +59,7 @@ export class RedisService {
      *
      * @param expired amount time for redis value to be expired( 1 = 60s )
      */
-    setByValue(key: string, value: number | string, expired?: number) {
+    setByValue(key: string, value: number | string, expired?: number): Promise<boolean> {
         return new Promise<boolean>((res, rej) => {
             this.redisRepository.set(key, String(value), (error) => {
                 if (error) {
@@ -114,6 +94,58 @@ export class RedisService {
                 }
 
                 res(data);
+            });
+        });
+    }
+
+    /**
+     *
+     * @param expired amount time for redis value to be expired( 1 = 60s )
+     */
+    setUniqueObjectByKey(
+        key: string,
+        value: Record<string, any>,
+        expired?: number,
+    ): Promise<boolean> {
+        const flatValue: Record<string, any> = flat(value);
+        const convertToString = JSON.stringify(flatValue);
+
+        return new Promise<boolean>((res, rej) => {
+            this.redisRepository.sadd(key, convertToString, (error) => {
+                if (error) {
+                    this.logger.error(error);
+                    return rej(false);
+                }
+                if (expired) this.redisRepository.expire(key, expired * 60);
+                return res(true);
+            });
+        });
+    }
+
+    getAllMembersOfSetByKey<T>(key: string): Promise<T[]> {
+        return new Promise<T[]>((res, rej) => {
+            this.redisRepository.smembers(key, (err, members) => {
+                if (err) {
+                    this.logger.error(err);
+                    return rej(null);
+                }
+
+                const convertToJson = members.map((data) => flat.unflatten(JSON.parse(data)));
+                res(convertToJson as T[]);
+            });
+        });
+    }
+
+    removeMemberOfSet(key: string, value: Record<string, any>): Promise<boolean> {
+        const flatValue: Record<string, any> = flat(value);
+        const convertToString = JSON.stringify(flatValue);
+        return new Promise<boolean>((res, rej) => {
+            this.redisRepository.srem(key, convertToString, (err) => {
+                if (err) {
+                    this.logger.error(err);
+                    return rej(false);
+                }
+                return res(true);
             });
         });
     }

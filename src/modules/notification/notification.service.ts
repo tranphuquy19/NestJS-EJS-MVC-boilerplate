@@ -2,7 +2,6 @@ import { apiHost, email, privateVapidKey, publicVapidKey } from '@config';
 import { Injectable, Logger } from '@nestjs/common';
 import { RedisService } from '@redis/redis.service';
 import _ from 'lodash';
-import { v4 as uuidv4 } from 'uuid';
 import webPush from 'web-push';
 import { NotificationFiringDTO } from './dto';
 
@@ -16,7 +15,7 @@ export class NotificationService {
     }
 
     subscribe(subscription: any, userId: string): void {
-        this.redisService.setObjectByKey(`${this.prefix}:${userId}:${uuidv4()}`, subscription);
+        this.redisService.setUniqueObjectByKey(`${this.prefix}:${userId}`, subscription);
 
         webPush
             .sendNotification(
@@ -29,6 +28,10 @@ export class NotificationService {
             .catch((err) => this.logger.error(err));
     }
 
+    unsubscribe(subscription: any, userId: string): void {
+        this.redisService.removeMemberOfSet(`${this.prefix}:${userId}`, subscription);
+    }
+
     setupWebPush(): void {
         webPush.setVapidDetails(`mailto:${email}`, publicVapidKey, privateVapidKey);
     }
@@ -36,9 +39,10 @@ export class NotificationService {
     async fireAll(option: NotificationFiringDTO): Promise<any> {
         const keys = await this.redisService.getAllKeyWithPattern(`${this.prefix}*`);
         const subscriptionPromises = keys.map((key) =>
-            this.redisService.getObjectByKey<webPush.PushSubscription>(key),
+            this.redisService.getAllMembersOfSetByKey<webPush.PushSubscription>(key),
         );
-        const subscriptions = await Promise.all(subscriptionPromises);
+        const subUsers = await Promise.all(subscriptionPromises);
+        const subscriptions = _.flattenDeep(subUsers);
 
         subscriptions.forEach((subscription) => {
             webPush
@@ -49,16 +53,13 @@ export class NotificationService {
     }
 
     async fireToSpecifiedUsers(option: NotificationFiringDTO): Promise<any> {
-        const userTargetKeyPromises = option.userIds.map((userId) =>
-            this.redisService.getAllKeyWithPattern(`${this.prefix}:${userId}*`),
+        const subUsersPromises = option.userIds.map((userId) =>
+            this.redisService.getAllMembersOfSetByKey<webPush.PushSubscription>(
+                `${this.prefix}:${userId}`,
+            ),
         );
-        const userTargetKeys = await Promise.all(userTargetKeyPromises);
-        const userTargetKeysFlatten = _.flattenDeep(userTargetKeys);
-
-        const subscriptionPromises = userTargetKeysFlatten.map((key) =>
-            this.redisService.getObjectByKey<webPush.PushSubscription>(key),
-        );
-        const subscriptions = await Promise.all(subscriptionPromises);
+        const subUsers = await Promise.all(subUsersPromises);
+        const subscriptions = _.flatMapDeep(subUsers);
 
         subscriptions.map((subscription) => {
             webPush

@@ -27,7 +27,9 @@ async function bootstrap() {
         prodConfig(app);
     }
 
-    app.useStaticAssets(join(__dirname, '..', '..', 'public'), { maxAge: sessionMaxAge });
+    app.useStaticAssets(join(__dirname, '..', '..', 'public'), {
+        maxAge: NODE_ENV === 'development' ? 0 : sessionMaxAge,
+    });
     app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
     app.setViewEngine('ejs');
 

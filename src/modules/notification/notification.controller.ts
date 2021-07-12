@@ -13,6 +13,13 @@ export class NotificationController {
         return this.notificationService.subscribe(subscription, userId);
     }
 
+    @Post('unsubscribe')
+    @UseGuards(AuthenticatedGuard)
+    unsubscribe(@Body() subscription: any, @User('id') userId: string) {
+        console.log(userId, subscription);
+        return this.notificationService.unsubscribe(subscription, userId);
+    }
+
     @Post('fire-notification')
     fireNotification(@Body() option: NotificationFiringDTO): Promise<void> {
         if (option.type === 'all') {

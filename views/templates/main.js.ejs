@@ -14,7 +14,8 @@ function urlBase64ToUint8Array(base64String) {
 const publicVapidKey =
     '<%= publicVapidKey %>';
 
-async function triggerPushNotification() {
+async function triggerPushNotification(isUnsubscribed = false) {
+    const action = isUnsubscribed ? 'unsubscribe' : 'subscribe';
     // Register Service Worker
     const register = await navigator.serviceWorker.register('/sw.js', {
         scope: '/',
@@ -28,7 +29,7 @@ async function triggerPushNotification() {
     });
 
     // Send Push Notification
-    await fetch('/subscribe', {
+    await fetch(action, {
         method: 'POST',
         body: JSON.stringify(subscription),
         headers: {
@@ -47,10 +48,21 @@ const requestNotificationPermission = async () => {
 };
 
 const triggerPush = document.querySelector('.trigger-push');
-triggerPush.addEventListener('click', () => {
-    if ('serviceWorker' in navigator) {
-        triggerPushNotification().catch((error) => console.error(error));
-    } else {
-        console.error('Service workers are not supported in this browser');
-    }
-});
+if(triggerPush) {
+    triggerPush.addEventListener('click', () => {
+        if ('serviceWorker' in navigator) {
+            triggerPushNotification().catch((error) => console.error(error));
+        } else {
+            console.error('Service workers are not supported in this browser');
+        }
+    });
+}
+
+const logoutButton = document.querySelector('.logout-button');
+if(logoutButton) {
+    logoutButton.addEventListener('click', async (e) => {
+        await triggerPushNotification(true);
+        e.preventDefault();
+        window.location = e.target.href;
+    });
+}

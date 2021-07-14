@@ -30,6 +30,7 @@ export class ApiUserController {
         return this.userService.findById(userId);
     }
 
+    @JwtAuth()
     @Post()
     createUser(@Body() data: CreateUserDTO): Promise<UserEntity> {
         return this.userService.create(data);

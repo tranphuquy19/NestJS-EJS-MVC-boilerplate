@@ -1,6 +1,7 @@
 import { AppRoles, jwtRefreshTokenExpiration, jwtTokenExpiration } from '@config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ReqUser } from '@shared';
 import { CreateUserDTO } from '@user/dto';
 import { UserService } from '@user/user.service';
 import parseDuration from 'parse-duration';
@@ -37,16 +38,16 @@ export class AuthService {
         } else return this.getAuthToken(user);
     }
 
-    async jwtRegister(data: CreateUserDTO) {
-        const user = await this.userService.create(data);
+    async jwtRegister(data: CreateUserDTO, reqUser: ReqUser) {
+        const user = await this.userService.create(data, reqUser);
         return this.getAuthToken(user);
     }
 
     getAuthToken(user: any) {
-        const subject = { sub: user.id };
+        const subject = { id: user.id };
 
         const payload = {
-            sub: user.id,
+            id: user.id,
             username: user.username,
             roles: user.roles,
         };

@@ -32,8 +32,8 @@ export class ApiUserController {
 
     @JwtAuth()
     @Post()
-    createUser(@Body() data: CreateUserDTO): Promise<UserEntity> {
-        return this.userService.create(data);
+    createUser(@Body() data: CreateUserDTO, @User() reqUser: ReqUser): Promise<UserEntity> {
+        return this.userService.create(data, reqUser);
     }
 
     @JwtAuth()

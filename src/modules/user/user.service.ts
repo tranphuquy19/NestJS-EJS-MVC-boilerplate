@@ -28,10 +28,10 @@ export class UserService {
     async findById(userId: string, reqUser: ReqUser): Promise<UserEntity> {
         const permission = new AppPermissionBuilder()
             .setRolesBuilder(this.rolesBuilder)
+            .setRequestUser(reqUser)
             .setAction('read')
             .setResourceName(AppResources.USER)
             .setCreatorId(userId)
-            .setRequestUser(reqUser)
             .build()
             .grant();
 
@@ -55,9 +55,9 @@ export class UserService {
     async findAll(pagOpts: PaginateParams, reqUser: ReqUser): Promise<IPagination<any>> {
         const permission = new AppPermissionBuilder()
             .setRolesBuilder(this.rolesBuilder)
+            .setRequestUser(reqUser)
             .setAction('read')
             .setResourceName(AppResources.USER)
-            .setRequestUser(reqUser)
             .build()
             .grant();
 
@@ -73,26 +73,62 @@ export class UserService {
         }
     }
 
-    async create(data: CreateUserDTO): Promise<UserEntity> {
-        const user = this.userRepository.create(data);
-        try {
-            return await this.userRepository.save(user);
-        } catch (err) {
-            throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    async create(data: CreateUserDTO, reqUser: ReqUser): Promise<UserEntity> {
+        const permission = new AppPermissionBuilder()
+            .setRolesBuilder(this.rolesBuilder)
+            .setRequestUser(reqUser)
+            .setAction('create')
+            .setResourceName(AppResources.USER)
+            .build()
+            .grant();
 
-    async update(userId: string, data: UpdateUserDTO, reqUser: ReqUser): Promise<UserEntity> {
-        const user = await this.findById(userId, reqUser);
-        if (!user) {
-            throw new HttpException(`User with ID: ${userId} not found!`, HttpStatus.NOT_FOUND);
-        } else {
-            Object.assign(user, data);
+        if (permission.granted) {
+            data = permission.filter(data);
+            const user = this.userRepository.create(data);
             try {
                 return await this.userRepository.save(user);
             } catch (err) {
                 throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
             }
+        } else {
+            throw new HttpException(
+                `You don't have permission to do this!`,
+                HttpStatus.FORBIDDEN,
+            );
+        }
+    }
+
+    async update(userId: string, data: UpdateUserDTO, reqUser: ReqUser): Promise<UserEntity> {
+        const permission = new AppPermissionBuilder()
+            .setRolesBuilder(this.rolesBuilder)
+            .setRequestUser(reqUser)
+            .setAction('update')
+            .setResourceName(AppResources.USER)
+            .setCreatorId(userId)
+            .build()
+            .grant();
+
+        if (permission.granted) {
+            const user = await this.findById(userId, reqUser);
+            if (!user) {
+                throw new HttpException(
+                    `User with ID: ${userId} not found!`,
+                    HttpStatus.NOT_FOUND,
+                );
+            } else {
+                data = permission.filter(data);
+                Object.assign(user, data);
+                try {
+                    return await this.userRepository.save(user);
+                } catch (err) {
+                    throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            throw new HttpException(
+                `You don't have permission to do this!`,
+                HttpStatus.FORBIDDEN,
+            );
         }
     }
 

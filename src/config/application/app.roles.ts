@@ -18,7 +18,7 @@ roles
     .createAny(AppResources.USER, '*, !roles')
     .grant(AppRoles.CUSTOMER)
     .readAny(AppResources.USER, '*, !password')
-    .updateOwn(AppResources.USER)
+    .updateOwn(AppResources.USER, '*, !roles')
     .grant(AppRoles.ADMIN)
     .extend(AppRoles.CUSTOMER)
     .createAny(AppResources.USER)

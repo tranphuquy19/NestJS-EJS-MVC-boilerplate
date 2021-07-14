@@ -134,7 +134,7 @@ $ npm run test:cov
 - [x] Repository pattern
 - [x] Module path Aliases
 
-### Authorization
+### Authorization (Access control)
 
 - [x] Role-based Access Control (RBAC)
 - [x] Attribute-based Access Control (ABAC)

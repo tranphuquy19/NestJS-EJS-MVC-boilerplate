@@ -133,16 +133,35 @@ export class UserService {
     }
 
     async delete(userId: string, reqUser: ReqUser) {
-        const user = await this.findById(userId, reqUser);
-        if (!user) {
-            throw new HttpException(`User with ID: ${userId} not found!`, HttpStatus.NOT_FOUND);
-        } else {
-            try {
-                await this.userRepository.delete(userId);
-                return { message: 'OK' };
-            } catch (err) {
-                throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+        const permission = new AppPermissionBuilder()
+            .setRolesBuilder(this.rolesBuilder)
+            .setRequestUser(reqUser)
+            .setAction('delete')
+            .setResourceName(AppResources.USER)
+            .setCreatorId(userId)
+            .build()
+            .grant();
+
+        if (permission.granted) {
+            const user = await this.findById(userId, reqUser);
+            if (!user) {
+                throw new HttpException(
+                    `User with ID: ${userId} not found!`,
+                    HttpStatus.NOT_FOUND,
+                );
+            } else {
+                try {
+                    await this.userRepository.delete(userId);
+                    return { message: 'OK' };
+                } catch (err) {
+                    throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
             }
+        } else {
+            throw new HttpException(
+                `You don't have permission to do this!`,
+                HttpStatus.FORBIDDEN,
+            );
         }
     }
 }

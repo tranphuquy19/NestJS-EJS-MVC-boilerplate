@@ -7,6 +7,7 @@
         "RBAC",
         "Skaffold",
         "changefreq",
+        "commitlint",
         "hset",
         "middlewares",
         "originalname",

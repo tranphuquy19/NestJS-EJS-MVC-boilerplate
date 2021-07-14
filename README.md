@@ -202,6 +202,12 @@ $ npm run test:cov
 - [ ] Stats reports
 - [ ] Email health check report
 
+### Git hooks
+
+- [x] Using [husky](https://www.npmjs.com/package/husky)
+- [ ] Linting (with lint-staged)
+- [ ] Prettier
+
 ### Backup
 
 - [ ] Database backup

@@ -11,7 +11,6 @@ export class JwtAuthGuard extends AuthGuard(STRATEGY_JWT_AUTH) {
         return result;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     handleRequest(err: any, user: any, info: Error) {
         if (`${info?.message}` !== 'No auth token') {
             throw err || new HttpException(`${info}`, HttpStatus.UNAUTHORIZED);

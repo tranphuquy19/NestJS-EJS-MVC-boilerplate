@@ -1,3 +1,4 @@
+export * from './access-control';
 export * from './constants';
 export * from './decorators';
 export * from './dto';

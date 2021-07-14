@@ -1,11 +1,25 @@
+import { AppResources } from '@config';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+    AppPermissionBuilder,
+    customPaginate,
+    IPagination,
+    paginateFilter,
+    PaginateParams,
+    ReqUser,
+} from '@shared';
+import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
 import { CreateUserDTO, UpdateUserDTO } from './dto';
 import { UserEntity } from './entities';
 import { UserRepository } from './repositories';
 
 @Injectable()
 export class UserService {
-    constructor(private readonly userRepository: UserRepository) {}
+    constructor(
+        private readonly userRepository: UserRepository,
+        @InjectRolesBuilder()
+        private readonly rolesBuilder: RolesBuilder,
+    ) {}
 
     async findByUsername(username: string): Promise<UserEntity> {
         return await this.userRepository.findOne({ username });
@@ -15,8 +29,25 @@ export class UserService {
         return await this.userRepository.findOne(userId);
     }
 
-    async findAll(): Promise<UserEntity[]> {
-        return await this.userRepository.find();
+    async findAll(pagOpts: PaginateParams, reqUser: ReqUser): Promise<IPagination<any>> {
+        const permission = new AppPermissionBuilder()
+            .setRolesBuilder(this.rolesBuilder)
+            .setAction('read')
+            .setResourceName(AppResources.USER)
+            .setRequestUser(reqUser)
+            .build()
+            .grant();
+
+        if (permission.granted) {
+            const data = await this.userRepository.findAll(pagOpts);
+            const dataPaginated = customPaginate<UserEntity>(data, pagOpts);
+            return paginateFilter(dataPaginated, permission);
+        } else {
+            throw new HttpException(
+                `You don't have permission to do this!`,
+                HttpStatus.FORBIDDEN,
+            );
+        }
     }
 
     async create(data: CreateUserDTO): Promise<UserEntity> {

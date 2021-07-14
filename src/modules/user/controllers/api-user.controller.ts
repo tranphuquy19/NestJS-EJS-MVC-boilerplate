@@ -1,5 +1,6 @@
+import { apiUrl } from '@config';
 import { Body, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
-import { ApiV1Controller, JwtAuth } from '@shared';
+import { ApiV1Controller, IPagination, JwtAuth, PaginateParams, ReqUser, User } from '@shared';
 import { Request } from 'express';
 import { CreateUserDTO, UpdateUserDTO } from '../dto';
 import { UserEntity } from '../entities';
@@ -15,9 +16,13 @@ export class ApiUserController {
         return req.user;
     }
 
+    @JwtAuth()
     @Get()
-    getUsers(): Promise<UserEntity[]> {
-        return this.userService.findAll();
+    getUsers(
+        @Param() pagOpts: PaginateParams,
+        @User() user: ReqUser,
+    ): Promise<IPagination<UserEntity>> {
+        return this.userService.findAll({ ...pagOpts, route: `${apiUrl}/users` }, user);
     }
 
     @Get(':id')

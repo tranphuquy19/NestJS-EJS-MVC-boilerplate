@@ -1,4 +1,4 @@
-import { ExecutionContext, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { STRATEGY_JWT_AUTH } from '@shared';
 
@@ -11,10 +11,11 @@ export class JwtAuthGuard extends AuthGuard(STRATEGY_JWT_AUTH) {
         return result;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     handleRequest(err: any, user: any, info: Error) {
-        if (err || info) {
-            throw err || new HttpException(`${info}`, HttpStatus.UNAUTHORIZED);
-        }
+        // if (err || info) {
+        //     throw err || new HttpException(`${info}`, HttpStatus.UNAUTHORIZED);
+        // }
 
         if (!user) return { roles: ['GUEST'] };
         else return user;

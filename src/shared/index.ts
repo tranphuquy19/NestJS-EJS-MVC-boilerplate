@@ -4,6 +4,7 @@ export * from './dto';
 export * from './files';
 export * from './filters';
 export * from './guards';
+export * from './pagination';
 export * from './strategies';
 export * from './utils';
 export * from './validators';

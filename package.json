@@ -32,6 +32,7 @@
         "@nestjs/platform-express": "^7.6.13",
         "@nestjs/swagger": "^4.8.0",
         "@nestjs/typeorm": "^7.1.5",
+        "accesscontrol": "^2.2.1",
         "bcrypt": "^5.0.1",
         "class-transformer": "^0.4.0",
         "class-validator": "^0.13.1",
@@ -148,7 +149,7 @@
     },
     "husky": {
         "hooks": {
-          "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+            "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
         }
     }
 }

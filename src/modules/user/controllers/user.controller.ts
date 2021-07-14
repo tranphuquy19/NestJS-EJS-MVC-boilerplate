@@ -1,14 +1,14 @@
-import { Controller, Get, UseFilters, UseGuards } from '@nestjs/common';
-import { AuthenticatedGuard, LocalAuthExceptionFilter, Page, ReqUser, User } from '@shared';
-import { UserService } from '../user.service';
+import { Controller, Get, UseFilters } from '@nestjs/common';
+import { LocalAuth, LocalAuthExceptionFilter, Page, ReqUser, User } from '@shared';
 import { image, name } from 'faker';
+import { UserService } from '../user.service';
 
 @Controller()
 @UseFilters(LocalAuthExceptionFilter)
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @UseGuards(AuthenticatedGuard)
+    @LocalAuth()
     @Get('/profile')
     @Page('profile')
     async getProfile(@User('id') { id }: ReqUser) {

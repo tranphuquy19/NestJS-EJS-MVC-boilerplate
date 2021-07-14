@@ -1,5 +1,5 @@
 import { Controller, Get, Req, Res, UseFilters } from '@nestjs/common';
-import { LocalAuth, LocalAuthExceptionFilter, LOGIN_PAGE, Page } from '@shared';
+import { LocalAuthExceptionFilter, LoggedInAuth, LOGIN_PAGE, Page } from '@shared';
 import { Request, Response } from 'express';
 
 @Controller()
@@ -11,7 +11,7 @@ export class AppController {
         else return res.redirect('/home');
     }
 
-    @LocalAuth()
+    @LoggedInAuth()
     @Get('home')
     @Page('home')
     getHome(@Req() req: Request) {

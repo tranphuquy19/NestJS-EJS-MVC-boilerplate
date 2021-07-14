@@ -1,5 +1,5 @@
 import { Controller, Get, UseFilters } from '@nestjs/common';
-import { LocalAuth, LocalAuthExceptionFilter, Page, ReqUser, User } from '@shared';
+import { LocalAuthExceptionFilter, LoggedInAuth, Page, ReqUser, User } from '@shared';
 import { image, name } from 'faker';
 import { UserService } from '../user.service';
 
@@ -8,7 +8,7 @@ import { UserService } from '../user.service';
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @LocalAuth()
+    @LoggedInAuth()
     @Get('/profile')
     @Page('profile')
     async getProfile(@User('id') { id }: ReqUser) {

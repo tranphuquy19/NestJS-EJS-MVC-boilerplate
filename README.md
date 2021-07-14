@@ -205,8 +205,9 @@ $ npm run test:cov
 ### Git hooks
 
 - [x] Using [husky](https://www.npmjs.com/package/husky)
-- [ ] Linting (with lint-staged)
-- [ ] Prettier
+- [x] Linting (with lint-staged)
+- [x] Prettier (just run `yarn format`)
+- [x] Integrate Commitizen (use `yarn commit` instead of `git commit`)
 
 ### Backup
 

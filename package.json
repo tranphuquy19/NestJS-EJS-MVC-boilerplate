@@ -20,7 +20,8 @@
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
-        "postinstall": "husky install"
+        "postinstall": "husky install",
+        "commit": "cz"
     },
     "dependencies": {
         "@nestjs-modules/mailer": "^1.6.0",
@@ -101,6 +102,7 @@
         "@types/web-push": "^3.3.0",
         "@typescript-eslint/eslint-plugin": "^4.15.2",
         "@typescript-eslint/parser": "^4.15.2",
+        "cz-conventional-changelog": "^3.3.0",
         "eslint": "^7.20.0",
         "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-prettier": "^3.3.1",
@@ -138,5 +140,15 @@
             "npm run format",
             "git add ."
         ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        }
+    },
+    "husky": {
+        "hooks": {
+          "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+        }
     }
 }

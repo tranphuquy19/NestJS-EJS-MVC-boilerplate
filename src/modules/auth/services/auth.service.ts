@@ -1,4 +1,4 @@
-import { jwtRefreshTokenExpiration, jwtTokenExpiration } from '@config';
+import { AppRoles, jwtRefreshTokenExpiration, jwtTokenExpiration } from '@config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDTO } from '@user/dto';
@@ -31,7 +31,7 @@ export class AuthService {
     }
 
     async jwtRefresh(data: any) {
-        const user = await this.userService.findById(data.id);
+        const user = await this.userService.findById(data.id, { roles: [AppRoles.ADMIN] });
         if (!user) {
             throw new UnauthorizedException();
         } else return this.getAuthToken(user);

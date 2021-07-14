@@ -25,8 +25,31 @@ export class UserService {
         return await this.userRepository.findOne({ username });
     }
 
-    async findById(userId: string): Promise<UserEntity> {
-        return await this.userRepository.findOne(userId);
+    async findById(userId: string, reqUser: ReqUser): Promise<UserEntity> {
+        const permission = new AppPermissionBuilder()
+            .setRolesBuilder(this.rolesBuilder)
+            .setAction('read')
+            .setResourceName(AppResources.USER)
+            .setCreatorId(userId)
+            .setRequestUser(reqUser)
+            .build()
+            .grant();
+
+        if (permission.granted) {
+            const user = await this.userRepository.findOne(userId);
+            if (!user) {
+                throw new HttpException(
+                    `User with ID: ${userId} not found!`,
+                    HttpStatus.NOT_FOUND,
+                );
+            }
+            return permission.filter(user);
+        } else {
+            throw new HttpException(
+                `You don't have permission to do this!`,
+                HttpStatus.FORBIDDEN,
+            );
+        }
     }
 
     async findAll(pagOpts: PaginateParams, reqUser: ReqUser): Promise<IPagination<any>> {
@@ -59,8 +82,8 @@ export class UserService {
         }
     }
 
-    async update(userId: string, data: UpdateUserDTO): Promise<UserEntity> {
-        const user = await this.findById(userId);
+    async update(userId: string, data: UpdateUserDTO, reqUser: ReqUser): Promise<UserEntity> {
+        const user = await this.findById(userId, reqUser);
         if (!user) {
             throw new HttpException(`User with ID: ${userId} not found!`, HttpStatus.NOT_FOUND);
         } else {
@@ -73,8 +96,8 @@ export class UserService {
         }
     }
 
-    async delete(userId: string) {
-        const user = await this.findById(userId);
+    async delete(userId: string, reqUser: ReqUser) {
+        const user = await this.findById(userId, reqUser);
         if (!user) {
             throw new HttpException(`User with ID: ${userId} not found!`, HttpStatus.NOT_FOUND);
         } else {

@@ -19,14 +19,15 @@ export class ApiUserController {
     @Get()
     getUsers(
         @Param() pagOpts: PaginateParams,
-        @User() user: ReqUser,
+        @User() reqUser: ReqUser,
     ): Promise<IPagination<UserEntity>> {
-        return this.userService.findAll({ ...pagOpts, route: `${apiUrl}/users` }, user);
+        return this.userService.findAll({ ...pagOpts, route: `${apiUrl}/users` }, reqUser);
     }
 
+    @JwtAuth()
     @Get(':id')
-    getUserById(@Param('id') userId: string): Promise<UserEntity> {
-        return this.userService.findById(userId);
+    getUserById(@Param('id') userId: string, @User() reqUser: ReqUser): Promise<UserEntity> {
+        return this.userService.findById(userId, reqUser);
     }
 
     @JwtAuth()
@@ -35,13 +36,19 @@ export class ApiUserController {
         return this.userService.create(data);
     }
 
+    @JwtAuth()
     @Patch(':id')
-    updateUser(@Param('id') userId: string, @Body() data: UpdateUserDTO) {
-        return this.userService.update(userId, data);
+    updateUser(
+        @Param('id') userId: string,
+        @Body() data: UpdateUserDTO,
+        @User() reqUser: ReqUser,
+    ) {
+        return this.userService.update(userId, data, reqUser);
     }
 
+    @JwtAuth()
     @Delete(':id')
-    deleteUser(@Param('id') userId: string) {
-        return this.userService.delete(userId);
+    deleteUser(@Param('id') userId: string, @User() reqUser: ReqUser) {
+        return this.userService.delete(userId, reqUser);
     }
 }

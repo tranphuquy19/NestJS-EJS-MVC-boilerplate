@@ -11,8 +11,8 @@ export class UserController {
     @LoggedInAuth()
     @Get('/profile')
     @Page('profile')
-    async getProfile(@User('id') { id }: ReqUser) {
-        const user = await this.userService.findById(id);
+    async getProfile(@User() reqUser: ReqUser) {
+        const user = await this.userService.findById(reqUser.id, reqUser);
         const pet = { image: image.cats(400, 200), name: name.firstName() }; // just random something to render at FE
         return { user: { ...user, pet } };
     }

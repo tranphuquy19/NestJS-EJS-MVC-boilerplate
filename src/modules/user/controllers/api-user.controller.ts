@@ -1,5 +1,5 @@
-import { Body, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiV1Controller, JwtAuthGuard } from '@shared';
+import { Body, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import { ApiV1Controller, JwtAuth } from '@shared';
 import { Request } from 'express';
 import { CreateUserDTO, UpdateUserDTO } from '../dto';
 import { UserEntity } from '../entities';
@@ -9,7 +9,7 @@ import { UserService } from '../user.service';
 export class ApiUserController {
     constructor(private readonly userService: UserService) {}
 
-    @UseGuards(JwtAuthGuard)
+    @JwtAuth()
     @Get('viewer')
     profile(@Req() req: Request) {
         return req.user;

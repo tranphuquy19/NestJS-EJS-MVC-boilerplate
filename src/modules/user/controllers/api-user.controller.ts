@@ -1,7 +1,6 @@
 import { apiUrl } from '@config';
-import { Body, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiV1Controller, IPagination, JwtAuth, PaginateParams, ReqUser, User } from '@shared';
-import { Request } from 'express';
 import { CreateUserDTO, UpdateUserDTO } from '../dto';
 import { UserEntity } from '../entities';
 import { UserService } from '../user.service';
@@ -12,8 +11,8 @@ export class ApiUserController {
 
     @JwtAuth()
     @Get('viewer')
-    profile(@Req() req: Request) {
-        return req.user;
+    profile(@User() user: ReqUser) {
+        return user;
     }
 
     @JwtAuth()

@@ -12,7 +12,7 @@ export class JwtAuthGuard extends AuthGuard(STRATEGY_JWT_AUTH) {
     }
 
     handleRequest(err: any, user: any, info: Error) {
-        if (`${info?.message}` !== 'No auth token') {
+        if (!!info && `${info?.message}` !== 'No auth token') {
             throw err || new HttpException(`${info}`, HttpStatus.UNAUTHORIZED);
         }
 

@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Req, Res, UseFilters, UseGuards } from '@nestjs/common';
-import { LocalAuthExceptionFilter, LocalAuthGuard, Page } from '@shared';
+import { Controller, Get, Post, Req, Res, UseFilters } from '@nestjs/common';
+import { LocalAuth, LocalAuthExceptionFilter, Page } from '@shared';
 import { Request, Response } from 'express';
 
 @Controller('local')
 @UseFilters(LocalAuthExceptionFilter)
 export class LocalAuthController {
-    @UseGuards(LocalAuthGuard)
+    @LocalAuth()
     @Post('login')
     login(@Res() res: Response) {
         res.redirect('/home');

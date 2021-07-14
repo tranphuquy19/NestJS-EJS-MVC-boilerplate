@@ -1,5 +1,5 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { AuthenticatedGuard, User } from '@shared';
+import { Body, Controller, Post } from '@nestjs/common';
+import { LocalAuth, User } from '@shared';
 import { NotificationFiringDTO } from './dto';
 import { NotificationService } from './notification.service';
 
@@ -7,14 +7,14 @@ import { NotificationService } from './notification.service';
 export class NotificationController {
     constructor(private readonly notificationService: NotificationService) {}
 
+    @LocalAuth()
     @Post('subscribe')
-    @UseGuards(AuthenticatedGuard)
     subscribe(@Body() subscription: any, @User('id') userId: string) {
         return this.notificationService.subscribe(subscription, userId);
     }
 
+    @LocalAuth()
     @Post('unsubscribe')
-    @UseGuards(AuthenticatedGuard)
     unsubscribe(@Body() subscription: any, @User('id') userId: string) {
         return this.notificationService.unsubscribe(subscription, userId);
     }

@@ -11,11 +11,16 @@ import { UserModule } from '@user/user.module';
 import { AccessControlModule } from 'nest-access-control';
 import { AppController } from './controllers';
 import { AppService } from './services';
+import { FcmModule } from 'nestjs-fcm';
+import path from 'path';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot(),
         AccessControlModule.forRoles(roles),
+        FcmModule.forRoot({
+            firebaseSpecsPath: path.join(__dirname, '../../../firebase.spec.json'),
+        }),
         AuthModule,
         UserModule,
         FileUploaderModule,

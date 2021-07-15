@@ -53,6 +53,7 @@
         "moment": "^2.29.1",
         "morgan": "^1.10.0",
         "nest-access-control": "^2.0.2",
+        "nestjs-fcm": "^0.1.0",
         "parse-duration": "^1.0.0",
         "passport": "^0.4.1",
         "passport-jwt": "^4.0.0",

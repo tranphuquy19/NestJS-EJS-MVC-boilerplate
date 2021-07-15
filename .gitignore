@@ -159,3 +159,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Firebase spec file
+firebase.spec.json

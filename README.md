@@ -154,6 +154,7 @@ $ npm run test:cov
 - [x] Push notification to logged in users
 - [ ] Push notification to guest users
 - [ ] Unsubscribe notification
+- [ ] Firebase Cloud Messaging
 
 ### I18n
 

@@ -24,7 +24,7 @@
         "commit": "cz"
     },
     "dependencies": {
-        "@doracoder/fcm-nestjs": "^0.2.0",
+        "@doracoder/fcm-nestjs": "^0.2.7",
         "@nestjs-modules/mailer": "^1.6.0",
         "@nestjs/common": "^7.6.13",
         "@nestjs/core": "^7.6.13",

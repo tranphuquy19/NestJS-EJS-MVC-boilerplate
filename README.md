@@ -179,6 +179,11 @@ $ npm run test:cov
 - [ ] Socket.IO
 - [ ] Redis Pub/Sub
 
+### Debugging
+
+- [ ] VScode
+- [ ] Node Inspector
+
 ### Database
 
 - [x] Pagination

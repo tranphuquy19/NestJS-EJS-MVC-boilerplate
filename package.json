@@ -24,6 +24,7 @@
         "commit": "cz"
     },
     "dependencies": {
+        "@doracoder/fcm-nestjs": "^0.2.0",
         "@nestjs-modules/mailer": "^1.6.0",
         "@nestjs/common": "^7.6.13",
         "@nestjs/core": "^7.6.13",
@@ -53,7 +54,6 @@
         "moment": "^2.29.1",
         "morgan": "^1.10.0",
         "nest-access-control": "^2.0.2",
-        "nestjs-fcm": "^0.1.0",
         "parse-duration": "^1.0.0",
         "passport": "^0.4.1",
         "passport-jwt": "^4.0.0",

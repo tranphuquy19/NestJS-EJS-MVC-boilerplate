@@ -21,7 +21,7 @@ export function prodConfig(app: NestExpressApplication) {
     if (enableLogging) {
         const logFile = isAbsolute(logDir)
             ? path.join(logDir, 'access.log')
-            : join(__dirname, '..', 'logs', 'access.log');
+            : join(__dirname, '../../../../../logs/access.log');
         const accessLogStream = createWriteStream(logFile, { flags: 'a' });
         if (onlyErrorRequests)
             app.use(

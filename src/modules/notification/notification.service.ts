@@ -1,8 +1,8 @@
 import { apiHost, email, privateVapidKey, publicVapidKey } from '@config';
+import { FcmService } from '@doracoder/fcm-nestjs';
 import { Injectable, Logger } from '@nestjs/common';
 import { RedisService } from '@redis/redis.service';
 import _ from 'lodash';
-import { FcmService } from '@doracoder/fcm-nestjs';
 import webPush from 'web-push';
 import { NotificationFiringDTO, NotificationProviders } from './dto';
 

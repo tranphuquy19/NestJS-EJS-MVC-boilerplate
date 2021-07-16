@@ -180,9 +180,10 @@ $ npm run test:cov
 - [ ] Socket.IO
 - [ ] Redis Pub/Sub
 
-### Debugging
+### Debugging config
 
 - [ ] VScode
+- [ ] JetBrains's IDEs (WebStorm, IntelliJ IDEA, ...)
 - [ ] Node Inspector
 
 ### Database

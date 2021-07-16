@@ -12,7 +12,7 @@ export class PaginateParams {
     @IsOptional()
     @IsInt()
     @Min(1)
-    @Type(() => Number)
+    @Type(() => Number) // because `page` from query strings is String, we need to convert to Number type
     readonly page?: number = 1;
 
     @ApiProperty({ minimum: 1, maximum: 50, default: 20 })

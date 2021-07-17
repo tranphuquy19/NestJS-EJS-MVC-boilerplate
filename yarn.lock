@@ -492,10 +492,10 @@
   dependencies:
     chalk "^4.0.0"
 
-"@doracoder/fcm-nestjs@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@doracoder/fcm-nestjs/-/fcm-nestjs-0.2.7.tgz#ab30d9b1413097c1c24c09cac002ea923af993f1"
-  integrity sha512-l7hEZmjlWVoXcqMDeuhw4gnLstCj0iy8K56X8Ecwto77peA5LTsLtmbgOfgfjpqt01x2BCz4tVnfJnXaYbKhZQ==
+"@doracoder/fcm-nestjs@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@doracoder/fcm-nestjs/-/fcm-nestjs-0.3.0.tgz#c3fb3b7dfb390b7422065b05b94b845cc7962a17"
+  integrity sha512-Oa/DqUZ/dSK+WtjiPxyPQSMeO7vfmuNy79BUr+mo3o2gSrfg/X/9zoTYWFhZIxiYV5Nvc/4NbXdq22sX/XzSyw==
   dependencies:
     firebase-admin "^9.5.0"
     reflect-metadata "^0.1.13"

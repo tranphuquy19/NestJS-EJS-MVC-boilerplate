@@ -2,7 +2,7 @@
     "name": "nest-js-ejs-mvc-boilerplate",
     "version": "0.0.1",
     "description": "NestJS MVC boilerplate description using EJS view-engine",
-    "author": "tranphuquy19@gmail.com",
+    "author": "Quy Tran (tranphuquy19@gmail.com)",
     "private": true,
     "license": "MIT",
     "scripts": {

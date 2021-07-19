@@ -5,7 +5,7 @@ const ejsHelpers = {
         const _brandName = !!brandName ? brandName : 'NestJS EJS MVC boilerplate';
         return `<b>${_brandName}</b> &copy; ${new Date().getUTCFullYear()}</b>`;
     },
-    // yourHelper: (args: string[]): any => { // define your EJS helper here!
+    // yourHelper: (args: string[]): any => { // define your EJS helpers here!
     //     return args.join('');
     // }
 };

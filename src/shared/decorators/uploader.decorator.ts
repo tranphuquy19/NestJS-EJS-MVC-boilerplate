@@ -18,6 +18,7 @@ export enum FileTypes {
 export interface UploaderOptions {
     storagePath?: string;
     fileTypes?: FileTypes[];
+    rawFileName?: boolean;
 }
 
 export function Uploader(fieldName = 'file', options?: UploaderOptions) {

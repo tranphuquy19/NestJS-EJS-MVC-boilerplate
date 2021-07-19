@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { AppModule } from '@app/app.module';
 import {
     appGlobalConfig,
+    configEjsHelpers,
     configI18n,
     configServiceWorker,
     configSession,
@@ -35,6 +36,7 @@ async function bootstrap() {
 
     configSession(app);
     configI18n(app);
+    configEjsHelpers(app);
 
     await app.listen(PORT, '0.0.0.0', () => {
         Logger.log(`Nest listening on http://localhost:${PORT}`, 'Bootstrap');

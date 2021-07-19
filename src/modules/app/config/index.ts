@@ -1,3 +1,4 @@
+export * from './app-ejs-helpers';
 export * from './app.dev';
 export * from './app.global';
 export * from './app.i18n';

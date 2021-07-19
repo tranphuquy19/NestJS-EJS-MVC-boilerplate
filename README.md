@@ -73,7 +73,7 @@ $ npm run test:cov
 
 - [x] EJS
 - [x] EJS Partials
-- [ ] EJS Helpers
+- [x] EJS Helpers
 - [x] Page render decorator [page.decorator.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/page.decorator.ts#L3)
 
 ### API

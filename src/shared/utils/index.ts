@@ -20,9 +20,9 @@ export function fullUrl(req: Request): string {
  * @param url
  */
 export function isApiRequest(req: Request): boolean {
-    const url = fullUrl(req);
-    for (let i = 0; i < apiUrls.length; i++) {
-        if (url.startsWith(apiUrls[i])) return true;
+    const _url = fullUrl(req);
+    for (const _apiUrl of apiUrls) {
+        if (_url.startsWith(_apiUrl)) return true;
     }
     return false;
 }

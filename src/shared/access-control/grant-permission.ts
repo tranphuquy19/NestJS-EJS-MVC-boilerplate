@@ -23,6 +23,5 @@ export function grantPermission(
     if (id && creatorId) behavior = `${action}${id === creatorId ? 'Own' : 'Any'}`;
     else behavior = `${action}Any`;
 
-    const permission: Permission = rolesBuilder.can(roles)[behavior + ''](resource); // similar with `const permission: Permission = rolesBuilder.can(roles).readOwn(resource);`
-    return permission;
+    return rolesBuilder.can(roles)[behavior + ''](resource); // similar with `const permission: Permission = rolesBuilder.can(roles).readOwn(resource);`
 }

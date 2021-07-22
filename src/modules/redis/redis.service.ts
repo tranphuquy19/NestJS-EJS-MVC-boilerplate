@@ -18,6 +18,14 @@ export class RedisService {
         return res(true);
     }
 
+    promiseResolveHandler(res: any, rej: any, error: Error, data: any): void {
+        if (error) {
+            this.logger.error(error);
+            return rej(null);
+        }
+        res(data);
+    }
+
     /**
      *
      * @param expired amount time for redis value to be expired( 1 = 60s )
@@ -73,27 +81,17 @@ export class RedisService {
 
     getByKey(key: string): Promise<string> {
         return new Promise((res, rej) => {
-            this.redisRepository.get(key, (err, data) => {
-                if (err) {
-                    this.logger.error(err);
-                    return rej(null);
-                }
-
-                res(data);
-            });
+            this.redisRepository.get(key, (error, data) =>
+                this.promiseResolveHandler(res, rej, error, data),
+            );
         });
     }
 
     getAllKeyWithPattern(pattern: string): Promise<string[]> {
         return new Promise((res, rej) => {
-            this.redisRepository.keys(pattern, (err, data) => {
-                if (err) {
-                    this.logger.error(err);
-                    return rej(null);
-                }
-
-                res(data);
-            });
+            this.redisRepository.keys(pattern, (error, data) =>
+                this.promiseResolveHandler(res, rej, error, data),
+            );
         });
     }
 

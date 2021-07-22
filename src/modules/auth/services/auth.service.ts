@@ -52,14 +52,13 @@ export class AuthService {
             roles: user.roles,
         };
 
-        const authToken = {
+        return {
             accessToken: this.jwtService.sign(payload, {
                 expiresIn: parseDuration(jwtTokenExpiration, 's'),
             }),
             refreshToken: this.jwtService.sign(subject, {
                 expiresIn: parseDuration(jwtRefreshTokenExpiration, 's'),
             }),
-        };
-        return authToken;
+        }; // authToken
     }
 }

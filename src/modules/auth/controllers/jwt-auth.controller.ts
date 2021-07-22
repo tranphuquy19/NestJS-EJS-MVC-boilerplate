@@ -10,8 +10,7 @@ export class JwtAuthController {
 
     @Post('login')
     login(@Body() data: LoginInputDTO) {
-        const authToken = this.authService.jwtLogin(data);
-        return authToken;
+        return this.authService.jwtLogin(data);
     }
 
     @JwtRefreshAuth()

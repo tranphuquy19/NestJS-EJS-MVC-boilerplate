@@ -9,6 +9,15 @@ export class RedisService {
     // Ref: https://github.com/Heaty566/mychess/blob/main/server/src/utils/redis/redis.service.ts
     constructor(@Inject('RedisClient') private readonly redisRepository: RedisClient) {}
 
+    promiseRejectHandler(res: any, rej: any, key: string, error: Error, expired: number): void {
+        if (error) {
+            this.logger.error(error);
+            return rej(false);
+        }
+        if (expired) this.redisRepository.expire(key, expired * 60);
+        return res(true);
+    }
+
     /**
      *
      * @param expired amount time for redis value to be expired( 1 = 60s )
@@ -18,14 +27,9 @@ export class RedisService {
         const convertToString = JSON.stringify(flatValue);
 
         return new Promise<boolean>((res, rej) => {
-            this.redisRepository.set(key, convertToString, (error) => {
-                if (error) {
-                    this.logger.error(error);
-                    return rej(false);
-                }
-                if (expired) this.redisRepository.expire(key, expired * 60);
-                return res(true);
-            });
+            this.redisRepository.set(key, convertToString, (error) =>
+                this.promiseRejectHandler(res, rej, key, error, expired),
+            );
         });
     }
 
@@ -61,14 +65,9 @@ export class RedisService {
      */
     setByValue(key: string, value: number | string, expired?: number): Promise<boolean> {
         return new Promise<boolean>((res, rej) => {
-            this.redisRepository.set(key, String(value), (error) => {
-                if (error) {
-                    this.logger.error(error);
-                    return rej(false);
-                }
-                if (expired) this.redisRepository.expire(key, expired * 60);
-                return res(true);
-            });
+            this.redisRepository.set(key, String(value), (error) =>
+                this.promiseRejectHandler(res, rej, key, error, expired),
+            );
         });
     }
 
@@ -111,14 +110,9 @@ export class RedisService {
         const convertToString = JSON.stringify(flatValue);
 
         return new Promise<boolean>((res, rej) => {
-            this.redisRepository.sadd(key, convertToString, (error) => {
-                if (error) {
-                    this.logger.error(error);
-                    return rej(false);
-                }
-                if (expired) this.redisRepository.expire(key, expired * 60);
-                return res(true);
-            });
+            this.redisRepository.sadd(key, convertToString, (error) =>
+                this.promiseRejectHandler(res, rej, key, error, expired),
+            );
         });
     }
 
@@ -140,9 +134,9 @@ export class RedisService {
         const flatValue: Record<string, any> = flat(value);
         const convertToString = JSON.stringify(flatValue);
         return new Promise<boolean>((res, rej) => {
-            this.redisRepository.srem(key, convertToString, (err) => {
-                if (err) {
-                    this.logger.error(err);
+            this.redisRepository.srem(key, convertToString, (error) => {
+                if (error) {
+                    this.logger.error(error);
                     return rej(false);
                 }
                 return res(true);

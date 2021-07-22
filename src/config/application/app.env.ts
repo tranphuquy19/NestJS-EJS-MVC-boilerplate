@@ -18,6 +18,7 @@ export const sessionSecret = process.env.SESSION_SECRET;
 export const sessionMaxAge = process.env.SESSION_MAX_AGE;
 
 export const defaultLocale = process.env.DEFAULT_LOCALE;
+export const defaultMaxFileSize = process.env.DEFAULT_MAX_FILE_SIZE;
 
 export const jwtSecretKey = process.env.JWT_SECRET_KEY;
 export const jwtTokenExpiration = process.env.JWT_TOKEN_EXPIRATION;

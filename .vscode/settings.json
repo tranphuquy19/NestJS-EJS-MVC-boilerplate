@@ -24,6 +24,7 @@
         "srem",
         "typeorm",
         "unflatten",
-        "uuidv"
+        "uuidv",
+        "xbytes"
     ]
 }

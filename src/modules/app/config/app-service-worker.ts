@@ -1,4 +1,4 @@
-import { NODE_ENV, publicVapidKey } from '@config';
+import { NODE_ENV, publicVapidKey, clientUrl } from '@config';
 import { Logger } from '@nestjs/common';
 import ejs from 'ejs';
 import { watchFile, writeFileSync } from 'fs';
@@ -6,7 +6,7 @@ import path from 'path';
 
 export function configServiceWorker() {
     const logger = new Logger('Bootstrap');
-    const scriptTemplatePath = path.join(
+    const mainScriptPath = path.join(
         __dirname,
         '..',
         '..',
@@ -17,10 +17,21 @@ export function configServiceWorker() {
         'templates',
         'main.js.ejs',
     );
+    const swScriptPath = path.join(
+        __dirname,
+        '..',
+        '..',
+        '..',
+        '..',
+        '..',
+        'views',
+        'templates',
+        'sw.js.ejs',
+    );
 
-    const renderFile = () => {
-        ejs.renderFile(scriptTemplatePath, { publicVapidKey }, (err, str) => {
-            const swPath = path.join(
+    const renderMainFile = () => {
+        ejs.renderFile(mainScriptPath, { publicVapidKey }, (err, str) => {
+            const mainPath = path.join(
                 __dirname,
                 '..',
                 '..',
@@ -30,14 +41,33 @@ export function configServiceWorker() {
                 'public',
                 'main.js',
             );
+            writeFileSync(mainPath, str, { flag: 'w', encoding: 'utf8' });
+            if (err) {
+                logger.error(err.message);
+            } else {
+                logger.log('Updated script: ./public/main.js successfully');
+            }
+        });
+    };
+
+    const renderSwFile = () => {
+        ejs.renderFile(swScriptPath, { clientUrl }, (err, str) => {
+            const swPath = path.join(__dirname, '..', '..', '..', '..', '..', 'public', 'sw.js');
             writeFileSync(swPath, str, { flag: 'w', encoding: 'utf8' });
-            logger.log('Updated service worker script');
+
+            if (err) {
+                logger.error(err.message);
+            } else {
+                logger.log('Updated script: ./public/sw.js successfully');
+            }
         });
     };
 
     if (NODE_ENV === 'production') {
-        renderFile();
+        renderMainFile();
+        renderSwFile();
     } else {
-        watchFile(scriptTemplatePath, renderFile);
+        watchFile(mainScriptPath, renderMainFile);
+        watchFile(swScriptPath, renderSwFile);
     }
 }

@@ -62,9 +62,13 @@ export class UserService {
             .grant();
 
         if (permission.granted) {
-            const data = await this.userRepository.findAll(pagOpts);
-            const dataPaginated = customPaginate<UserEntity>(data, pagOpts);
-            return paginateFilter(dataPaginated, permission);
+            try {
+                const data = await this.userRepository.findAll(pagOpts);
+                const dataPaginated = customPaginate<UserEntity>(data, pagOpts);
+                return paginateFilter(dataPaginated, permission);
+            } catch (err) {
+                throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } else {
             throw new HttpException(
                 `You don't have permission to do this!`,
@@ -109,20 +113,27 @@ export class UserService {
             .grant();
 
         if (permission.granted) {
-            const user = await this.findById(userId, reqUser);
-            if (!user) {
-                throw new HttpException(
-                    `User with ID: ${userId} not found!`,
-                    HttpStatus.NOT_FOUND,
-                );
-            } else {
-                data = permission.filter(data);
-                Object.assign(user, data);
-                try {
-                    return await this.userRepository.save(user);
-                } catch (err) {
-                    throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+            try {
+                const user = await this.findById(userId, reqUser);
+                if (!user) {
+                    throw new HttpException(
+                        `User with ID: ${userId} not found!`,
+                        HttpStatus.NOT_FOUND,
+                    );
+                } else {
+                    data = permission.filter(data);
+                    Object.assign(user, data);
+                    try {
+                        return await this.userRepository.save(user);
+                    } catch (err) {
+                        throw new HttpException(
+                            `${err.detail}`,
+                            HttpStatus.INTERNAL_SERVER_ERROR,
+                        );
+                    }
                 }
+            } catch (err) {
+                throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
             throw new HttpException(
@@ -143,19 +154,26 @@ export class UserService {
             .grant();
 
         if (permission.granted) {
-            const user = await this.findById(userId, reqUser);
-            if (!user) {
-                throw new HttpException(
-                    `User with ID: ${userId} not found!`,
-                    HttpStatus.NOT_FOUND,
-                );
-            } else {
-                try {
-                    await this.userRepository.delete(userId);
-                    return { message: 'OK' };
-                } catch (err) {
-                    throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
+            try {
+                const user = await this.findById(userId, reqUser);
+                if (!user) {
+                    throw new HttpException(
+                        `User with ID: ${userId} not found!`,
+                        HttpStatus.NOT_FOUND,
+                    );
+                } else {
+                    try {
+                        await this.userRepository.delete(userId);
+                        return { message: 'OK' };
+                    } catch (err) {
+                        throw new HttpException(
+                            `${err.detail}`,
+                            HttpStatus.INTERNAL_SERVER_ERROR,
+                        );
+                    }
                 }
+            } catch (err) {
+                throw new HttpException(`${err.detail}`, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
             throw new HttpException(

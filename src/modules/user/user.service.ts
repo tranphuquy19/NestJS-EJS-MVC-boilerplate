@@ -21,8 +21,8 @@ export class UserService {
         private readonly rolesBuilder: RolesBuilder,
     ) {}
 
-    async findByUsername(username: string): Promise<UserEntity> {
-        return await this.userRepository.findOne({ username });
+    findByUsername(username: string): Promise<UserEntity> {
+        return this.userRepository.findOne({ username });
     }
 
     async findById(userId: string, reqUser: ReqUser): Promise<UserEntity> {

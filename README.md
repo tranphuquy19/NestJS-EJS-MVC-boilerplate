@@ -26,6 +26,8 @@
 
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/tranphuquy19/NestJS-EJS-MVC-boilerplate.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tranphuquy19/NestJS-EJS-MVC-boilerplate/alerts/) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/tranphuquy19/NestJS-EJS-MVC-boilerplate.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tranphuquy19/NestJS-EJS-MVC-boilerplate/context:javascript)
 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=tranphuquy19_NestJS-EJS-MVC-boilerplate&metric=bugs)](https://sonarcloud.io/dashboard?id=tranphuquy19_NestJS-EJS-MVC-boilerplate) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=tranphuquy19_NestJS-EJS-MVC-boilerplate&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=tranphuquy19_NestJS-EJS-MVC-boilerplate) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=tranphuquy19_NestJS-EJS-MVC-boilerplate&metric=code_smells)](https://sonarcloud.io/dashboard?id=tranphuquy19_NestJS-EJS-MVC-boilerplate) [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=tranphuquy19_NestJS-EJS-MVC-boilerplate&metric=sqale_index)](https://sonarcloud.io/dashboard?id=tranphuquy19_NestJS-EJS-MVC-boilerplate) 
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.

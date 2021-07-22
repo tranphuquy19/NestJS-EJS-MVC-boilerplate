@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Test, TestingModule } from '@nestjs/testing';
+import { AppModule } from '@app/app.module';
 import { INestApplication } from '@nestjs/common';
-import { AppModule } from '@/app.module';
+import { Test, TestingModule } from '@nestjs/testing';
 
 describe('AppController (e2e)', () => {
     let app: INestApplication;

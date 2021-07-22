@@ -2,7 +2,7 @@ import { EnumOrder, IPagination } from '@/shared';
 
 function addOrderQuery(links: any, order: EnumOrder): any {
     const _links = {};
-    Object.keys(links).map((pageName) => {
+    Object.keys(links).forEach((pageName) => {
         const pageData = links[pageName];
         _links[pageName] = pageData ? `${pageData}&order=${order}` : '';
     });

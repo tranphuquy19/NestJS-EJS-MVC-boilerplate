@@ -15,13 +15,13 @@ export class JwtAuthController {
 
     @JwtRefreshAuth()
     @Post('refresh')
-    async refresh(@User() user: ReqUser) {
-        return await this.authService.jwtRefresh(user);
+    refresh(@User() user: ReqUser) {
+        return this.authService.jwtRefresh(user);
     }
 
     @JwtAuth()
     @Post('register')
-    async register(@Body() data: CreateUserDTO, @User() reqUser: ReqUser) {
-        return await this.authService.jwtRegister(data, reqUser);
+    register(@Body() data: CreateUserDTO, @User() reqUser: ReqUser) {
+        return this.authService.jwtRegister(data, reqUser);
     }
 }

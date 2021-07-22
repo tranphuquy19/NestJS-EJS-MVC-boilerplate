@@ -29,6 +29,9 @@ jobs:
       # - name: Run tests # unavailable for tests at now
         # run: npm run test
 
+      - name: Build
+        run: npm run build
+
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:

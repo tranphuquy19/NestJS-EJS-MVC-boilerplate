@@ -40,6 +40,14 @@ export class NotificationService {
         webPush.setVapidDetails(`mailto:${email}`, publicVapidKey, privateVapidKey);
     }
 
+    sendNotification(subscriptions: webPush.PushSubscription[], option: NotificationFiringDTO) {
+        subscriptions.map((subscription) => {
+            webPush
+                .sendNotification(subscription, JSON.stringify(option.payload))
+                .catch((err) => this.logger.log(err));
+        });
+    }
+
     async fireAllWebPush(option: NotificationFiringDTO): Promise<any> {
         const keys = await this.redisService.getAllKeyWithPattern(`${this.prefix}*`);
         const subscriptionPromises = keys.map((key) =>
@@ -48,11 +56,7 @@ export class NotificationService {
         const subUsers = await Promise.all(subscriptionPromises);
         const subscriptions = _.flattenDeep(subUsers);
 
-        subscriptions.forEach((subscription) => {
-            webPush
-                .sendNotification(subscription, JSON.stringify(option.payload))
-                .catch((err) => this.logger.log(err));
-        });
+        this.sendNotification(subscriptions, option);
     }
 
     async fireAllFirebase(option: NotificationFiringDTO): Promise<any> {
@@ -77,11 +81,7 @@ export class NotificationService {
         const subUsers = await Promise.all(subUsersPromises);
         const subscriptions = _.flatMapDeep(subUsers);
 
-        subscriptions.map((subscription) => {
-            webPush
-                .sendNotification(subscription, JSON.stringify(option.payload))
-                .catch((err) => this.logger.log(err));
-        });
+        this.sendNotification(subscriptions, option);
     }
 
     async fireToSpecifiedUsersFirebase(option: NotificationFiringDTO): Promise<any> {

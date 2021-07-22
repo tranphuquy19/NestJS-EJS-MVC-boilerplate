@@ -9,7 +9,7 @@ export class RedisService {
     // Ref: https://github.com/Heaty566/mychess/blob/main/server/src/utils/redis/redis.service.ts
     constructor(@Inject('RedisClient') private readonly redisRepository: RedisClient) {}
 
-    promiseRejectHandler(res: any, rej: any, key: string, error: Error, expired: number): void {
+    addKeyErrorHandler(res: any, rej: any, key: string, error: Error, expired: number): void {
         if (error) {
             this.logger.error(error);
             return rej(false);
@@ -18,12 +18,20 @@ export class RedisService {
         return res(true);
     }
 
-    promiseResolveHandler(res: any, rej: any, error: Error, data: any): void {
+    getKeyErrorHandler(res: any, rej: any, error: Error, data: any): void {
         if (error) {
             this.logger.error(error);
             return rej(null);
         }
         res(data);
+    }
+
+    removeKeyErrorHandler(res: any, rej: any, error: Error): void {
+        if (error) {
+            this.logger.error(error);
+            return rej(false);
+        }
+        return res(true);
     }
 
     /**
@@ -36,20 +44,16 @@ export class RedisService {
 
         return new Promise<boolean>((res, rej) => {
             this.redisRepository.set(key, convertToString, (error) =>
-                this.promiseRejectHandler(res, rej, key, error, expired),
+                this.addKeyErrorHandler(res, rej, key, error, expired),
             );
         });
     }
 
     deleteByKey(key: string): Promise<boolean> {
         return new Promise<boolean>((res, rej) => {
-            this.redisRepository.del(key, (error) => {
-                if (error) {
-                    this.logger.error(error);
-                    return rej(false);
-                }
-                return res(true);
-            });
+            this.redisRepository.del(key, (error) =>
+                this.removeKeyErrorHandler(res, rej, error),
+            );
         });
     }
 
@@ -74,7 +78,7 @@ export class RedisService {
     setByValue(key: string, value: number | string, expired?: number): Promise<boolean> {
         return new Promise<boolean>((res, rej) => {
             this.redisRepository.set(key, String(value), (error) =>
-                this.promiseRejectHandler(res, rej, key, error, expired),
+                this.addKeyErrorHandler(res, rej, key, error, expired),
             );
         });
     }
@@ -82,7 +86,7 @@ export class RedisService {
     getByKey(key: string): Promise<string> {
         return new Promise((res, rej) => {
             this.redisRepository.get(key, (error, data) =>
-                this.promiseResolveHandler(res, rej, error, data),
+                this.getKeyErrorHandler(res, rej, error, data),
             );
         });
     }
@@ -90,7 +94,7 @@ export class RedisService {
     getAllKeyWithPattern(pattern: string): Promise<string[]> {
         return new Promise((res, rej) => {
             this.redisRepository.keys(pattern, (error, data) =>
-                this.promiseResolveHandler(res, rej, error, data),
+                this.getKeyErrorHandler(res, rej, error, data),
             );
         });
     }
@@ -109,7 +113,7 @@ export class RedisService {
 
         return new Promise<boolean>((res, rej) => {
             this.redisRepository.sadd(key, convertToString, (error) =>
-                this.promiseRejectHandler(res, rej, key, error, expired),
+                this.addKeyErrorHandler(res, rej, key, error, expired),
             );
         });
     }
@@ -132,13 +136,9 @@ export class RedisService {
         const flatValue: Record<string, any> = flat(value);
         const convertToString = JSON.stringify(flatValue);
         return new Promise<boolean>((res, rej) => {
-            this.redisRepository.srem(key, convertToString, (error) => {
-                if (error) {
-                    this.logger.error(error);
-                    return rej(false);
-                }
-                return res(true);
-            });
+            this.redisRepository.srem(key, convertToString, (error) =>
+                this.removeKeyErrorHandler(res, rej, error),
+            );
         });
     }
 }

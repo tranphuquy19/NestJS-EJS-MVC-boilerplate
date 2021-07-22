@@ -26,12 +26,12 @@ jobs:
         run: npm install
       
       - name: Lint code
-        run: |
-          npm run lint
-          ls -la dist/
+        run: npm run lint
       
       # - name: Run tests # unavailable for tests at now
         # run: npm run test
 
       - name: Build
-        run: npm run build
+        run: |
+          npm run build
+          ls -la ./dist

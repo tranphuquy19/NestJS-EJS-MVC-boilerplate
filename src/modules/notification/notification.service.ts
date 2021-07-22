@@ -41,7 +41,7 @@ export class NotificationService {
     }
 
     sendNotification(subscriptions: webPush.PushSubscription[], option: NotificationFiringDTO) {
-        subscriptions.map((subscription) => {
+        subscriptions.forEach((subscription) => {
             webPush
                 .sendNotification(subscription, JSON.stringify(option.payload))
                 .catch((err) => this.logger.log(err));

@@ -7,7 +7,7 @@
 }
 
 .material-icons {
-  font-family: 'Material Icons';
+  font-family: 'Material Icons', Helvetica, Arial, Verdana, Tahoma, sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 24px;

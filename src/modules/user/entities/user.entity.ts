@@ -64,8 +64,8 @@ export class UserEntity extends BaseEntity implements IUserModel {
         this.avatarUrl = avatarGenerator.generateRandomAvatar(this.username);
     }
 
-    async comparePassword(attempt: string): Promise<boolean> {
-        return await bcrypt.compare(attempt, this.password);
+    comparePassword(attempt: string): Promise<boolean> {
+        return bcrypt.compare(attempt, this.password);
     }
 
     @AfterLoad()

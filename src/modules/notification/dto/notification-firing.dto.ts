@@ -227,7 +227,7 @@ export class NotificationFiringDTO {
     @IsString()
     @IsEnum(NotificationProviders, {
         message: `provider must be one of the following values: ${Object.values(
-            NotificationFiringTypes,
+            NotificationProviders,
         ).join(', ')}`,
     })
     provider: 'firebase' | 'web-push';

@@ -29,7 +29,7 @@ export function Uploader(fieldName = 'file', options?: UploaderOptions) {
     let fileSize = parseSize(defaultMaxFileSize);
     if (options) {
         const { maxFileSize } = options;
-        if (options.maxFileSize) {
+        if (maxFileSize) {
             if (typeof maxFileSize === 'string') {
                 fileSize = parseSize(maxFileSize);
             } else {

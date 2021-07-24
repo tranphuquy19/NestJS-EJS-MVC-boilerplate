@@ -1,4 +1,4 @@
-import { FileTypes } from '@shared/enums';
+import { FileTypes } from '@shared/commons/enums';
 
 export interface UploaderOptions {
     storagePath?: string;

@@ -1,4 +1,4 @@
-import { UploaderOptions } from '@shared/interfaces';
+import { UploaderOptions } from '@shared';
 import { extname, parse } from 'path';
 
 export const editFileName = (options: UploaderOptions) => {

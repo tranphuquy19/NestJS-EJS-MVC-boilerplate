@@ -1,8 +1,7 @@
 import { defaultMaxFileSize } from '@config';
 import { applyDecorators, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { editFileName, fileFilter } from '@shared';
-import { UploaderOptions } from '@shared/interfaces';
+import { editFileName, fileFilter, UploaderOptions } from '@shared';
 import { diskStorage } from 'multer';
 import { join } from 'path';
 import { parseSize } from 'xbytes';

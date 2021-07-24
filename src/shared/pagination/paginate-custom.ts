@@ -1,5 +1,4 @@
-import { EntityResults } from '@commons';
-import { IPagination, PaginateParams } from '@shared';
+import { EntityResults, IPagination, PaginateParams } from '@shared';
 
 export function customPaginate<T>(
     { entities, count, totalNestedCount, nestedItemsCount }: EntityResults<any>,

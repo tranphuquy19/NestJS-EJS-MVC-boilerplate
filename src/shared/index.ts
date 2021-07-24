@@ -4,5 +4,5 @@ export * from './commons/guards';
 export * from './pagination';
 export * from './strategies';
 export * from './uploader';
-export * from './utils';
+export * from './commons/utils';
 export * from './validators';

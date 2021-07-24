@@ -8,6 +8,7 @@ export class FileUploaderController {
     @Uploader('file', {
         allowFileTypes: [FileTypes.IMAGE, FileTypes.AUDIO, FileTypes.VIDEO],
         rawFileName: true,
+        maxFileSize: '1 GiB',
     })
     uploaded(@UploadedFiles() file: any) {
         return {

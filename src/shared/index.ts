@@ -1,6 +1,5 @@
 export * from './access-control';
 export * from './commons';
-export * from './filters';
 export * from './guards';
 export * from './pagination';
 export * from './strategies';

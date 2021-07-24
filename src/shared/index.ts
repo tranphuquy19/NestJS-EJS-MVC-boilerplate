@@ -1,6 +1,5 @@
 export * from './access-control';
 export * from './commons';
-export * from './constants';
 export * from './decorators';
 export * from './dto';
 export * from './filters';

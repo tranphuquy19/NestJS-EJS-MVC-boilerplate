@@ -1,4 +1,4 @@
-import { EnumOrder, IPagination } from '@/shared';
+import { EnumOrder, IPagination } from '@shared';
 
 function addOrderQuery(links: any, order: EnumOrder): any {
     const _links = {};

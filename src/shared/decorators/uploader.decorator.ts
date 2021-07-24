@@ -19,7 +19,7 @@ export enum FileTypes {
 
 export interface UploaderOptions {
     storagePath?: string;
-    fileTypes?: FileTypes[];
+    allowFileTypes?: FileTypes[];
     rawFileName?: boolean;
     maxFileSize?: number;
 }

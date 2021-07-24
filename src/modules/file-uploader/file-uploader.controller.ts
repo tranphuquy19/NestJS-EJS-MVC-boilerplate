@@ -6,7 +6,7 @@ import { ApiV1Controller, FileTypes, Uploader } from '@shared';
 export class FileUploaderController {
     @Post()
     @Uploader('file', {
-        fileTypes: [FileTypes.IMAGE, FileTypes.AUDIO, FileTypes.VIDEO],
+        allowFileTypes: [FileTypes.IMAGE, FileTypes.AUDIO, FileTypes.VIDEO],
         rawFileName: true,
     })
     uploaded(@UploadedFiles() file: any) {

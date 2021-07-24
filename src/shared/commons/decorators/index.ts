@@ -6,5 +6,4 @@ export * from './local-auth.decorator';
 export * from './logged-in-auth.decorator';
 export * from './page.decorator';
 export * from './req-context.decorator';
-export * from './uploader.decorator';
 export * from './user.decorator';

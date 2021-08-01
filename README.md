@@ -147,6 +147,7 @@ $ npm run test:cov
 
 - [x] Sitemap generator
 - [ ] Google Analytics
+- [ ] Open graph
 
 ### Notification
 

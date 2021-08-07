@@ -2,6 +2,7 @@ version : '3'
 
 # To install:   $ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
 # To start:     $ docker-compose up -d
+# To stop       $ docker-compose stop
 # To tear-down: $ docker-compose down --volumes
 # Approve permission (pgadmin): $ sudo chown -R 5050:5050 $DATA_FOLDER/pgadmin/data
 # To copy backupfile: $ FILE_NAME=schema.sql sudo cp .docker/pgadmin/data/storage/$FILE_NAME $DATA_FOLDER/postgres/backup/$FILE_NAME

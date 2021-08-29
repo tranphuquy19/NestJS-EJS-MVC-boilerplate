@@ -12,7 +12,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { IUserModel } from '../dto';
+import { IUserModel } from '../dtos';
 
 const avatarGenerator = new AvatarGenerator();
 

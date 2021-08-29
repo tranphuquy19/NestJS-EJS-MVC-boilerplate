@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { LoggedInAuth, User } from '@shared';
-import { NotificationFiringDTO } from './dto';
+import { NotificationFiringDTO } from './dtos';
 import { NotificationService } from './notification.service';
 
 @Controller()

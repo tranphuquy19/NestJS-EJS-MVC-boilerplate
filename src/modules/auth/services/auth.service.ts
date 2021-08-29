@@ -2,10 +2,10 @@ import { AppRoles, jwtRefreshTokenExpiration, jwtTokenExpiration } from '@config
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ReqUser } from '@shared';
-import { CreateUserDTO } from '@user/dto';
+import { CreateUserDTO } from '@modules/user/dtos';
 import { UserService } from '@user/user.service';
 import parseDuration from 'parse-duration';
-import { LoginInputDTO } from '../dto';
+import { LoginInputDTO } from '../dtos';
 
 @Injectable()
 export class AuthService {

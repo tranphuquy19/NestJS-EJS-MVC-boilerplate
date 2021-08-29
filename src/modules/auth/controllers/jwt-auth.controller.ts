@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { JwtAuth, JwtRefreshAuth, ReqUser, User } from '@shared';
-import { CreateUserDTO } from '@user/dto';
-import { LoginInputDTO } from '../dto';
+import { CreateUserDTO } from '@modules/user/dtos';
+import { LoginInputDTO } from '../dtos';
 import { AuthService } from '../services';
 
 @Controller('jwt')

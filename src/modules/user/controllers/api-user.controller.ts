@@ -1,7 +1,7 @@
 import { apiUrl } from '@config';
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiV1Controller, IPagination, JwtAuth, PaginateParams, ReqUser, User } from '@shared';
-import { CreateUserDTO, UpdateUserDTO } from '../dto';
+import { CreateUserDTO, UpdateUserDTO } from '../dtos';
 import { UserEntity } from '../entities';
 import { UserService } from '../user.service';
 

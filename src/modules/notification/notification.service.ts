@@ -4,7 +4,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { RedisService } from '@redis/redis.service';
 import _ from 'lodash';
 import webPush from 'web-push';
-import { NotificationFiringDTO, NotificationProviders } from './dto';
+import { NotificationFiringDTO, NotificationProviders } from './dtos';
 
 @Injectable()
 export class NotificationService {

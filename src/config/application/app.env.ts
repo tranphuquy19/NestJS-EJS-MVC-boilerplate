@@ -1,6 +1,9 @@
+import path from 'path';
+
 export const NODE_ENV = process.env.NODE_ENV || 'development';
 export const PORT = +process.env.PORT || 4000;
 export const LISTEN_ON = process.env.LISTEN_ON || '0.0.0.0';
+export const WORKING_DIR = path.resolve(__dirname, '../../../../'); // Notice: Pay attention to this variable when restructuring the project
 
 export const email = process.env.EMAIL; // for web-push
 

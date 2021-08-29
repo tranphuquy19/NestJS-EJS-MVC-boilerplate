@@ -1,4 +1,12 @@
-import { apiUrl, clientUrl, enableLogging, logDir, logFormat, onlyErrorRequests } from '@config';
+import {
+    apiUrl,
+    clientUrl,
+    enableLogging,
+    logDir,
+    logFormat,
+    onlyErrorRequests,
+    WORKING_DIR,
+} from '@config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import compression from 'compression';
 import { createWriteStream } from 'fs';
@@ -21,7 +29,7 @@ export function prodConfig(app: NestExpressApplication) {
     if (enableLogging) {
         const logFile = isAbsolute(logDir)
             ? path.join(logDir, 'access.log')
-            : join(__dirname, '../../../../../logs/access.log');
+            : join(WORKING_DIR, 'logs', 'access.log');
         const accessLogStream = createWriteStream(logFile, { flags: 'a' });
         if (onlyErrorRequests)
             app.use(

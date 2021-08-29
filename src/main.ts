@@ -39,7 +39,7 @@ async function bootstrap() {
     configEjsHelpers(app);
 
     await app.listen(PORT, LISTEN_ON, () => {
-        Logger.log(`Nest listening on http://localhost:${PORT}`, 'Bootstrap');
+        Logger.log(`Nest listening on http://${LISTEN_ON}:${PORT}`, 'Bootstrap');
     });
 }
 bootstrap();

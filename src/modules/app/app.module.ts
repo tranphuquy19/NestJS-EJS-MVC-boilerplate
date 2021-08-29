@@ -1,5 +1,5 @@
 import { AuthModule } from '@auth/auth.module';
-import { roles } from '@config';
+import { roles, WORKING_DIR } from '@config';
 import { FcmModule } from '@doracoder/fcm-nestjs';
 import { FileUploaderModule } from '@file-uploader/file-uploader.module';
 import { LocalesModule } from '@locales/locales.module';
@@ -19,7 +19,7 @@ import { AppService } from './services';
         TypeOrmModule.forRoot(),
         AccessControlModule.forRoles(roles),
         FcmModule.forRoot({
-            firebaseSpecsPath: path.join(__dirname, '../../../../firebase.spec.json'),
+            firebaseSpecsPath: path.join(WORKING_DIR, 'firebase.spec.json'),
         }),
         AuthModule,
         UserModule,

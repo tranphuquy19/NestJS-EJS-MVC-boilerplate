@@ -1,5 +1,6 @@
-export const NODE_ENV = process.env.NODE_ENV;
-export const PORT = +process.env.PORT;
+export const NODE_ENV = process.env.NODE_ENV || 'development';
+export const PORT = +process.env.PORT || 4000;
+export const LISTEN_ON = process.env.LISTEN_ON || '0.0.0.0';
 
 export const email = process.env.EMAIL; // for web-push
 

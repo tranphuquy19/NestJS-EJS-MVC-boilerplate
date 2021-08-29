@@ -10,7 +10,7 @@ import {
     devConfig,
     prodConfig,
 } from '@app/config';
-import { NODE_ENV, PORT, sessionMaxAge } from '@config';
+import { LISTEN_ON, NODE_ENV, PORT, sessionMaxAge } from '@config';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -38,7 +38,7 @@ async function bootstrap() {
     configI18n(app);
     configEjsHelpers(app);
 
-    await app.listen(PORT, '0.0.0.0', () => {
+    await app.listen(PORT, LISTEN_ON, () => {
         Logger.log(`Nest listening on http://localhost:${PORT}`, 'Bootstrap');
     });
 }

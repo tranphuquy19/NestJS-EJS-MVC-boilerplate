@@ -10,7 +10,7 @@ import {
     devConfig,
     prodConfig,
 } from '@app/config';
-import { LISTEN_ON, NODE_ENV, PORT, sessionMaxAge } from '@config';
+import { LISTEN_ON, NODE_ENV, PORT, sessionMaxAge, WORKING_DIR } from '@config';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -28,10 +28,10 @@ async function bootstrap() {
         prodConfig(app);
     }
 
-    app.useStaticAssets(join(__dirname, '..', '..', 'public'), {
+    app.useStaticAssets(join(WORKING_DIR, 'public'), {
         maxAge: NODE_ENV === 'development' ? 0 : sessionMaxAge,
     });
-    app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
+    app.setBaseViewsDir(join(WORKING_DIR, 'views'));
     app.setViewEngine('ejs');
 
     configSession(app);

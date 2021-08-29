@@ -44,7 +44,7 @@ export class NotificationService {
         subscriptions.forEach((subscription) => {
             webPush
                 .sendNotification(subscription, JSON.stringify(option.payload))
-                .catch((err) => this.logger.log(err));
+                .catch((err) => this.logger.error(err));
         });
     }
 

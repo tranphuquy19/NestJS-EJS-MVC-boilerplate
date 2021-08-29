@@ -1,7 +1,7 @@
 self.addEventListener('push', (event) => {
     const data = event.data.json();
 
-    if (!!event.origin && event.origin !== '<%= clientUrl %>' ) // Compliant
+    if (!!event.origin && event.origin !== '<%= clientUrl %>') // Compliant
         return;
 
     self.registration.showNotification(data.title, {

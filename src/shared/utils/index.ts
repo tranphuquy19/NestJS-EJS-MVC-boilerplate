@@ -1,4 +1,5 @@
 import { apiUrls } from '@config';
+import { randomInt } from 'crypto';
 import { Request } from 'express';
 import url from 'url';
 
@@ -35,9 +36,9 @@ export function isApiRequest(req: Request): boolean {
 export function randomString(length = 10): string {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
+    const lastIndex = characters.length - 1;
     for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(randomInt(0, lastIndex));
     }
     return result;
 }

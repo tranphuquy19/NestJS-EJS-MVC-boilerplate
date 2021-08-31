@@ -8,7 +8,6 @@ import { parseSize } from 'xbytes';
 
 export function Uploader(fieldName = 'file', options?: UploaderOptions) {
     let fileSize = parseSize(defaultMaxFileSize);
-    console.log(resolve(options.destination || defaultStorageDir));
 
     if (options) {
         const { maxFileSize } = options;

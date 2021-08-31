@@ -16,7 +16,7 @@ export function configServiceWorker() {
             if (err) {
                 logger.error(err.message);
             } else {
-                logger.log('Updated script: ./public/main.js successfully');
+                logger.debug('Generated script: ./public/main.js successfully');
             }
         });
     };
@@ -29,7 +29,7 @@ export function configServiceWorker() {
             if (err) {
                 logger.error(err.message);
             } else {
-                logger.log('Updated script: ./public/sw.js successfully');
+                logger.debug('Generated script: ./public/sw.js successfully');
             }
         });
     };
@@ -38,6 +38,8 @@ export function configServiceWorker() {
         renderMainFile();
         renderSwFile();
     } else {
+        renderMainFile();
+        renderSwFile();
         watchFile(mainScriptPath, renderMainFile);
         watchFile(swScriptPath, renderSwFile);
     }

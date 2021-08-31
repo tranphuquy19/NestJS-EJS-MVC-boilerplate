@@ -1,13 +1,15 @@
-import { defaultMaxFileSize } from '@config';
+import { defaultMaxFileSize, defaultStorageDir } from '@config';
 import { applyDecorators, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { editFileName, fileFilter, UploaderOptions } from '@shared';
 import { diskStorage } from 'multer';
-import { join } from 'path';
+import { resolve } from 'path';
 import { parseSize } from 'xbytes';
 
 export function Uploader(fieldName = 'file', options?: UploaderOptions) {
     let fileSize = parseSize(defaultMaxFileSize);
+    console.log(resolve(options.destination || defaultStorageDir));
+
     if (options) {
         const { maxFileSize } = options;
         if (maxFileSize) {
@@ -24,7 +26,7 @@ export function Uploader(fieldName = 'file', options?: UploaderOptions) {
             FileInterceptor(fieldName, {
                 storage: diskStorage({
                     filename: editFileName(options),
-                    destination: join(process.cwd(), 'public', 'res'),
+                    destination: resolve(options.destination || defaultStorageDir),
                 }),
                 fileFilter,
                 limits: { fileSize }, // in bytes, Notice: Denial of Service (DoS)

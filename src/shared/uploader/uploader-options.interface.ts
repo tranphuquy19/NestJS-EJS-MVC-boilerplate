@@ -3,7 +3,7 @@ import { FileTypes } from '@shared';
 type cbFileName = (file: Express.Multer.File) => string;
 
 export interface UploaderOptions {
-    storageDir?: string;
+    destination?: string;
     allowedFileTypes?: FileTypes[];
     allowedFileExtensions?: string[];
     originalName?: boolean;

@@ -10,8 +10,9 @@ function _validate(fileName: string, options: UploaderOptions, cb: cbFileName) {
     if (options.overwrite) {
         cb(null, fileName);
     } else {
-        const _storageDir = resolve(options.storageDir || defaultStorageDir);
+        const _storageDir = resolve(options.destination || defaultStorageDir);
         const _filePath = join(_storageDir, fileName);
+
         if (existsSync(_filePath)) {
             cb(new Error(`File ${fileName} is exists`), fileName);
         } else {
@@ -26,26 +27,26 @@ export const editFileName = (options: UploaderOptions) => {
         const fileExtName = extname(file.originalname);
 
         if (options.originalName) {
-            _validate(file.originalname, options, callback);
             // callback(null, file.originalname);
+            _validate(file.originalname, options, callback);
         } else {
             if (options.fileName) {
                 if (typeof options.fileName === 'function') {
-                    _validate(options.fileName(file), options, callback);
                     // callback(null, options.fileName(file));
+                    _validate(options.fileName(file), options, callback);
                 } else {
                     if (extname(options.fileName).length === 0) {
-                        _validate(`${options.fileName}${fileExtName}`, options, callback);
                         // callback(null, options.fileName + fileExtName);
+                        _validate(`${options.fileName}${fileExtName}`, options, callback);
                     } else {
-                        _validate(options.fileName, options, callback);
                         // callback(null, options.fileName);
+                        _validate(options.fileName, options, callback);
                     }
                 }
             } else {
                 const randomName = randomString();
-                _validate(`${name}-${randomName}${fileExtName}`, options, callback);
                 // callback(null, `${name}-${randomName}${fileExtName}`);
+                _validate(`${name}-${randomName}${fileExtName}`, options, callback);
             }
         }
     };

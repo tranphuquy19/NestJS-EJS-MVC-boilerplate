@@ -27,25 +27,20 @@ export const editFileName = (options: UploaderOptions) => {
         const fileExtName = extname(file.originalname);
 
         if (options.originalName) {
-            // callback(null, file.originalname);
             _validate(file.originalname, options, callback);
         } else {
             if (options.fileName) {
                 if (typeof options.fileName === 'function') {
-                    // callback(null, options.fileName(file));
                     _validate(options.fileName(file), options, callback);
                 } else {
                     if (extname(options.fileName).length === 0) {
-                        // callback(null, options.fileName + fileExtName);
                         _validate(`${options.fileName}${fileExtName}`, options, callback);
                     } else {
-                        // callback(null, options.fileName);
                         _validate(options.fileName, options, callback);
                     }
                 }
             } else {
                 const randomName = randomString();
-                // callback(null, `${name}-${randomName}${fileExtName}`);
                 _validate(`${name}-${randomName}${fileExtName}`, options, callback);
             }
         }

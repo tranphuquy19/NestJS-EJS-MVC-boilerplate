@@ -1,4 +1,5 @@
 import { defaultStorageDir } from '@config';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { UploaderOptions } from '@shared';
 import { randomString } from '@shared/utils';
 import { existsSync } from 'fs';
@@ -14,7 +15,13 @@ function _validate(fileName: string, options: UploaderOptions, cb: cbFileName) {
         const _filePath = join(_storageDir, fileName);
 
         if (existsSync(_filePath)) {
-            cb(new Error(`File ${fileName} is exists`), fileName);
+            cb(
+                new HttpException(
+                    `File ${fileName} already exists!`,
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                ),
+                fileName,
+            );
         } else {
             cb(null, fileName);
         }

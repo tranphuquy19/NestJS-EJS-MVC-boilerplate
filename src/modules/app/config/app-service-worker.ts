@@ -34,12 +34,10 @@ export function configServiceWorker() {
         });
     };
 
-    if (NODE_ENV === 'production') {
-        renderMainFile();
-        renderSwFile();
-    } else {
-        renderMainFile();
-        renderSwFile();
+    renderMainFile();
+    renderSwFile();
+
+    if (NODE_ENV !== 'production') {
         watchFile(mainScriptPath, renderMainFile);
         watchFile(swScriptPath, renderSwFile);
     }

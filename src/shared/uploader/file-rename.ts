@@ -1,14 +1,52 @@
+import { defaultStorageDir } from '@config';
 import { UploaderOptions } from '@shared';
-import { extname, parse } from 'path';
+import { randomString } from '@shared/utils';
+import { existsSync } from 'fs';
+import { extname, join, parse, resolve } from 'path';
+
+type cbFileName = (e: Error | null, updatedFileName: string) => void;
+
+function _validate(fileName: string, options: UploaderOptions, cb: cbFileName) {
+    if (options.overwrite) {
+        cb(null, fileName);
+    } else {
+        const _storageDir = resolve(options.storageDir || defaultStorageDir);
+        const _filePath = join(_storageDir, fileName);
+        if (existsSync(_filePath)) {
+            cb(new Error(`File ${fileName} is exists`), fileName);
+        } else {
+            cb(null, fileName);
+        }
+    }
+}
 
 export const editFileName = (options: UploaderOptions) => {
-    return (req, file, callback) => {
+    return (_, file: Express.Multer.File, callback: cbFileName) => {
         const { name } = parse(file.originalname);
         const fileExtName = extname(file.originalname);
-        const randomName = Array(4)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 10).toString(10))
-            .join('');
-        callback(null, `${name}-${randomName}${fileExtName}`);
+
+        if (options.originalName) {
+            _validate(file.originalname, options, callback);
+            // callback(null, file.originalname);
+        } else {
+            if (options.fileName) {
+                if (typeof options.fileName === 'function') {
+                    _validate(options.fileName(file), options, callback);
+                    // callback(null, options.fileName(file));
+                } else {
+                    if (extname(options.fileName).length === 0) {
+                        _validate(`${options.fileName}${fileExtName}`, options, callback);
+                        // callback(null, options.fileName + fileExtName);
+                    } else {
+                        _validate(options.fileName, options, callback);
+                        // callback(null, options.fileName);
+                    }
+                }
+            } else {
+                const randomName = randomString();
+                _validate(`${name}-${randomName}${fileExtName}`, options, callback);
+                // callback(null, `${name}-${randomName}${fileExtName}`);
+            }
+        }
     };
 };

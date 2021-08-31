@@ -27,7 +27,7 @@ export function Uploader(fieldName = 'file', options?: UploaderOptions) {
                     destination: join(process.cwd(), 'public', 'res'),
                 }),
                 fileFilter,
-                limits: { fileSize }, // in bytes, fix Denial of Service (DoS)
+                limits: { fileSize }, // in bytes, Notice: Denial of Service (DoS)
             }),
         ),
     );

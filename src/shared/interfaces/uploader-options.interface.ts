@@ -1,10 +1,22 @@
 import { FileTypes } from '@shared';
 
+type cbFileName = (file: Express.Multer.File) => string;
+
 export interface UploaderOptions {
-    storagePath?: string;
+    storageDir?: string;
     allowedFileTypes?: FileTypes[];
     allowedFileExtensions?: string[];
-    rawFileName?: boolean;
+    originalName?: boolean;
     maxFileSize?: number | string;
-    uniqueFileName?: string;
+    /** Notice: fileName will be ignored when originalName = true
+     *
+     * Example: 'file', 'file.jpg' # Allow missing file extension
+     */
+    fileName?: string | cbFileName;
+    /**
+     *  Overwrite file if exists or throw error
+     */
+    overwrite?: boolean;
+    maxCount?: number;
+    fields?: number;
 }

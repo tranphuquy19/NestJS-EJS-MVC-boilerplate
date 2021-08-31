@@ -1,19 +1,19 @@
 import { apiUrl } from '@config';
-import { Post, UploadedFiles } from '@nestjs/common';
+import { Logger, Post, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { ApiV1Controller, FileTypes, Uploader } from '@shared';
 
 @ApiV1Controller('uploader')
 export class FileUploaderController {
+    private readonly logger = new Logger(FileUploaderController.name);
     @Post()
     @Uploader('file', {
         allowedFileTypes: [FileTypes.IMAGE, FileTypes.AUDIO, FileTypes.VIDEO],
-        rawFileName: true,
+        originalName: false,
         maxFileSize: '1 GiB',
+        fileName: 'file',
+        overwrite: false,
     })
-    uploaded(@UploadedFiles() file: any) {
-        return {
-            fileUrl: `${apiUrl}/res/${file.filename}`,
-            originalName: file.originalname,
-        };
+    uploaded(@UploadedFile() file: Express.Multer.File) {
+        return file;
     }
 }

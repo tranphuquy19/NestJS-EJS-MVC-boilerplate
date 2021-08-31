@@ -2,7 +2,7 @@ import { apiUrls } from '@config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import morgan from 'morgan';
-import { description, version } from '../../../../package.json';
+import { description, version } from '../../../../package.json'; // Notice: the packages.json will be added to dist folder
 
 /**
  * Application config for development environment
@@ -28,5 +28,5 @@ export function devConfig(app: NestExpressApplication) {
     const swaggerConfig = swaggerBuilder.build();
 
     const docs = SwaggerModule.createDocument(app, swaggerConfig);
-    SwaggerModule.setup('/docs', app, docs); // Route to http://API_URL:PORT/docs-json to get Swagger json-docs
+    SwaggerModule.setup('/docs', app, docs); // Notice: Route to http://API_URL:PORT/docs-json to get Swagger json-docs
 }

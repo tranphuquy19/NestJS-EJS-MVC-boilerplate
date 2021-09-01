@@ -29,6 +29,7 @@ export class FileUploaderController {
             `${parse(file.originalname).name}-${Date.now()}${extname(file.originalname)}`,
         overwrite: true,
         destination: './public/uploads',
+        maxCount: 2,
     })
     multipleFiles(@UploadedFiles() files: Array<Express.Multer.File>, @Res() res: Response) {
         return res.json(files);

@@ -1,6 +1,6 @@
 import { defaultMaxFileSize, defaultStorageDir } from '@config';
 import { applyDecorators, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { editFileName, fileFilter, UploaderOptions } from '@shared';
 import { diskStorage } from 'multer';
 import { resolve } from 'path';
@@ -20,16 +20,31 @@ export function Uploader(fieldName = 'file', options?: UploaderOptions) {
         }
     }
 
-    return applyDecorators(
-        UseInterceptors(
-            FileInterceptor(fieldName, {
-                storage: diskStorage({
-                    filename: editFileName(options),
-                    destination: resolve(options.destination || defaultStorageDir),
+    const storageOptions = diskStorage({
+        filename: editFileName(options),
+        destination: resolve(options.destination || defaultStorageDir),
+    });
+
+    if (options.multiple) {
+        const maxCount = options.maxCount || Infinity;
+        return applyDecorators(
+            UseInterceptors(
+                FilesInterceptor(fieldName, maxCount, {
+                    storage: storageOptions,
+                    fileFilter,
+                    limits: { fileSize },
                 }),
-                fileFilter,
-                limits: { fileSize }, // in bytes, Notice: Denial of Service (DoS)
-            }),
-        ),
-    );
+            ),
+        );
+    } else {
+        return applyDecorators(
+            UseInterceptors(
+                FileInterceptor(fieldName, {
+                    storage: storageOptions,
+                    fileFilter,
+                    limits: { fileSize }, // in bytes, Notice: Denial of Service (DoS)
+                }),
+            ),
+        );
+    }
 }

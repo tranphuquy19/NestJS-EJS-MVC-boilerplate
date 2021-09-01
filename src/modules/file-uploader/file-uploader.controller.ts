@@ -1,19 +1,36 @@
-import { Post, Res, UploadedFile } from '@nestjs/common';
+import { Post, Res, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { ApiV1Controller, FileTypes, Uploader } from '@shared';
 import { Response } from 'express';
+import { extname, parse } from 'path';
 
 @ApiV1Controller('uploader')
 export class FileUploaderController {
-    @Post()
+    @Post('single')
     @Uploader('file', {
         allowedFileTypes: [FileTypes.IMAGE, FileTypes.AUDIO, FileTypes.VIDEO],
         originalName: false,
         maxFileSize: '1 GiB',
-        fileName: (file) => `${file.originalname}-${Date.now()}`,
+        fileName: (file) =>
+            `${parse(file.originalname).name}-${Date.now()}${extname(file.originalname)}`,
         overwrite: true,
         destination: './public/uploads',
     })
-    uploaded(@UploadedFile() file: Express.Multer.File, @Res() res: Response) {
+    singleFile(@UploadedFile() file: Express.Multer.File, @Res() res: Response) {
         return res.json(file);
+    }
+
+    @Post('multiple')
+    @Uploader('files', {
+        allowedFileTypes: [FileTypes.IMAGE, FileTypes.AUDIO, FileTypes.VIDEO],
+        originalName: false,
+        multiple: true,
+        maxFileSize: '1 GiB',
+        fileName: (file) =>
+            `${parse(file.originalname).name}-${Date.now()}${extname(file.originalname)}`,
+        overwrite: true,
+        destination: './public/uploads',
+    })
+    multipleFiles(@UploadedFiles() files: Array<Express.Multer.File>, @Res() res: Response) {
+        return res.json(files);
     }
 }

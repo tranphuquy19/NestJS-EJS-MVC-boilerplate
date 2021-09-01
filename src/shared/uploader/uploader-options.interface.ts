@@ -17,6 +17,6 @@ export interface UploaderOptions {
      *  Overwrite file if exists or throw error
      */
     overwrite?: boolean;
+    multiple?: boolean;
     maxCount?: number;
-    fields?: number;
 }

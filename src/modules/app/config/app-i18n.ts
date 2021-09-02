@@ -1,4 +1,4 @@
-import { defaultLocale, sessionMaxAge } from '@config';
+import { defaultLocale, NODE_ENV, sessionMaxAge } from '@config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { isApiRequest } from '@shared';
 import { NextFunction, Request, Response } from 'express';
@@ -11,9 +11,9 @@ I18n.configure({
     cookie: 'lang',
     defaultLocale: defaultLocale,
     fallbacks: { nl: defaultLocale },
-    syncFiles: true, // comment this on production
-    updateFiles: true, // comment this on production
-    autoReload: true, // comment this on production
+    syncFiles: NODE_ENV === 'development',
+    updateFiles: NODE_ENV === 'development',
+    autoReload: NODE_ENV === 'development',
     missingKeyFn: (locale, value) => {
         return value;
     },

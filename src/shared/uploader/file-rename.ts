@@ -2,6 +2,7 @@ import { defaultStorageDir } from '@config';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { UploaderOptions } from '@shared';
 import { randomString } from '@shared/utils';
+import { Request } from 'express';
 import { existsSync } from 'fs';
 import { extname, join, parse, resolve } from 'path';
 
@@ -29,7 +30,7 @@ function _validate(fileName: string, options: UploaderOptions, cb: cbFileName) {
 }
 
 export const editFileName = (options: UploaderOptions) => {
-    return (_, file: Express.Multer.File, callback: cbFileName) => {
+    return (req: Request, file: Express.Multer.File, callback: cbFileName) => {
         const { name } = parse(file.originalname);
         const fileExtName = extname(file.originalname);
 
@@ -38,7 +39,7 @@ export const editFileName = (options: UploaderOptions) => {
         } else {
             if (options.fileName) {
                 if (typeof options.fileName === 'function') {
-                    _validate(options.fileName(file), options, callback);
+                    _validate(options.fileName(file, req), options, callback);
                 } else {
                     if (extname(options.fileName).length === 0) {
                         _validate(`${options.fileName}${fileExtName}`, options, callback);

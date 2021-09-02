@@ -1,6 +1,7 @@
 import { FileTypes } from '@shared';
+import { Request } from 'express';
 
-type cbFileName = (file: Express.Multer.File) => string;
+type cbFileName = (file: Express.Multer.File, req?: Request) => string;
 
 export interface UploaderOptions {
     destination?: string;

@@ -10,6 +10,7 @@
         "RBAC",
         "Skaffold",
         "TOTP",
+        "Uploaders",
         "accesscontrol",
         "changefreq",
         "commitlint",

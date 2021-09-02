@@ -25,7 +25,7 @@ export interface UploaderOptions {
     overwrite?: boolean;
 
     /**
-     * @param multiple - optional, default `false`
+     * @param multiple: optional, default `false`
      */
     multiple?: boolean;
 

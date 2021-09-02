@@ -1,13 +1,20 @@
 import { defaultMaxFileSize, defaultStorageDir } from '@config';
 import { applyDecorators, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import {
+    FileFieldsInterceptor,
+    FileInterceptor,
+    FilesInterceptor,
+} from '@nestjs/platform-express';
+import {
+    MulterField,
+    MulterOptions,
+} from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { editFileName, fileFilter, UploaderOptions } from '@shared';
 import { diskStorage } from 'multer';
 import { resolve } from 'path';
 import { parseSize } from 'xbytes';
 
-export function Uploader(fieldName = 'file', options?: UploaderOptions) {
+export function Uploader(fieldName: string | MulterField[], options?: UploaderOptions) {
     let fileSize = parseSize(defaultMaxFileSize);
 
     if (options) {
@@ -30,12 +37,16 @@ export function Uploader(fieldName = 'file', options?: UploaderOptions) {
         limits: { fileSize }, // Fix SonarCloud: typescript:S5693
     };
 
-    if (options.multiple) {
-        const maxCount = options.maxCount || Infinity;
-        return applyDecorators(
-            UseInterceptors(FilesInterceptor(fieldName, maxCount, multerOpts)),
-        );
+    if (typeof fieldName === 'string') {
+        if (options.multiple) {
+            const maxCount = options.maxCount || Infinity;
+            return applyDecorators(
+                UseInterceptors(FilesInterceptor(fieldName, maxCount, multerOpts)),
+            );
+        } else {
+            return applyDecorators(UseInterceptors(FileInterceptor(fieldName, multerOpts)));
+        }
     } else {
-        return applyDecorators(UseInterceptors(FileInterceptor(fieldName, multerOpts)));
+        return applyDecorators(UseInterceptors(FileFieldsInterceptor(fieldName, multerOpts)));
     }
 }

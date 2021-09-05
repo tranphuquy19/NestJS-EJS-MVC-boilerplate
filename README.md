@@ -32,37 +32,12 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+_Notice: This project is designed to work with both the Web MVC model and the REST architecture. With many features needed for a #RealWorld project**_
 
-```bash
-$ npm install
-```
+## Contributing
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
+**I'm looking for help with fixing issues, adding new packages, docs and maintaining
+existing ones. It would be very helpful if you submit a pull request with bug fixes.**
 
 ## Features
 

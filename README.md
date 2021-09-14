@@ -34,6 +34,18 @@
 
 _Notice: This project is designed to work with both the Web MVC model and the REST architecture. With many features needed for a #RealWorld project**_
 
+## Usages:
+
+`bash ./run.sh docker:env # generate docker env file (.env.docker)`
+
+`bash ./run.sh up # build & run app using docker-compose`
+
+`bash ./run.sh down # destroy app containers`
+
+`bash ./run.sh stop # stop app containers`
+
+`bash ./run.sh -h # for more information`
+
 ## Contributing
 
 **I'm looking for help with fixing issues, adding new packages, docs and maintaining

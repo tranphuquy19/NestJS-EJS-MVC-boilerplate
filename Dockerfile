@@ -1,6 +1,9 @@
 # Base image
 FROM ubuntu:20.04 AS base
 
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Ho_Chi_Minh
+
 RUN apt-get update && apt-get install -y curl python2 build-essential manpages-dev make
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs && \

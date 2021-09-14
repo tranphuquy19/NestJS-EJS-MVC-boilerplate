@@ -1,8 +1,11 @@
 # Base image
-FROM node:12.22.6-alpine AS base
+FROM ubuntu:20.04 AS base
 
-RUN apk add yarn
-RUN mkdir -p /home/node/app
+RUN apt-get update && apt-get install -y curl python2 build-essential manpages-dev make
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install -y nodejs && \
+    npm install --global yarn
+
 WORKDIR /home/node/app
 
 COPY package.json .
@@ -13,20 +16,19 @@ FROM base AS development
 
 COPY . .
 
-RUN yarn install --ignore-scripts --production=false && yarn build
-RUN ls -la
-RUN ls -la ./dist
+RUN yarn install --ignore-scripts --production=false && yarn prebuild && yarn build
 
 
 # Release app
-FROM node:12.22.6-alpine AS production
+FROM base AS production
 
 RUN yarn install --ignore-scripts --production=true
+RUN npm rebuild bcrypt --build-from-source
 
 COPY --from=development /home/node/app/dist ./dist
+COPY --from=development /home/node/app/src ./src
+COPY ./firebase.spec.json ./firebase.spec.json
 
-RUN ls -la
-RUN ls -la dist
-RUN ls -la ./node_modules | grep dotenv
+RUN ls -la .
 
 CMD ["node", "./dist/src/main.js"]

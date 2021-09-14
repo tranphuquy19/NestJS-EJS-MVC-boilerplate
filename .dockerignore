@@ -12,7 +12,6 @@ coverage
 .editorconfig
 Dockerfile
 README.md
-tslint.json
 nodemon.json
 
 # Others
@@ -23,3 +22,5 @@ nodemon.json
 .husky
 docs
 logs
+run.sh
+create-image.sh

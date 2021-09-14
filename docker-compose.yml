@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 # To install:   $ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
 # To start:     $ docker-compose up -d
@@ -8,65 +8,68 @@ version: '3'
 # To copy backupfile: $ FILE_NAME=schema.sql sudo cp .docker/pgadmin/data/storage/$FILE_NAME $DATA_FOLDER/postgres/backup/$FILE_NAME
 
 services:
-  postgres:
-    container_name: ${STACK_NAME:-nest}-pgsql
-    image: postgres
-    environment:
-      POSTGRES_DB: ${DATABASE_NAME:-nest_db}
-      POSTGRES_USER: ${DATABASE_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-P@s5word}
-      PGDATA: /data/postgres
-    volumes:
-      - postgresql-data:/var/lib/postgresql/data
-    networks:
-      - nest_network
-    ports:
-      - '5432:5432'
-    restart: unless-stopped
+    postgres:
+        container_name: ${STACK_NAME:-nest}-pgsql
+        image: postgres
+        environment:
+            POSTGRES_DB: ${DATABASE_NAME:-nest_db}
+            POSTGRES_USER: ${DATABASE_USERNAME:-postgres}
+            POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-P@s5word}
+            PGDATA: /data/postgres
+        volumes:
+            - postgresql-data:/var/lib/postgresql/data
+        # ports:
+        #     - '5432:5432'
+        restart: unless-stopped
 
-  pgadmin:
-    container_name: ${STACK_NAME:-nest}-pgadmin
-    image: dpage/pgadmin4
-    depends_on:
-      - postgres
-      - redis
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-tranphuquy19@gmail.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P@s5word}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-      - ${DATA_FOLDER}/pgadmin/servers.json:/pgadmin4/servers.json
-    networks:
-      - nest_network
-    ports:
-      - '5433:80'
-    restart: unless-stopped
+    pgadmin:
+        container_name: ${STACK_NAME:-nest}-pgadmin
+        image: dpage/pgadmin4
+        depends_on:
+            - postgres
+            - redis
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-tranphuquy19@gmail.com}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P@s5word}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+        volumes:
+            - pgadmin-data:/var/lib/pgadmin
+            - ${DATA_FOLDER}/pgadmin/servers.json:/pgadmin4/servers.json
+        ports:
+            - '5433:80'
+        restart: unless-stopped
 
-  redis:
-    image: redis:alpine
-    container_name: ${STACK_NAME:-nest}_redis
-    networks:
-      - nest_network
-    ports:
-      - 6379:6379
-    volumes:
-      - redis-data:/data
-    restart: unless-stopped
+    redis:
+        image: redis:alpine
+        container_name: ${STACK_NAME:-nest}-redis
+        # ports:
+        #     - 6379:6379
+        volumes:
+            - redis-data:/data
+        restart: unless-stopped
+
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: ${STACK_NAME:-nest}
+        container_name: ${STACK_NAME:-nest}-app
+        ports:
+            - ${PORT:-4000}:4000
+        volumes:
+            - app-data:/home/node/app
+            - .env.docker:/home/node/app/.env
+        depends_on:
+            - postgres
+            - redis
+        restart: unless-stopped
 
 volumes:
-  postgresql-data:
-    driver: local
-  redis-data:
-    driver: local
-  pgadmin-data:
-    driver: local
-
-networks:
-  nest_network:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: '172.57.0.0/24'
-          gateway: 172.57.0.1
+    postgresql-data:
+        driver: local
+    redis-data:
+        driver: local
+    pgadmin-data:
+        driver: local
+    app-data:
+        driver: local

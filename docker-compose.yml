@@ -1,4 +1,4 @@
-version : '3'
+version: '3'
 
 # To install:   $ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
 # To start:     $ docker-compose up -d
@@ -9,23 +9,23 @@ version : '3'
 
 services:
   postgres:
-    container_name: ${STACK_NAME:-nest}_pgsql
+    container_name: ${STACK_NAME:-nest}-pgsql
     image: postgres
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-nest_db}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-P@s5word}
+      POSTGRES_DB: ${DATABASE_NAME:-nest_db}
+      POSTGRES_USER: ${DATABASE_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-P@s5word}
       PGDATA: /data/postgres
     volumes:
-       - ${DATA_FOLDER}/postgres/data:/var/lib/postgresql/data
+      - postgresql-data:/var/lib/postgresql/data
     networks:
       - nest_network
     ports:
-      - "5432:5432"
+      - '5432:5432'
     restart: unless-stopped
-  
+
   pgadmin:
-    container_name: ${STACK_NAME:-nest}_pgadmin
+    container_name: ${STACK_NAME:-nest}-pgadmin
     image: dpage/pgadmin4
     depends_on:
       - postgres
@@ -35,30 +35,38 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P@s5word}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-       - ${DATA_FOLDER}/pgadmin/data:/var/lib/pgadmin
-       - ${DATA_FOLDER}/pgadmin/servers.json:/pgadmin4/servers.json
+      - pgadmin-data:/var/lib/pgadmin
+      - ${DATA_FOLDER}/pgadmin/servers.json:/pgadmin4/servers.json
     networks:
       - nest_network
     ports:
-      - "5433:80"
+      - '5433:80'
     restart: unless-stopped
 
   redis:
-      image: redis:alpine
-      container_name: ${STACK_NAME:-nest}_redis
-      networks:
-        - nest_network
-      ports:
-        - 6379:6379
-      volumes:
-        - ${DATA_FOLDER}/redis/data:/data
-      restart: unless-stopped
+    image: redis:alpine
+    container_name: ${STACK_NAME:-nest}_redis
+    networks:
+      - nest_network
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+volumes:
+  postgresql-data:
+    driver: local
+  redis-data:
+    driver: local
+  pgadmin-data:
+    driver: local
 
 networks:
   nest_network:
-      driver: bridge
-      ipam:
-          driver: default
-          config:
-              - subnet: "172.57.0.0/24"
-                gateway: 172.57.0.1
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: '172.57.0.0/24'
+          gateway: 172.57.0.1

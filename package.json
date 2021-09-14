@@ -41,7 +41,6 @@
         "connect-flash": "^0.1.1",
         "connect-redis": "^6.0.0",
         "cookie-parser": "^1.4.5",
-        "crypto": "^1.0.1",
         "csurf": "^1.11.0",
         "dotenv": "^10.0.0",
         "ejs": "^3.1.6",

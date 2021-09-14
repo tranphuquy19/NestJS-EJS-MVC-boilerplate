@@ -4,9 +4,9 @@ FROM ubuntu:20.04 AS base
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Ho_Chi_Minh
 
-RUN apt-get update && apt-get install -y curl python2 build-essential manpages-dev make
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
-RUN apt-get install -y nodejs && \
+RUN apt-get update && apt-get install -y curl python2 build-essential manpages-dev make && \
+    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get install -y nodejs && \
     npm install --global yarn
 
 WORKDIR /home/node/app
@@ -25,8 +25,9 @@ RUN yarn install --ignore-scripts --production=false && yarn prebuild && yarn bu
 # Release app
 FROM base AS production
 
-RUN yarn install --ignore-scripts --production=true
-RUN npm rebuild bcrypt --build-from-source
+RUN yarn install --ignore-scripts --production=true && \
+    npm rebuild bcrypt --build-from-source && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY --from=development /home/node/app/dist ./dist
 COPY --from=development /home/node/app/src ./src

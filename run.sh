@@ -25,8 +25,8 @@ if [[ $1 == "--help" || $1 == "-h" ]]; then
     echo "  down               Destroy the app (docker-compose down)"
     echo "  reset              Reset the app (docker-compose down-build-up)"
     echo "  docker:build       Build the app image (docker build)"
+    echo "  docker:run         Run the app container (docker run)"
     echo "  docker:env         Generate docker env file from .env file"
-    echo "  run                Run the app container (docker run)"
     echo
     echo "Run './run.sh --help' for more information."
 elif [[ $1 == "build" ]]; then
@@ -45,7 +45,7 @@ elif [[ $1 == "docker:build" ]]; then
     bash create-image.sh
 elif [[ $1 == "docker:env" ]]; then
     bash -c 'sed -e "s/=\"/=/g" -e "s/\"$//g" .env > .env.docker'
-elif [[ $1 == "run" ]]; then
+elif [[ $1 == "docker:run" ]]; then
     docker run --env-file .env.docker $STACK_NAME
 else
     echo "Unknown command: $1"

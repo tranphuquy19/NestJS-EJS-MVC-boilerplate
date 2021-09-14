@@ -34,17 +34,43 @@
 
 _Notice: This project is designed to work with both the Web MVC model and the REST architecture. With many features needed for a #RealWorld project**_
 
-## Usages:
+## Usages
 
-`bash ./run.sh docker:env # generate docker env file (.env.docker)`
+### Commands
 
-`bash ./run.sh up # build & run app using docker-compose`
+```bash
+yarn install # install all dependencies
+```
 
-`bash ./run.sh down # destroy app containers`
+```bash
+yarn start:dev # start the app in development environment
+```
 
-`bash ./run.sh stop # stop app containers`
+```bash
+yarn build # build app
+```
 
-`bash ./run.sh -h # for more information`
+### Docker support
+
+```bash
+bash ./run.sh docker:env # generate docker env file (.env.docker)
+```
+
+```bash
+bash ./run.sh up # build & run app using docker-compose
+```
+
+```bash
+bash ./run.sh down # destroy app containers
+```
+
+```bash
+bash ./run.sh stop # stop app containers
+```
+
+```bash
+bash ./run.sh -h # for more information
+```
 
 ## Contributing
 

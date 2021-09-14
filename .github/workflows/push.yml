@@ -1,37 +1,49 @@
 name: push
-on: 
-  push:
-    branches:
-      - master
-      - dev
+on:
+    push:
+        branches:
+            - master
+            - dev
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x]
-    
-    steps:
-      
-      - name: Copy repository
-        uses: actions/checkout@v2
-      
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [12.x, 14.x]
 
-      - name: Install npm dependencies
-        run: npm install
-      
-      - name: Lint code
-        run: npm run lint
-      
-      # - name: Run tests # unavailable for tests at now
-        # run: npm run test
+        steps:
+            - name: Copy repository
+              uses: actions/checkout@v2
 
-      - name: Build
-        run: |
-          npm run build
-          ls -la ./dist
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                node-version: ${{ matrix.node-version }}
+
+            - name: Install npm dependencies
+              run: npm install
+
+            - name: Lint code
+              run: npm run lint
+
+            # - name: Run tests # unavailable for tests at now
+            # run: npm run test
+
+            - name: Build source
+              run: |
+                  npm run build
+                  ls -la ./dist
+
+            - name: Set up Docker Buildx
+              id: buildx
+              uses: docker/setup-buildx-action@v1
+
+            - name: Build image
+              id: docker_build
+              uses: docker/build-push-action@v2
+              with:
+                context: ./
+                file: ./Dockerfile
+                push: false
+                tags: nestjs-boilerplate:latest

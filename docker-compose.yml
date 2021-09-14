@@ -58,7 +58,8 @@ services:
             - ${PORT:-4000}:4000
         volumes:
             - app-data:/home/node/app
-            - .env.docker:/home/node/app/.env
+            - ./.env.docker:/home/node/app/.env
+            - ./firebase.spec.json:/home/node/app/firebase.spec.json
         depends_on:
             - postgres
             - redis

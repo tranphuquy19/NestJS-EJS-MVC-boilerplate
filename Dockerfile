@@ -29,7 +29,7 @@ COPY --from=development /home/node/app/dist ./dist
 COPY --from=development /home/node/app/src ./src
 COPY --from=development /home/node/app/views ./views
 COPY --from=development /home/node/app/public ./public
-COPY ./firebase.spec.json ./ormconfig.js nest-cli.json ./
+COPY ./ormconfig.js nest-cli.json ./
 
 RUN ls -la .
 

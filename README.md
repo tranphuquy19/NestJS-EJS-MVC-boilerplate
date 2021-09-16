@@ -219,6 +219,7 @@ existing ones. It would be very helpful if you submit a pull request with bug fi
 - [x] Schema validation (validation pipes)
 - [ ] Rate limit
 - [x] LGTM scan
+- [x] Check uploaded file types with magic number
 
 ### Health checks
 

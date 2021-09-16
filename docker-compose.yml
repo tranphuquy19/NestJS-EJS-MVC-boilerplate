@@ -22,7 +22,7 @@ services:
             - postgres
             - redis
         environment:
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-tranphuquy19@gmail.com}
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-your-email@example.com}
             PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P@s5word}
             PGADMIN_CONFIG_SERVER_MODE: 'True'
         volumes:

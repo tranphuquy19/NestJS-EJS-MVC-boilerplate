@@ -20,7 +20,7 @@ export class FileUploaderController {
     }
 
     @Post('avatar')
-    @Uploader('test', {
+    @Uploader('file', {
         allowedFileTypes: [FileTypes.IMAGE],
         allowedFileExtensions: ['heic'],
         originalName: false,
@@ -37,7 +37,7 @@ export class FileUploaderController {
 
     @Post('multiple')
     @Uploader('files', {
-        allowedFileTypes: [FileTypes.VIDEO],
+        allowedFileTypes: [FileTypes.ALL],
         originalName: false,
         multiple: true,
         maxFileSize: '1 GiB',
@@ -58,7 +58,7 @@ export class FileUploaderController {
             { name: 'cover-image', maxCount: 1 },
         ],
         {
-            allowedFileTypes: [FileTypes.AUDIO],
+            allowedFileTypes: [FileTypes.ALL],
             fileName: (file) =>
                 `${parse(file.originalname).name}-${Date.now()}${extname(file.originalname)}`,
             overwrite: true,

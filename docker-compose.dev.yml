@@ -12,6 +12,7 @@ services:
             POSTGRES_USER: ${DATABASE_USERNAME:-postgres}
             POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-P@s5word}
             PGDATA: /data/postgres
+            TZ: ${TIMEZONE:-America/New_York}
         volumes:
             - postgresql-data:/var/lib/postgresql/data
         ports:

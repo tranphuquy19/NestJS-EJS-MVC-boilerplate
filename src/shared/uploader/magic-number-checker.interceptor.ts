@@ -52,7 +52,7 @@ export function MagicNumberCheckerInterceptor(options: UploaderOptions): Type<Ne
 
             if (options?.checkMagicNumber) {
                 if (options.multiple) {
-                    const files = req.files as Express.Multer.File[];
+                    const files: Express.Multer.File[] = req.files;
                     let isConflict: [boolean, fileType.FileTypeResult] = [false, null];
 
                     for (const file of files) {
@@ -74,7 +74,7 @@ export function MagicNumberCheckerInterceptor(options: UploaderOptions): Type<Ne
                         );
                     }
                 } else {
-                    const file = req.file as Express.Multer.File;
+                    const file: Express.Multer.File = req.file;
                     const isConflict = await this.isConflictFileType(file);
 
                     if (isConflict[0]) {
@@ -92,6 +92,5 @@ export function MagicNumberCheckerInterceptor(options: UploaderOptions): Type<Ne
         }
     }
 
-    const Interceptor = mixin(MixinInterceptor);
-    return Interceptor;
+    return mixin(MixinInterceptor);
 }

@@ -28,6 +28,7 @@ export const fileFilter = (options: UploaderOptions) => {
                 break;
             case 'font':
                 _allowedFileExtensions.push(...FileExtensions.FONT_EXTENSIONS);
+                break;
             case 'all':
                 _allowedFileExtensions.push(
                     ...FileExtensions.IMAGE_EXTENSIONS,

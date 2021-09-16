@@ -5,11 +5,13 @@ import { extname, parse } from 'path';
 
 @ApiV1Controller('uploader')
 export class FileUploaderController {
+    // upload a single file at once
     @Post('single')
     @Uploader('file', {
         allowedFileTypes: [FileTypes.ALL],
         originalName: false,
         maxFileSize: '1 GiB',
+        // file name will be generated automatically if it is not provided
         overwrite: true,
         destination: './public/uploads',
     })
@@ -17,6 +19,7 @@ export class FileUploaderController {
         return res.json(file);
     }
 
+    // upload a single file at once but STRICTLY check the file format
     @Post('strict-file-type')
     @Uploader('file', {
         allowedFileTypes: [FileTypes.ALL],
@@ -32,6 +35,7 @@ export class FileUploaderController {
         return res.json(file);
     }
 
+    // upload multiple files at once but STRICTLY check the files format
     @Post('strict-files-type')
     @Uploader('files', {
         allowedFileTypes: [FileTypes.ALL],
@@ -49,6 +53,7 @@ export class FileUploaderController {
         return res.json(files);
     }
 
+    // upload a single files at once but RESTRICT the file format. Only allow IMAGE file in this case
     @Post('avatar')
     @Uploader('file', {
         allowedFileTypes: [FileTypes.IMAGE],
@@ -65,6 +70,7 @@ export class FileUploaderController {
         return res.json(file);
     }
 
+    // upload multiple files with single field
     @Post('multiple')
     @Uploader('files', {
         allowedFileTypes: [FileTypes.ALL],
@@ -81,6 +87,7 @@ export class FileUploaderController {
         return res.json(files);
     }
 
+    // upload multiple files with multiple fields
     @Post('fields')
     @Uploader(
         [

@@ -33,7 +33,9 @@ export function Uploader(fieldName: string | MulterField[], options?: UploaderOp
             filename: editFileName(options),
             destination: resolve(options.destination || defaultStorageDir),
         }),
-        fileFilter: fileFilter(options),
+        fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
+            fileFilter(options)(req, file, cb);
+        },
         limits: { fileSize }, // Fix SonarCloud: typescript:S5693
     };
 

@@ -1,5 +1,8 @@
 version: '3.9'
 
+# Run: docker-compose -f docker-compose.dev.yml up -d
+# Destroy: docker-compose -f docker-compose.dev.yml down --volumes
+
 services:
     postgres:
         container_name: ${STACK_NAME:-nest}-pgsql
@@ -11,8 +14,8 @@ services:
             PGDATA: /data/postgres
         volumes:
             - postgresql-data:/var/lib/postgresql/data
-        # ports:
-        #     - '5432:5432'
+        ports:
+            - '5432:5432'
         restart: unless-stopped
 
     pgadmin:
@@ -35,28 +38,10 @@ services:
     redis:
         image: redis:alpine
         container_name: ${STACK_NAME:-nest}-redis
-        # ports:
-        #     - 6379:6379
+        ports:
+            - 6379:6379
         volumes:
             - redis-data:/data
-        restart: unless-stopped
-
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-            target: production
-        image: ${STACK_NAME:-nest}
-        container_name: ${STACK_NAME:-nest}-app
-        ports:
-            - ${PORT:-4000}:4000
-        volumes:
-            - app-data:/home/node/app
-            - ./.env.docker:/home/node/app/.env
-            - ./firebase.spec.json:/home/node/app/firebase.spec.json
-        depends_on:
-            - postgres
-            - redis
         restart: unless-stopped
 
 volumes:
@@ -65,6 +50,4 @@ volumes:
     redis-data:
         driver: local
     pgadmin-data:
-        driver: local
-    app-data:
         driver: local

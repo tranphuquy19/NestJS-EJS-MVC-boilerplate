@@ -4,6 +4,18 @@ on:
         branches:
             - master
             - dev
+        paths-ignore:
+            - 'docs/**'
+            - '.vscode/**'
+            - '.idea/**'
+            - '.commitlintrc.js'
+            - '.czrc'
+            - '.env.example'
+            - '.eslintrc.js'
+            - '.prettierignore'
+            - '.prettierrc'
+            - 'firebase.spec.json.example'
+            - 'README.md'
 
 jobs:
     build-image:

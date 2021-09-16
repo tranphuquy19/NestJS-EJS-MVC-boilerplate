@@ -7,7 +7,7 @@ import { extname, parse } from 'path';
 export class FileUploaderController {
     @Post('single')
     @Uploader('file', {
-        allowedFileTypes: [FileTypes.IMAGE, FileTypes.AUDIO, FileTypes.VIDEO],
+        allowedFileTypes: [FileTypes.IMAGE, FileTypes.VIDEO],
         originalName: false,
         maxFileSize: '1 GiB',
         fileName: (file) =>
@@ -19,9 +19,25 @@ export class FileUploaderController {
         return res.json(file);
     }
 
+    @Post('avatar')
+    @Uploader('test', {
+        allowedFileTypes: [FileTypes.IMAGE],
+        allowedFileExtensions: ['heic'],
+        originalName: false,
+        maxFileSize: '7 MiB',
+        fileName: (file) =>
+            `${parse(file.originalname).name}-${Date.now()}${extname(file.originalname)}`,
+        overwrite: true,
+        destination: './public/uploads',
+        maxCount: 1,
+    })
+    uploadAvatar(@UploadedFile() file: Express.Multer.File, @Res() res: Response) {
+        return res.json(file);
+    }
+
     @Post('multiple')
     @Uploader('files', {
-        allowedFileTypes: [FileTypes.IMAGE, FileTypes.AUDIO, FileTypes.VIDEO],
+        allowedFileTypes: [FileTypes.VIDEO],
         originalName: false,
         multiple: true,
         maxFileSize: '1 GiB',
@@ -42,7 +58,7 @@ export class FileUploaderController {
             { name: 'cover-image', maxCount: 1 },
         ],
         {
-            allowedFileTypes: [FileTypes.IMAGE],
+            allowedFileTypes: [FileTypes.AUDIO],
             fileName: (file) =>
                 `${parse(file.originalname).name}-${Date.now()}${extname(file.originalname)}`,
             overwrite: true,

@@ -6,7 +6,7 @@ type cbFileName = (file: Express.Multer.File, req?: Request) => string;
 export interface UploaderOptions {
     destination?: string;
     allowedFileTypes?: FileTypes[];
-    allowedFileExtensions?: string[];
+    allowedFileExtensions?: Array<string | string[]>;
     originalName?: boolean;
     maxFileSize?: number | string;
 

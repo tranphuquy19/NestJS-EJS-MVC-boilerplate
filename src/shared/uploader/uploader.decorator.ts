@@ -13,6 +13,7 @@ import { editFileName, fileFilter, UploaderOptions } from '@shared';
 import { diskStorage } from 'multer';
 import { resolve } from 'path';
 import { parseSize } from 'xbytes';
+import { MagicNumberCheckerInterceptor } from './magic-number-checker.interceptor';
 
 export function Uploader(fieldName: string | MulterField[], options?: UploaderOptions) {
     let fileSize = parseSize(defaultMaxFileSize);
@@ -41,12 +42,25 @@ export function Uploader(fieldName: string | MulterField[], options?: UploaderOp
         if (options.multiple) {
             const maxCount = options.maxCount || Infinity;
             return applyDecorators(
-                UseInterceptors(FilesInterceptor(fieldName, maxCount, multerOpts)),
+                UseInterceptors(
+                    FilesInterceptor(fieldName, maxCount, multerOpts),
+                    MagicNumberCheckerInterceptor(options),
+                ),
             );
         } else {
-            return applyDecorators(UseInterceptors(FileInterceptor(fieldName, multerOpts)));
+            return applyDecorators(
+                UseInterceptors(
+                    FileInterceptor(fieldName, multerOpts),
+                    MagicNumberCheckerInterceptor(options),
+                ),
+            );
         }
     } else {
-        return applyDecorators(UseInterceptors(FileFieldsInterceptor(fieldName, multerOpts)));
+        return applyDecorators(
+            UseInterceptors(
+                FileFieldsInterceptor(fieldName, multerOpts),
+                MagicNumberCheckerInterceptor(options),
+            ),
+        );
     }
 }

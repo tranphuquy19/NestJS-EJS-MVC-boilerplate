@@ -7,16 +7,46 @@ import { extname, parse } from 'path';
 export class FileUploaderController {
     @Post('single')
     @Uploader('file', {
-        allowedFileTypes: [FileTypes.IMAGE, FileTypes.VIDEO],
+        allowedFileTypes: [FileTypes.ALL],
+        originalName: false,
+        maxFileSize: '1 GiB',
+        overwrite: true,
+        destination: './public/uploads',
+    })
+    singleFile(@UploadedFile() file: Express.Multer.File, @Res() res: Response) {
+        return res.json(file);
+    }
+
+    @Post('strict-file-type')
+    @Uploader('file', {
+        allowedFileTypes: [FileTypes.ALL],
         originalName: false,
         maxFileSize: '1 GiB',
         fileName: (file) =>
             `${parse(file.originalname).name}-${Date.now()}${extname(file.originalname)}`,
         overwrite: true,
         destination: './public/uploads',
+        checkMagicNumber: true,
     })
-    singleFile(@UploadedFile() file: Express.Multer.File, @Res() res: Response) {
+    strictFileType(@UploadedFile() file: Express.Multer.File, @Res() res: Response) {
         return res.json(file);
+    }
+
+    @Post('strict-files-type')
+    @Uploader('files', {
+        allowedFileTypes: [FileTypes.ALL],
+        originalName: false,
+        multiple: true,
+        maxFileSize: '1 GiB',
+        fileName: (file) =>
+            `${parse(file.originalname).name}-${Date.now()}${extname(file.originalname)}`,
+        overwrite: true,
+        destination: './public/uploads',
+        checkMagicNumber: true,
+        maxCount: 2,
+    })
+    strictFilesType(@UploadedFiles() files: Array<Express.Multer.File>, @Res() res: Response) {
+        return res.json(files);
     }
 
     @Post('avatar')

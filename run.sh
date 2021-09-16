@@ -1,6 +1,11 @@
 #!/usr/bin/bash
 
 ENV_FILE=".env"
+ENV_TEMPLATE_FILE=".env.template"
+DOCKER_ENV_FILE=".env.docker"
+
+POSTGRES_POSTFIX="pgsql"
+REDIS_POSTFIX="redis"
 
 if [ ! -f "$ENV_FILE" ]; then
     echo "File $ENV_FILE not found"
@@ -8,9 +13,9 @@ if [ ! -f "$ENV_FILE" ]; then
 fi
 
 # Load environment variables
-set -o errexit
-source .env
-set +o errexit
+set -a
+source $ENV_FILE
+set +a
 
 if [[ $1 == "--help" || $1 == "-h" ]]; then
     echo "Usage: ./run.sh [COMMAND]"
@@ -44,9 +49,11 @@ elif [[ $1 == "reset" ]]; then
 elif [[ $1 == "docker:build" ]]; then
     bash create-image.sh
 elif [[ $1 == "docker:env" ]]; then
-    bash -c 'sed -e "s/=\"/=/g" -e "s/\"$//g" .env > .env.docker'
+    export DATABASE_HOST="${STACK_NAME}-${POSTGRES_POSTFIX}"
+    export REDIS_URL="${STACK_NAME}-${REDIS_POSTFIX}"
+    envsubst < $ENV_TEMPLATE_FILE > $DOCKER_ENV_FILE
 elif [[ $1 == "docker:run" ]]; then
-    docker run --env-file .env.docker $STACK_NAME
+    docker run --env-file $DOCKER_ENV_FILE $STACK_NAME
 else
     echo "Unknown command: $1"
 fi

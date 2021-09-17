@@ -14,8 +14,13 @@ Dockerfile
 README.md
 nodemon.json
 
-# upload files
+# Upload files
 public/uploads/*
+
+# Sensitive files
+.env
+.env.docker
+firebase.spec.json
 
 # Others
 .docker

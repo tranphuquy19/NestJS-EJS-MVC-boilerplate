@@ -32,7 +32,7 @@ if [[ $1 == "--help" || $1 == "-h" ]]; then
     echo "  stop               Stop the app (docker-compose stop)"
     echo "  down               Destroy the app (docker-compose down)"
     echo "  down:volumes       Destroy the app & data"
-    echo "  clean              Remove all dangling images"
+    echo "  clean              Remove all dangling images, builders, build-caches"
     echo "  reset              Reset the app (docker-compose down-build-up)"
     echo "  docker:build       Build the app image (docker build)"
     echo "  docker:run         Run the app container (docker run)"
@@ -51,6 +51,8 @@ elif [[ $1 == "down:volumes" ]]; then
     docker-compose -p $STACK_NAME down  --volumes
 elif [[ $1 == "clean" ]]; then
     docker image prune -f
+    docker builder prune -f
+    docker buildx prune -f
 elif [[ $1 == "reset" ]]; then
     docker-compose -p $STACK_NAME down  --volumes
     docker-compose -p $STACK_NAME build

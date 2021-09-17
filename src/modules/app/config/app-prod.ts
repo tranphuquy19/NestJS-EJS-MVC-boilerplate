@@ -9,10 +9,10 @@ import {
 } from '@config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import compression from 'compression';
-import { createWriteStream } from 'fs';
+import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import path, { isAbsolute, join } from 'path';
+import path, { dirname, isAbsolute, join } from 'path';
 
 /**
  * Application config for production environment
@@ -30,7 +30,15 @@ export function prodConfig(app: NestExpressApplication) {
         const logFile = isAbsolute(logDir)
             ? path.join(logDir, 'access.log')
             : join(WORKING_DIR, 'logs', 'access.log');
+
+        // create log directory if it doesn't exist
+        const logFileDir = dirname(logFile);
+        if (!existsSync(logFileDir)) {
+            mkdirSync(logFileDir, { recursive: true });
+        }
+
         const accessLogStream = createWriteStream(logFile, { flags: 'a' });
+
         if (onlyErrorRequests)
             app.use(
                 morgan(logFormat, {

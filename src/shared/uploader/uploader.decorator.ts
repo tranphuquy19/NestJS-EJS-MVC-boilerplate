@@ -10,6 +10,7 @@ import {
     MulterOptions,
 } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { editFileName, fileFilter, UploaderOptions } from '@shared';
+import { existsSync, mkdirSync } from 'fs';
 import { diskStorage } from 'multer';
 import { resolve } from 'path';
 import { parseSize } from 'xbytes';
@@ -29,10 +30,16 @@ export function Uploader(fieldName: string | MulterField[], options?: UploaderOp
         }
     }
 
+    // create destination directory if not exists
+    const destinationDir = resolve(options.destination || defaultStorageDir);
+    if (!existsSync(destinationDir)) {
+        mkdirSync(destinationDir, { recursive: true });
+    }
+
     const multerOpts: MulterOptions = {
         storage: diskStorage({
             filename: editFileName(options),
-            destination: resolve(options.destination || defaultStorageDir),
+            destination: destinationDir,
         }),
         fileFilter: fileFilter(options),
         limits: { fileSize }, // Fix SonarCloud: typescript:S5693

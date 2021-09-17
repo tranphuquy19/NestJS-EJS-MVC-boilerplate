@@ -5,6 +5,7 @@ FROM ubuntu:20.04 AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Ho_Chi_Minh
+ENV YARN_CACHE_FOLDER=/root/.yarn
 
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
@@ -22,15 +23,14 @@ COPY package.json .
 FROM base AS development
 
 COPY . .
-
-RUN --mount=type=cache,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn yarn --frozen-lockfile && \
-    yarn install --ignore-scripts --production=false && yarn prebuild && yarn build
+RUN --mount=type=cache,target=/root/.yarn yarn --frozen-lockfile --ignore-scripts --production=false && \
+    yarn prebuild && yarn build
 
 
 # Release app
 FROM base AS production
 
-RUN yarn install --ignore-scripts --production=true && \
+RUN --mount=type=cache,target=/root/.yarn yarn install --ignore-scripts --production=true && \
     npm rebuild bcrypt --build-from-source && \
     rm -rf /var/lib/apt/lists/*
 
@@ -39,7 +39,5 @@ COPY --from=development /home/node/app/src ./src
 COPY --from=development /home/node/app/views ./views
 COPY --from=development /home/node/app/public ./public
 COPY ./ormconfig.js nest-cli.json ./
-
-RUN ls -la .
 
 CMD ["node", "./dist/src/main.js"]

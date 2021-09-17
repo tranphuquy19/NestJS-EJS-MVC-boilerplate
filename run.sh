@@ -50,8 +50,11 @@ elif [[ $1 == "down" ]]; then
 elif [[ $1 == "down:volumes" ]]; then
     docker-compose -p $STACK_NAME down  --volumes
 elif [[ $1 == "clean" ]]; then
+    echo "Remove dangling images"
     docker image prune -f
+    echo "Remove dangling builders"
     docker builder prune -f
+    echo "Remove dangling build-caches"
     docker buildx prune -f
 elif [[ $1 == "reset" ]]; then
     docker-compose -p $STACK_NAME down  --volumes

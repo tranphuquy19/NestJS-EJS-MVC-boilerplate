@@ -4,7 +4,9 @@
 FROM ubuntu:20.04 AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=Asia/Ho_Chi_Minh
+ARG TIMEZONE
+
+ENV TZ=$TIMEZONE
 ENV YARN_CACHE_FOLDER=/root/.yarn
 
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache

@@ -47,6 +47,8 @@ services:
             context: .
             dockerfile: Dockerfile
             target: production
+            args:
+                - TIMEZONE=${TIMEZONE:-Asia/Ho_Chi_Minh}
         image: ${STACK_NAME:-nest}
         container_name: ${STACK_NAME:-nest}-app
         ports:

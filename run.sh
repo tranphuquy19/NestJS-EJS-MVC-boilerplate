@@ -28,6 +28,7 @@ if [[ $1 == "--help" || $1 == "-h" ]]; then
     echo "  up                 Start the app (docker-compose up)"
     echo "  stop               Stop the app (docker-compose stop)"
     echo "  down               Destroy the app (docker-compose down)"
+    echo "  clean              Remove all dangling images"
     echo "  reset              Reset the app (docker-compose down-build-up)"
     echo "  docker:build       Build the app image (docker build)"
     echo "  docker:run         Run the app container (docker run)"
@@ -42,6 +43,8 @@ elif [[ $1 == "stop" ]]; then
     docker-compose -p $STACK_NAME stop
 elif [[ $1 == "down" ]]; then
     docker-compose -p $STACK_NAME down  --volumes
+elif [[ $1 == "clean" ]]; then
+    docker image prune -f
 elif [[ $1 == "reset" ]]; then
     docker-compose -p $STACK_NAME down  --volumes
     docker-compose -p $STACK_NAME build
@@ -49,8 +52,11 @@ elif [[ $1 == "reset" ]]; then
 elif [[ $1 == "docker:build" ]]; then
     bash create-image.sh
 elif [[ $1 == "docker:env" ]]; then
+    export NODE_ENV=production
+    export LISTEN_ON="0.0.0.0"
     export DATABASE_HOST="${STACK_NAME}-${POSTGRES_POSTFIX}"
     export REDIS_URL="${STACK_NAME}-${REDIS_POSTFIX}"
+    export LOG_FORMAT="combined"
     envsubst < $ENV_TEMPLATE_FILE > $DOCKER_ENV_FILE
 elif [[ $1 == "docker:run" ]]; then
     docker run --env-file $DOCKER_ENV_FILE $STACK_NAME

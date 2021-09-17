@@ -1,4 +1,5 @@
 import { AppRoles } from '@config';
+import { IBaseModel } from '@shared';
 import bcrypt from 'bcrypt';
 import { AvatarGenerator } from 'random-avatar-generator';
 import {
@@ -17,7 +18,7 @@ import { IUserModel } from '../dtos';
 const avatarGenerator = new AvatarGenerator();
 
 @Entity('user')
-export class UserEntity extends BaseEntity implements IUserModel {
+export class UserEntity extends BaseEntity implements IBaseModel<IUserModel> {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 

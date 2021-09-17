@@ -24,6 +24,7 @@
       "@locales/*": ["src/modules/locales/*"],
     }
   },
+  "include": ["src"],
   "exclude": ["src/node_modules", "dist", "*.js"],
   "types": ["node"]
 }

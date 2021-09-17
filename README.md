@@ -242,6 +242,7 @@ existing ones. It would be very helpful if you submit a pull request with bug fi
 
 - [x] Dockerfile (`development`, `production`)
 - [x] Docker-compose
+- [x] Improve image build process with [buildkit](https://docs.docker.com/develop/develop-images/build_enhancements/)
 - [ ] Kubernetes
 - [ ] Skaffold
 

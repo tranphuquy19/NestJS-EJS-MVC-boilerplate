@@ -5,10 +5,11 @@ import { randomString } from '@shared/utils';
 import { Request } from 'express';
 import { existsSync } from 'fs';
 import { extname, join, parse, resolve } from 'path';
+import sanitizeFilename from 'sanitize-filename';
 
 type cbFileName = (e: Error | null, updatedFileName: string) => void;
 
-function _validate(fileName: string, options: UploaderOptions, cb: cbFileName) {
+function _validate(fileName: string, options: UploaderOptions, cb: cbFileName): void {
     if (options.overwrite) {
         cb(null, fileName);
     } else {
@@ -31,11 +32,13 @@ function _validate(fileName: string, options: UploaderOptions, cb: cbFileName) {
 
 export const editFileName = (options: UploaderOptions) => {
     return (req: Request, file: Express.Multer.File, callback: cbFileName) => {
-        const { name } = parse(file.originalname);
-        const fileExtName = extname(file.originalname);
+        const fileName = sanitizeFilename(file.originalname);
+
+        const { name } = parse(fileName);
+        const fileExtName = extname(fileName);
 
         if (options.originalName) {
-            _validate(file.originalname, options, callback);
+            _validate(fileName, options, callback);
         } else {
             if (options.fileName) {
                 if (typeof options.fileName === 'function') {

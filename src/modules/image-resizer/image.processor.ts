@@ -1,4 +1,3 @@
-import { WORKING_DIR } from '@config';
 import { DoneCallback, Job } from 'bull';
 import { join } from 'path';
 import sharp from 'sharp';
@@ -11,9 +10,9 @@ async function imageProcessor(job: Job, doneCallback: DoneCallback) {
 
     const filesPromises = files.map((file) => {
         return sharp(file.path)
-            .toFormat('png')
+            .toFormat(options.format)
             .png({ quality: options.quality })
-            .toFile(join(WORKING_DIR, 'public', 'uploads', 'imgs', file.filename));
+            .toFile(join(options.storageDir, file.filename));
     });
 
     const outputs = await Promise.all(filesPromises);

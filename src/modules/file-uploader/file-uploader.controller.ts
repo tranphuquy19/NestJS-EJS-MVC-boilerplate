@@ -1,10 +1,11 @@
+import { WORKING_DIR } from '@config';
 import { IImageQueueData } from '@modules/image-resizer/image-options.interface';
 import { InjectQueue } from '@nestjs/bull';
 import { Post, Res, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { ApiV1Controller, FileTypes, Uploader } from '@shared';
 import { Queue } from 'bull';
 import { Response } from 'express';
-import { extname, parse } from 'path';
+import { extname, join, parse } from 'path';
 
 @ApiV1Controller('uploader')
 export class FileUploaderController {
@@ -109,6 +110,9 @@ export class FileUploaderController {
             files,
             options: {
                 quality: 60,
+                storageDir: join(WORKING_DIR, 'public', 'uploads', 'images'),
+                format: 'png',
+                replace: true,
             },
         };
         const job = await this.imageQueue.add('optimize', imageQueueData);

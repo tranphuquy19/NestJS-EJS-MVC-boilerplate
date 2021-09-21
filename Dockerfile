@@ -6,7 +6,7 @@ FROM node:12-alpine AS base
 ENV YARN_CACHE_FOLDER=/root/.yarn
 
 COPY ./node-prune.sh /tmp/node-prune.sh
-RUN apk update && apk add yarn bash python g++ make && rm -rf /var/cache/apk/*
+RUN apk update && apk add yarn python g++ make && rm -rf /var/cache/apk/*
 RUN cat /tmp/node-prune.sh | sh -s -- -b /usr/local/bin >/dev/null 2>&1
 
 WORKDIR /home/node/app

@@ -180,6 +180,7 @@ existing ones. It would be very helpful if you submit a pull request with bug fi
 - [x] Uploader decorator [uploader.decorator.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/uploader.decorator.ts#L7)
 - [x] Magic number checker
 - [ ] Auto resize images
+- [x] Auto optimize images
 - [ ] Auto generate video thumbnails
 - [ ] Cloudinary
 - [ ] AWS S3

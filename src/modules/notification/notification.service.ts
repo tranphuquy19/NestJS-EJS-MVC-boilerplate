@@ -1,8 +1,9 @@
-import { apiHost, email, privateVapidKey, publicVapidKey } from '@config';
+import { apiHost } from '@config';
 import { FcmService } from '@doracoder/fcm-nestjs';
+import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import { RedisService } from '@redis/redis.service';
-import _ from 'lodash';
+import { Job, Queue } from 'bull';
 import webPush from 'web-push';
 import { NotificationFiringDTO, NotificationProviders } from './dtos';
 
@@ -14,9 +15,8 @@ export class NotificationService {
     constructor(
         private readonly redisService: RedisService,
         private readonly fcmService: FcmService,
-    ) {
-        this.setupWebPush();
-    }
+        @InjectQueue('notification') private readonly notificationQueue: Queue,
+    ) {}
 
     subscribe(subscription: any, userId: string): void {
         this.redisService.setUniqueObjectByKey(`${this.prefix}:${userId}`, subscription);
@@ -36,82 +36,24 @@ export class NotificationService {
         this.redisService.removeMemberOfSet(`${this.prefix}:${userId}`, subscription);
     }
 
-    setupWebPush(): void {
-        webPush.setVapidDetails(`mailto:${email}`, publicVapidKey, privateVapidKey);
-    }
-
-    sendNotification(subscriptions: webPush.PushSubscription[], option: NotificationFiringDTO) {
-        subscriptions.forEach((subscription) => {
-            webPush
-                .sendNotification(subscription, JSON.stringify(option.payload))
-                .catch((err) => this.logger.error(err));
-        });
-    }
-
-    async fireAllWebPush(option: NotificationFiringDTO): Promise<any> {
-        const keys = await this.redisService.getAllKeyWithPattern(`${this.prefix}*`);
-        const subscriptionPromises = keys.map((key) =>
-            this.redisService.getAllMembersOfSetByKey<webPush.PushSubscription>(key),
-        );
-        const subUsers = await Promise.all(subscriptionPromises);
-        const subscriptions = _.flattenDeep(subUsers);
-
-        this.sendNotification(subscriptions, option);
-    }
-
-    async fireAllFirebase(option: NotificationFiringDTO): Promise<any> {
-        const { topic, silent, data, ...firebaseData } = option.payload;
-
-        await this.fcmService.sendToTopic(
-            topic,
-            {
-                data,
-                notification: firebaseData,
-            },
-            silent,
-        );
-    }
-
-    async fireToSpecifiedUsersWebPush(option: NotificationFiringDTO): Promise<any> {
-        const subUsersPromises = option.userIds.map((userId) =>
-            this.redisService.getAllMembersOfSetByKey<webPush.PushSubscription>(
-                `${this.prefix}:${userId}`,
-            ),
-        );
-        const subUsers = await Promise.all(subUsersPromises);
-        const subscriptions = _.flatMapDeep(subUsers);
-
-        this.sendNotification(subscriptions, option);
-    }
-
-    async fireToSpecifiedUsersFirebase(option: NotificationFiringDTO): Promise<any> {
-        const { silent, data, ...firebaseData } = option.payload;
-        await this.fcmService.sendNotification(
-            option.deviceTokens,
-            {
-                data,
-                notification: firebaseData,
-            },
-            silent,
-        );
-    }
-
     async fireAll(option: NotificationFiringDTO): Promise<any> {
+        let job: Job;
         if (option.provider === NotificationProviders.WEB_PUSH) {
-            await this.fireAllWebPush(option);
+            job = await this.notificationQueue.add('web-push-all', { option });
         } else if (option.provider === NotificationProviders.FIREBASE) {
             option.payload['topic'] = 'allDevices';
-            await this.fireAllFirebase(option);
+            job = await this.notificationQueue.add('fcm-all', { option });
         }
-        return { status: 'OK' };
+        return { status: 'OK', jobId: job.id };
     }
 
     async fireToSpecifiedUsers(option: NotificationFiringDTO): Promise<any> {
+        let job: Job;
         if (option.provider === NotificationProviders.WEB_PUSH) {
-            await this.fireToSpecifiedUsersWebPush(option);
+            job = await this.notificationQueue.add('web-push-topic', { option });
         } else if (option.provider === NotificationProviders.FIREBASE) {
-            await this.fireToSpecifiedUsersFirebase(option);
+            job = await this.notificationQueue.add('fcm-topic', { option });
         }
-        return { status: 'OK' };
+        return { status: 'OK', jobId: job.id };
     }
 }

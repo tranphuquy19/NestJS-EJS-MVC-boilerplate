@@ -1,4 +1,5 @@
 {
+    "HOW_TO_GET_THIS": "Go to project settings > Service accounts > Generate new private key",
     "type": "service_account",
     "project_id": "XXXXX-app",
     "private_key_id": "97f86efdcc87da04c8a4f0523d96791ddeXXXXX",

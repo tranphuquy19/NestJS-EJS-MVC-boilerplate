@@ -25,16 +25,18 @@ COPY package.json .
 FROM base AS development
 
 COPY . .
-RUN --mount=type=cache,target=/root/.yarn yarn --frozen-lockfile --ignore-scripts --production=false && \
+RUN --mount=type=cache,target=$YARN_CACHE_FOLDER yarn --frozen-lockfile --ignore-scripts --production=false && \
     yarn prebuild && yarn build
 
 
 # Release app
 FROM base AS production
 
-RUN --mount=type=cache,target=/root/.yarn yarn install --ignore-scripts --production=true && \
+RUN --mount=type=cache,target=$YARN_CACHE_FOLDER yarn install --ignore-scripts --production=true && \
     npm rebuild bcrypt --build-from-source && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get purge --auto-remove && \
+    apt-get clean
 
 COPY --from=development /home/node/app/dist ./dist
 COPY --from=development /home/node/app/src ./src

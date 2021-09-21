@@ -25,7 +25,6 @@
     },
     "dependencies": {
         "@doracoder/fcm-nestjs": "^0.3.0",
-        "@nestjs-modules/mailer": "^1.6.0",
         "@nestjs/bull": "^0.4.1",
         "@nestjs/common": "^7.6.13",
         "@nestjs/core": "^7.6.13",

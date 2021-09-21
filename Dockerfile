@@ -1,20 +1,13 @@
 # syntax=docker/dockerfile:1.3
 
 # Base image
-FROM ubuntu:20.04 AS base
+FROM node:12-alpine AS base
 
-ARG DEBIAN_FRONTEND=noninteractive
-ARG TIMEZONE
-
-ENV TZ=$TIMEZONE
 ENV YARN_CACHE_FOLDER=/root/.yarn
 
-RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
-RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
-    apt-get update && apt-get install -y curl python2 build-essential manpages-dev make apt-utils && \
-    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install --global yarn
+COPY ./node-prune.sh /tmp/node-prune.sh
+RUN apk update && apk add yarn bash python g++ make && rm -rf /var/cache/apk/*
+RUN cat /tmp/node-prune.sh | sh -s -- -b /usr/local/bin >/dev/null 2>&1
 
 WORKDIR /home/node/app
 
@@ -24,20 +17,22 @@ COPY package.json .
 # Build app
 FROM base AS development
 
+ENV NODE_ENV=development
+ENV PATH node_modules/.bin:$PATH
+
 COPY . .
 RUN --mount=type=cache,target=$YARN_CACHE_FOLDER yarn --frozen-lockfile --ignore-scripts --production=false && \
-    yarn prebuild && yarn build
+    npm rebuild bcrypt --build-from-source && \
+    yarn prebuild && yarn build && npm prune --production && \
+    /usr/local/bin/node-prune
 
 
 # Release app
 FROM base AS production
 
-RUN --mount=type=cache,target=$YARN_CACHE_FOLDER yarn install --ignore-scripts --production=true && \
-    npm rebuild bcrypt --build-from-source && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get purge --auto-remove && \
-    apt-get clean
+ENV NODE_ENV=production
 
+COPY --from=development /home/node/app/node_modules ./node_modules
 COPY --from=development /home/node/app/dist ./dist
 COPY --from=development /home/node/app/src ./src
 COPY --from=development /home/node/app/views ./views

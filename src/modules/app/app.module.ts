@@ -1,8 +1,9 @@
 import { AuthModule } from '@auth/auth.module';
-import { roles, WORKING_DIR } from '@config';
+import { redisPort, redisUrl, roles, WORKING_DIR } from '@config';
 import { FcmModule } from '@doracoder/fcm-nestjs';
 import { FileUploaderModule } from '@file-uploader/file-uploader.module';
 import { LocalesModule } from '@locales/locales.module';
+import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NotificationModule } from '@notification/notification.module';
@@ -20,6 +21,14 @@ import { AppService } from './services';
         AccessControlModule.forRoles(roles),
         FcmModule.forRoot({
             firebaseSpecsPath: path.join(WORKING_DIR, 'firebase.spec.json'),
+        }),
+        BullModule.forRootAsync({
+            useFactory: () => ({
+                redis: {
+                    host: redisUrl,
+                    port: redisPort,
+                },
+            }),
         }),
         AuthModule,
         UserModule,

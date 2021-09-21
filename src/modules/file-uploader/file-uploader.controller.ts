@@ -1,10 +1,15 @@
+import { IImageQueueData } from '@modules/image-resizer/image-options.interface';
+import { InjectQueue } from '@nestjs/bull';
 import { Post, Res, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { ApiV1Controller, FileTypes, Uploader } from '@shared';
+import { Queue } from 'bull';
 import { Response } from 'express';
 import { extname, parse } from 'path';
 
 @ApiV1Controller('uploader')
 export class FileUploaderController {
+    constructor(@InjectQueue('image') private readonly imageQueue: Queue) {}
+
     // upload a single file at once
     @Post('single')
     @Uploader('file', {
@@ -83,6 +88,31 @@ export class FileUploaderController {
     })
     multipleFiles(@UploadedFiles() files: Array<Express.Multer.File>, @Res() res: Response) {
         return res.json(files);
+    }
+
+    // upload multiple image files and reduce the quality of the images
+    @Post('images')
+    @Uploader('files', {
+        allowedFileTypes: [FileTypes.ALL],
+        originalName: false,
+        multiple: true,
+        maxFileSize: '17 MiB',
+        overwrite: true,
+        destination: './public/uploads',
+        maxCount: 50,
+    })
+    async multipleImageFiles(
+        @UploadedFiles() files: Array<Express.Multer.File>,
+        @Res() res: Response,
+    ) {
+        const imageQueueData: IImageQueueData = {
+            files,
+            options: {
+                quality: 60,
+            },
+        };
+        const job = await this.imageQueue.add('optimize', imageQueueData);
+        return res.json({ jobId: job.id });
     }
 
     // upload multiple files with multiple fields

@@ -1,7 +1,8 @@
 import { defaultStorageDir } from '@config';
+import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
-import { resolve } from 'path';
+import { join, resolve } from 'path';
 import { FileUploaderController } from './file-uploader.controller';
 import { FileUploaderService } from './file-uploader.service';
 
@@ -9,6 +10,15 @@ import { FileUploaderService } from './file-uploader.service';
     imports: [
         MulterModule.register({
             dest: resolve(defaultStorageDir),
+        }),
+        BullModule.registerQueue({
+            name: 'image',
+            processors: [
+                {
+                    name: 'optimize',
+                    path: join(__dirname, '..', 'image-resizer', 'image.processor.js'),
+                },
+            ],
         }),
     ],
     controllers: [FileUploaderController],

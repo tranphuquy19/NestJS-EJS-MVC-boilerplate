@@ -36,7 +36,11 @@ _Notice: This project is designed to work with both the Web MVC model and the RE
 
 ## Get started
 
-**Note**: Make sure you have Docker, Docker Compose and Node.js installed. The `run.sh` script only works on Linux or MacOS. On Windows, you have to run it in MINGW64 environment (aka. Git bash). [See the instructions](https://jcutrer.com/windows/bash-shell-on-windows) - a PowerShell script will available soon.
+**Note**: 
+
+- Make sure you have Docker, Docker Compose and Node.js installed. 
+- The `run.sh` script only works on Linux or MacOS. On Windows, you have to run it in MINGW64 environment (aka. Git bash) - a PowerShell script will available soon. [See the instructions](https://jcutrer.com/windows/bash-shell-on-windows).
+- You need to install PostgreSQL and Redis by yourself, if you don't want to use Docker.
 
 ```bash
 https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate # Clone this repository

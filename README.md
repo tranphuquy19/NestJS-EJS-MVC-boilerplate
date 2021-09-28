@@ -36,23 +36,25 @@ _Notice: This project is designed to work with both the Web MVC model and the RE
 
 ## Get started
 
+**Note**: Make sure you have Docker, Docker Compose and Node.js installed. The `run.sh` script only works on Linux or MacOS. On Windows, you have to run it in MINGW64 environment (aka. Git bash). [See the instructions](https://jcutrer.com/windows/bash-shell-on-windows) - a PowerShell script will available soon.
+
 ```bash
 https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate # Clone this repository
 cd NestJS-EJS-MVC-boilerplate # Go to the root of the repository
 
 yarn # Install dependencies
-bash ./run.sh up -d # Start PostgreSQL, Redis, PgAdmin in development mode
+bash ./run.sh up -d # will start all services. `-d` will run the services for development mode.
 yarn start:dev # Start the application in development mode
 ```
 
 ### Start using Docker compose
 
 ```bash
-./run.sh build # Build the application image for production
-./run.sh up -p # Start PostgreSQL, Redis, PgAdmin and the application in production mode
+bash ./run.sh build # Build the application image for production
+bash ./run.sh up -p # Start PostgreSQL, Redis, PgAdmin and the application in production mode
 
-./run.sh down # Stop PostgreSQL, Redis, PgAdmin and the application
-./run.sh down:volumes # Destroy PostgreSQL, Redis, PgAdmin and the application
+bash ./run.sh down # Stop PostgreSQL, Redis, PgAdmin and the application
+bash ./run.sh down:volumes # Destroy PostgreSQL, Redis, PgAdmin and the application
 ```
 
 ## Contributing

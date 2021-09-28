@@ -32,14 +32,14 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-_Notice: This project is designed to work with both the Web MVC model and the REST architecture. With many features needed for a #RealWorld project**_
+_Notice: This project is designed to work with both the Web MVC model and the REST architecture. With many features needed for a #RealWorld project_
 
 ## Get started
 
-**Note**: 
+**Notes**: 
 
 - Make sure you have Docker, Docker Compose and Node.js installed. 
-- The `run.sh` script only works on Linux or MacOS. On Windows, you have to run it in MINGW64 environment (aka. Git bash) - a PowerShell script will available soon. [See the instructions](https://jcutrer.com/windows/bash-shell-on-windows).
+- The `run.sh` script only works on Linux or MacOS. On Windows, you have to run it in MINGW64 environment (aka. Git bash) - a PowerShell script will be available soon. [See the instructions](https://jcutrer.com/windows/bash-shell-on-windows).
 - You need to install PostgreSQL and Redis by yourself, if you don't want to use Docker.
 
 ```bash
@@ -47,7 +47,7 @@ https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate # Clone this reposito
 cd NestJS-EJS-MVC-boilerplate # Go to the root of the repository
 
 yarn # Install dependencies
-bash ./run.sh up -d # will start all services. `-d` will run the services for development mode.
+bash ./run.sh up -d # will start all services. `-d` will run the services for development mode. 
 yarn start:dev # Start the application in development mode
 ```
 

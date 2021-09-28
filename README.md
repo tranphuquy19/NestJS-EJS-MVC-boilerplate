@@ -34,42 +34,25 @@
 
 _Notice: This project is designed to work with both the Web MVC model and the REST architecture. With many features needed for a #RealWorld project**_
 
-## Usages
-
-### Commands
+## Get started
 
 ```bash
-yarn install # install all dependencies
+https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate # Clone this repository
+cd NestJS-EJS-MVC-boilerplate # Go to the root of the repository
+
+yarn # Install dependencies
+bash ./run.sh up -d # Start PostgreSQL, Redis, PgAdmin in development mode
+yarn start:dev # Start the application in development mode
 ```
 
-```bash
-yarn start:dev # start the app in development environment
-```
+### Start using Docker compose
 
 ```bash
-yarn build # build app
-```
+./run.sh build # Build the application image for production
+./run.sh up -p # Start PostgreSQL, Redis, PgAdmin and the application in production mode
 
-### Docker support
-
-```bash
-bash ./run.sh docker:env # generate docker env file (.env.docker)
-```
-
-```bash
-bash ./run.sh up # build & run app using docker-compose
-```
-
-```bash
-bash ./run.sh down # destroy app containers
-```
-
-```bash
-bash ./run.sh stop # stop app containers
-```
-
-```bash
-bash ./run.sh -h # for more information
+./run.sh down # Stop PostgreSQL, Redis, PgAdmin and the application
+./run.sh down:volumes # Destroy PostgreSQL, Redis, PgAdmin and the application
 ```
 
 ## Contributing

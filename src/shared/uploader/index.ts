@@ -3,3 +3,4 @@ export * from './file-filter';
 export * from './file-rename';
 export * from './uploader-options.interface';
 export * from './uploader.decorator';
+export * from './file-types.enum';

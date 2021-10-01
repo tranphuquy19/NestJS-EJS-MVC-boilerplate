@@ -97,7 +97,7 @@ export class NotificationPayload {
 
     @IsOptional()
     @IsString()
-    topic!: string; // firebase using [android]
+    topic!: string; // firebase [android]
 
     @IsOptional()
     @IsBoolean()
@@ -111,61 +111,61 @@ export class NotificationPayload {
 
     @IsOptional()
     @IsString()
-    tags!: string; // firebase using [android]
+    tags!: string; // firebase [android]
 
     @IsOptional()
     @IsString()
-    badge!: string; // firebase using [ios]
+    badge!: string; // firebase [ios]
 
     @IsOptional()
     @IsString()
-    color!: string; // firebase using [android]
+    color!: string; // firebase [android]
 
     @IsOptional()
     @IsString()
-    sound!: string; // firebase using [android], Sound files must reside in `/res/raw/`.
+    sound!: string; // firebase [android], Sound files must reside in `/res/raw/`.
 
     @IsOptional()
     @IsString()
-    bodyLocKey!: string; // firebase using [android, ios]
+    bodyLocKey!: string; // firebase [android, ios]
 
     @IsOptional()
     @IsString()
-    bodyLocArgs!: string; // firebase using [android, ios]
+    bodyLocArgs!: string; // firebase [android, ios]
 
     @IsOptional()
     @IsString()
-    clickAction!: string; // firebase using [android]
+    clickAction!: string; // firebase [android]
 
     @IsOptional()
     @IsString()
-    titleLocKey!: string; // firebase using [android, ios]
+    titleLocKey!: string; // firebase [android, ios]
 
     @IsOptional()
     @IsString()
-    titleLocArgs!: string; // firebase using [android, ios]
+    titleLocArgs!: string; // firebase [android, ios]
 
     @IsOptional()
     @IsString()
-    channelId!: string; // firebase using [android >= 26 (8-Oreo)]
+    channelId!: string; // firebase [android >= 26 (8-Oreo)]
 
     @IsOptional()
     @IsString()
-    ticker!: string; // firebase using [android >= 21 (5-Lollipop)]
+    ticker!: string; // firebase [android >= 21 (5-Lollipop)]
 
     @IsOptional()
     @IsBoolean()
-    sticky?: boolean; // firebase using [android]
+    sticky?: boolean; // firebase [android]
 
     @IsOptional()
     @IsDate()
     // @Type(() => Date)
     // @Transform((value) => new Date(`${value}`))
-    eventTimestamp?: Date; // firebase using [android]
+    eventTimestamp?: Date; // firebase [android]
 
     @IsOptional()
     @IsBoolean()
-    localOnly?: boolean; // firebase using [android-wear]
+    localOnly?: boolean; // firebase [android-wear]
 
     @IsOptional()
     @IsEnum(NotificationPriorities, {
@@ -173,31 +173,31 @@ export class NotificationPayload {
             NotificationPriorities,
         ).join(', ')}`,
     })
-    priority!: 'min' | 'low' | 'default' | 'high' | 'max'; // firebase using [android]
+    priority!: 'min' | 'low' | 'default' | 'high' | 'max'; // firebase [android]
 
     @IsOptional()
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => Number)
-    vibrateTimingsMillis!: number[]; // firebase using [android]
+    vibrateTimingsMillis!: number[]; // firebase [android]
 
     @IsOptional()
     @IsBoolean()
-    defaultVibrateTimings!: boolean; // firebase using [android]
+    defaultVibrateTimings!: boolean; // firebase [android]
 
     @IsOptional()
     @IsBoolean()
-    defaultSound!: boolean; // firebase using [android], default value are specified in config.xml
+    defaultSound!: boolean; // firebase [android], default value are specified in config.xml
 
     @IsOptional()
     @IsObject()
     @ValidateNested()
     @Type(() => MobileNotificationLightSettings)
-    lightSettings!: MobileNotificationLightSettings; // firebase using [android]
+    lightSettings!: MobileNotificationLightSettings; // firebase [android]
 
     @IsOptional()
     @IsBoolean()
-    defaultLightSettings!: boolean; // firebase using [android]
+    defaultLightSettings!: boolean; // firebase [android]
 
     @IsOptional()
     @IsEnum(NotificationVisibilities, {
@@ -205,11 +205,11 @@ export class NotificationPayload {
             NotificationPriorities,
         ).join(', ')}`,
     })
-    visibility!: 'private' | 'public' | 'secret'; // firebase using [android]
+    visibility!: 'private' | 'public' | 'secret'; // firebase [android]
 
     @IsOptional()
     @IsNumber()
-    notificationCount!: number; // firebase using [android]
+    notificationCount!: number; // firebase [android]
 
     [key: string]: any | undefined;
 }

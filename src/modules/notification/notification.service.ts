@@ -1,5 +1,4 @@
 import { apiHost } from '@config';
-import { FcmService } from '@doracoder/fcm-nestjs';
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import { RedisService } from '@redis/redis.service';
@@ -14,7 +13,6 @@ export class NotificationService {
 
     constructor(
         private readonly redisService: RedisService,
-        private readonly fcmService: FcmService,
         @InjectQueue('notification') private readonly notificationQueue: Queue,
     ) {}
 

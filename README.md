@@ -34,6 +34,8 @@
 
 _Notice: This project is designed to work with both the Web MVC model and the REST architecture. With many features needed for a #RealWorld project_
 
+> ⚠️ **DISCLAIMER**: This project is still in development and not stable yet. It's not recommended to use it in production.
+
 ## Get started
 
 **Notes**: 

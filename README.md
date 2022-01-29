@@ -86,7 +86,7 @@ existing ones. It would be very helpful if you submit a pull request with bug fi
 
 - [x] RESTful API
 - [x] API versioning decorator [api-v1.controller.ts](https://github.com/tranphuquy19/NestJS-EJS-MVC-boilerplate/blob/master/src/shared/decorators/api-v1-controller.decorator.ts#L3)
-- [ ] API Pagination
+- [x] API Pagination
 - [x] Multiple domains support
 
 ### GraphQL
@@ -147,7 +147,7 @@ existing ones. It would be very helpful if you submit a pull request with bug fi
 - [ ] Can update grants at runtime
 - [x] Implemented builder pattern
 
-### SEO
+### Support SEO
 
 - [x] Sitemap generator
 - [ ] Google Analytics

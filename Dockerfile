@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.3
 
 # Base image
-FROM node:12-alpine AS base
+FROM node:14-alpine AS base
 
 ENV YARN_CACHE_FOLDER=/root/.yarn
 

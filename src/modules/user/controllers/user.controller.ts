@@ -7,7 +7,7 @@ import {
     ReqUser,
     User,
 } from '@shared';
-import { image, name } from 'faker';
+import { faker } from '@faker-js/faker';
 import { UserService } from '../user.service';
 
 @Controller()
@@ -21,6 +21,7 @@ export class UserController {
     @Page('profile')
     async getProfile(@User() reqUser: ReqUser) {
         const user = await this.userService.findById(reqUser.id, reqUser);
+        const { image, name } = faker;
         const pet = { image: image.cats(400, 200), name: name.firstName() }; // just random something to render at FE
         return { user: { ...user, pet } };
     }

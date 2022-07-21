@@ -1,9 +1,10 @@
-import { Controller, Get, Logger, Res, UseFilters } from '@nestjs/common';
+import { Controller, Get, Logger, Res, UseFilters, UseInterceptors } from '@nestjs/common';
 import {
     LocalAuthExceptionFilter,
     LoggedInAuth,
     LOGIN_PAGE,
     Page,
+    PageInterceptor,
     ReqUser,
     User,
 } from '@shared';
@@ -11,6 +12,7 @@ import { Response } from 'express';
 
 @Controller()
 @UseFilters(LocalAuthExceptionFilter)
+@UseInterceptors(PageInterceptor)
 export class AppController {
     private logger = new Logger(AppController.name);
 

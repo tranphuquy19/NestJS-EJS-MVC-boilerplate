@@ -1,11 +1,13 @@
 import { apiUrl } from '@config';
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ApiV1Controller, IPagination, JwtAuth, PaginateParams, ReqUser, User } from '@shared';
 import { CreateUserDTO, UpdateUserDTO } from '../dtos';
 import { UserEntity } from '../entities';
 import { UserService } from '../user.service';
 
 @ApiV1Controller('users')
+@ApiTags('users')
 export class ApiUserController {
     constructor(private readonly userService: UserService) {}
 

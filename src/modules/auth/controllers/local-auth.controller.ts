@@ -1,10 +1,12 @@
 import { Controller, Get, Post, Req, Res, UseFilters, UseInterceptors } from '@nestjs/common';
+import { ApiExcludeController } from '@nestjs/swagger';
 import { LocalAuth, LocalAuthExceptionFilter, Page, PageInterceptor } from '@shared';
 import { Request, Response } from 'express';
 
 @Controller('local')
 @UseFilters(LocalAuthExceptionFilter)
 @UseInterceptors(PageInterceptor)
+@ApiExcludeController()
 export class LocalAuthController {
     @LocalAuth()
     @Post('login')

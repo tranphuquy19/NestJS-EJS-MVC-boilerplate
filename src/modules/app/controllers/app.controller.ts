@@ -1,4 +1,5 @@
 import { Controller, Get, Logger, Res, UseFilters, UseInterceptors } from '@nestjs/common';
+import { ApiExcludeController } from '@nestjs/swagger';
 import {
     LocalAuthExceptionFilter,
     LoggedInAuth,
@@ -13,6 +14,7 @@ import { Response } from 'express';
 @Controller()
 @UseFilters(LocalAuthExceptionFilter)
 @UseInterceptors(PageInterceptor)
+@ApiExcludeController()
 export class AppController {
     private logger = new Logger(AppController.name);
 

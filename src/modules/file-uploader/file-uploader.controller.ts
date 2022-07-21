@@ -2,12 +2,14 @@ import { WORKING_DIR } from '@config';
 import { IImageQueueData } from '@modules/image-resizer/image-options.interface';
 import { InjectQueue } from '@nestjs/bull';
 import { Post, Res, UploadedFile, UploadedFiles } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ApiV1Controller, FileTypes, Uploader } from '@shared';
 import { Queue } from 'bull';
 import { Response } from 'express';
 import { extname, join, parse } from 'path';
 
 @ApiV1Controller('uploader')
+@ApiTags('file-uploader')
 export class FileUploaderController {
     constructor(@InjectQueue('image') private readonly imageQueue: Queue) {}
 

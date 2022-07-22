@@ -576,10 +576,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@doracoder/fcm-nestjs@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@doracoder/fcm-nestjs/-/fcm-nestjs-0.5.0.tgz#10accfba176d0af4aff247065723b667e439cece"
-  integrity sha512-s5VsiKKQwV5c+qz8C002ZbKjVcdZmmoWMmzwMxRRwoa8cHlV7PPxy0s9fkU1PalNFiTnmPj3DRE3dUvBYI6DwA==
+"@doracoder/fcm-nestjs@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@doracoder/fcm-nestjs/-/fcm-nestjs-0.6.0.tgz#6cb6d799587c7166eb5b1f2a156b91413f06e43d"
+  integrity sha512-qOm9rbN2gx48oH7GIb7oHXHPuI6xpHTSrCB2TmtzcM/QqNmSYqtOwKU0DUHqVYc0lVbC2hzbhOWiegB/p18pHA==
   dependencies:
     firebase-admin "^11.0.0"
     reflect-metadata "^0.1.13"

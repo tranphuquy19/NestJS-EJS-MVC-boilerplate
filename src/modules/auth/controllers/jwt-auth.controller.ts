@@ -1,9 +1,10 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { JwtAuth, JwtRefreshAuth, ReqUser, User } from '@shared';
+import { ApiTags } from '@nestjs/swagger';
+
 import { CreateUserDTO } from '@modules/user/dtos';
+import { JwtAuth, JwtRefreshAuth, ReqUser, User } from '@shared';
 import { LoginInputDTO } from '../dtos';
 import { AuthService } from '../services';
-import { ApiTags } from '@nestjs/swagger';
 
 @Controller('jwt')
 @ApiTags('auth')

@@ -1,5 +1,8 @@
 import { AppResources } from '@config';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+
+import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
+
 import {
     AppPermissionBuilder,
     customPaginate,
@@ -8,7 +11,6 @@ import {
     PaginateParams,
     ReqUser,
 } from '@shared';
-import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
 import { CreateUserDTO, UpdateUserDTO } from './dtos';
 import { UserEntity } from './entities';
 import { UserRepository } from './repositories';

@@ -1,9 +1,11 @@
-import { defaultLocale, NODE_ENV, sessionMaxAge } from '@config';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { isApiRequest } from '@shared';
+
 import { NextFunction, Request, Response } from 'express';
 import I18n from 'i18n';
 import parseDuration from 'parse-duration';
+
+import { defaultLocale, NODE_ENV, sessionMaxAge } from '@config';
+import { isApiRequest } from '@shared';
 
 I18n.configure({
     locales: ['en', 'vi', 'jp'],
@@ -19,7 +21,7 @@ I18n.configure({
     },
 });
 
-export function i18nMiddleware(req: Request, res: Response, next: NextFunction) {
+export function i18nMiddleware(req: Request, res: Response, next: NextFunction): void {
     // Skip the create cookies with API requests
     if (isApiRequest(req)) {
         next();
@@ -39,7 +41,7 @@ export function i18nMiddleware(req: Request, res: Response, next: NextFunction) 
     }
 }
 
-export function configI18n(app: NestExpressApplication) {
+export function configI18n(app: NestExpressApplication): void {
     // handle for multiple language
     app.use(i18nMiddleware);
     app.use(I18n.init);

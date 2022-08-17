@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
 import { LoggedInAuth, User } from '@shared';
 import { NotificationFiringDTO } from './dtos';
 import { NotificationService } from './notification.service';

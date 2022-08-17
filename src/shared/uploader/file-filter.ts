@@ -1,6 +1,8 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { UploaderOptions } from '@shared';
+
 import { extname } from 'path';
+
+import { UploaderOptions } from '@shared';
 import * as FileExtensions from './file-extensions';
 
 export const fileFilter = (options: UploaderOptions) => {

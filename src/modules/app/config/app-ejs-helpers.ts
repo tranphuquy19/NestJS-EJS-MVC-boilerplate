@@ -10,7 +10,7 @@ const ejsHelpers = {
     // }
 };
 
-export function configEjsHelpers(app: NestExpressApplication) {
+export function configEjsHelpers(app: NestExpressApplication): void {
     Object.keys(ejsHelpers).forEach((helperName: string) => {
         app.setLocal(helperName, ejsHelpers[helperName]);
     });

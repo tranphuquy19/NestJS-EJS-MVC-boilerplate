@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
-import { EntityResults, PaginateParams } from '@shared';
 import { EntityRepository, Repository } from 'typeorm';
+
+import { EntityResults, PaginateParams } from '@shared';
 import { UserEntity } from '../entities';
 
 @EntityRepository(UserEntity)

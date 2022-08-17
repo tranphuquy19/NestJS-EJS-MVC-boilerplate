@@ -1,6 +1,7 @@
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+
 import { apiUrl, pLimit, pOrder } from '@config';
 import { PaginateParams } from '@shared';
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export type PaginateType = Pick<PaginateParams, 'route'>;
 

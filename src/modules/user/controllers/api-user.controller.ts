@@ -1,6 +1,7 @@
-import { apiUrl } from '@config';
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
+import { apiUrl } from '@config';
 import { ApiV1Controller, IPagination, JwtAuth, PaginateParams, ReqUser, User } from '@shared';
 import { CreateUserDTO, UpdateUserDTO } from '../dtos';
 import { UserEntity } from '../entities';

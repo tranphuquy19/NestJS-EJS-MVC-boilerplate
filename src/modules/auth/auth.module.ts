@@ -1,6 +1,7 @@
-import { jwtSecretKey } from '@config';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+
+import { jwtSecretKey } from '@config';
 import { JwtAuthStrategy, JwtRefreshStrategy, LocalStrategy } from '@shared';
 import { UserModule } from '@user/user.module';
 import { JwtAuthController, LocalAuthController } from './controllers';

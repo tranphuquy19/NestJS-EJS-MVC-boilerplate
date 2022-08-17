@@ -1,10 +1,12 @@
-import { NODE_ENV, publicVapidKey, clientUrl, WORKING_DIR } from '@config';
 import { Logger } from '@nestjs/common';
+
 import ejs from 'ejs';
 import { watchFile, writeFileSync } from 'fs';
 import path from 'path';
 
-export function configServiceWorker() {
+import { clientUrl, NODE_ENV, publicVapidKey, WORKING_DIR } from '@config';
+
+export function configServiceWorker(): void {
     const logger = new Logger('Bootstrap');
     const mainScriptPath = path.join(WORKING_DIR, 'views', 'templates', 'main.js.ejs');
     const swScriptPath = path.join(WORKING_DIR, 'views', 'templates', 'sw.js.ejs');

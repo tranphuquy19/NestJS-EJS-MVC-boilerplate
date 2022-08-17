@@ -1,5 +1,3 @@
-import { AppRoles } from '@config';
-import { IBaseModel } from '@shared';
 import bcrypt from 'bcrypt';
 import { AvatarGenerator } from 'random-avatar-generator';
 import {
@@ -13,6 +11,9 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
+
+import { AppRoles } from '@config';
+import { IBaseModel } from '@shared';
 import { IUserModel } from '../dtos';
 
 const avatarGenerator = new AvatarGenerator();

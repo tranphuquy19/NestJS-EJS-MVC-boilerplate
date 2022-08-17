@@ -1,15 +1,17 @@
-import { apiHost, apiUrls } from '@config';
 import { Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
 import morgan from 'morgan';
+
+import { apiHost, apiUrls } from '@config';
 import { description, version } from '../../../../package.json'; // Notice: the packages.json will be added to dist folder
 
 /**
  * Application config for development environment
  * @param app
  */
-export function devConfig(app: NestExpressApplication) {
+export function devConfig(app: NestExpressApplication): void {
     const logger = new Logger('Bootstrap');
 
     app.enable('trust proxy');

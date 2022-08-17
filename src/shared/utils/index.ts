@@ -1,7 +1,8 @@
-import { apiUrls } from '@config';
 import { randomInt } from 'crypto';
 import { Request } from 'express';
 import url from 'url';
+
+import { apiUrls } from '@config';
 
 /**
  * Get the full URL in Express

@@ -56,6 +56,7 @@ elif [[ $1 == "up" ]]; then
         docker-compose -p $STACK_NAME -f $PROD_DOCKER_COMPOSE_FILE up -d
     elif [[ $2 == "--development" || $2 == "-d" ]]; then
         docker-compose -p $STACK_NAME -f $DEV_DOCKER_COMPOSE_FILE up -d
+        yarn start:dev
     fi
 
 elif [[ $1 == "stop" ]]; then

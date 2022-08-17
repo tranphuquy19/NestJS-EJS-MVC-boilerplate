@@ -1,5 +1,8 @@
 import { Controller, Get, Logger, Res, UseFilters, UseInterceptors } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
+
+import { Response } from 'express';
+
 import {
     LocalAuthExceptionFilter,
     LoggedInAuth,
@@ -9,7 +12,6 @@ import {
     ReqUser,
     User,
 } from '@shared';
-import { Response } from 'express';
 
 @Controller()
 @UseFilters(LocalAuthExceptionFilter)

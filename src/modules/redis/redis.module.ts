@@ -1,6 +1,7 @@
-import { redisPort, redisUrl } from '@config';
 import { Logger, Module } from '@nestjs/common';
 import { createClient } from 'redis';
+
+import { redisPort, redisUrl } from '@config';
 import { RedisService } from './redis.service';
 
 @Module({

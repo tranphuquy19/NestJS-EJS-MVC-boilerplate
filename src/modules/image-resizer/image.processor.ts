@@ -1,9 +1,10 @@
 import { DoneCallback, Job } from 'bull';
 import { join } from 'path';
 import sharp from 'sharp';
+
 import { IImageQueueData } from './image-options.interface';
 
-async function imageProcessor(job: Job, doneCallback: DoneCallback) {
+async function imageProcessor(job: Job, doneCallback: DoneCallback): Promise<void> {
     const imageQueueData = job.data as IImageQueueData;
 
     const { files, options } = imageQueueData;

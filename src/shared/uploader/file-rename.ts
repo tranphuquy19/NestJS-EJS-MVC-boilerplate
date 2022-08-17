@@ -1,11 +1,13 @@
-import { defaultStorageDir } from '@config';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { UploaderOptions } from '@shared';
-import { randomString } from '@shared/utils';
+
 import { Request } from 'express';
 import { existsSync } from 'fs';
 import { extname, join, parse, resolve } from 'path';
 import sanitizeFilename from 'sanitize-filename';
+
+import { defaultStorageDir } from '@config';
+import { UploaderOptions } from '@shared';
+import { randomString } from '@shared/utils';
 
 type cbFileName = (e: Error | null, updatedFileName: string) => void;
 

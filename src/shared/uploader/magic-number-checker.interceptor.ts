@@ -8,10 +8,12 @@ import {
     NestInterceptor,
     Type,
 } from '@nestjs/common';
-import { UploaderOptions } from '@shared';
+
 import fileType from 'file-type';
 import { createReadStream, promises } from 'fs';
 import { extname } from 'path';
+
+import { UploaderOptions } from '@shared';
 
 export function MagicNumberCheckerInterceptor(options: UploaderOptions): Type<NestInterceptor> {
     class MixinInterceptor implements NestInterceptor {

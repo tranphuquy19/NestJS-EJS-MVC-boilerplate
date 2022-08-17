@@ -1,8 +1,10 @@
-import { defaultStorageDir } from '@config';
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
+
 import { join, resolve } from 'path';
+
+import { defaultStorageDir } from '@config';
 import { FileUploaderController } from './file-uploader.controller';
 import { FileUploaderService } from './file-uploader.service';
 

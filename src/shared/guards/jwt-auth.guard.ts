@@ -1,5 +1,6 @@
 import { ExecutionContext, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+
 import { STRATEGY_JWT_AUTH } from '@shared';
 
 @Injectable()

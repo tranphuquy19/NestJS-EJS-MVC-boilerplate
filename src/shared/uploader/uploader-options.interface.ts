@@ -1,5 +1,6 @@
-import { FileTypes } from '@shared';
 import { Request } from 'express';
+
+import { FileTypes } from '@shared';
 
 type cbFileName = (file: Express.Multer.File, req?: Request) => string;
 

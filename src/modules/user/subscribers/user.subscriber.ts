@@ -1,5 +1,7 @@
 import { Logger } from '@nestjs/common';
+
 import { EntitySubscriberInterface, EventSubscriber, InsertEvent } from 'typeorm';
+
 import { UserEntity } from '../entities/user.entity';
 
 @EventSubscriber()

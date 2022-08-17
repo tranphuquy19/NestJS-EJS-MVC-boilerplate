@@ -1,5 +1,3 @@
-import { AppRoles } from '@config';
-import { RolesValidator } from '@shared';
 import {
     ArrayUnique,
     IsEmail,
@@ -12,6 +10,9 @@ import {
     MinLength,
     Validate,
 } from 'class-validator';
+
+import { AppRoles } from '@config';
+import { RolesValidator } from '@shared';
 import { IUserModel } from './user.model';
 
 export type IUpdateUserDTO = Omit<IUserModel, 'createAt' | 'updateAt'>;

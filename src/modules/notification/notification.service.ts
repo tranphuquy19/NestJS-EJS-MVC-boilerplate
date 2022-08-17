@@ -1,9 +1,11 @@
-import { apiHost } from '@config';
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
-import { RedisService } from '@redis/redis.service';
+
 import { Job, Queue } from 'bull';
 import webPush from 'web-push';
+
+import { apiHost } from '@config';
+import { RedisService } from '@redis/redis.service';
 import { NotificationFiringDTO, NotificationProviders } from './dtos';
 
 @Injectable()

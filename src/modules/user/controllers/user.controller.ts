@@ -1,4 +1,7 @@
 import { Controller, Get, UseFilters, UseInterceptors } from '@nestjs/common';
+
+import { faker } from '@faker-js/faker';
+
 import {
     LocalAuthExceptionFilter,
     LoggedInAuth,
@@ -7,7 +10,6 @@ import {
     ReqUser,
     User,
 } from '@shared';
-import { faker } from '@faker-js/faker';
 import { UserService } from '../user.service';
 
 @Controller()

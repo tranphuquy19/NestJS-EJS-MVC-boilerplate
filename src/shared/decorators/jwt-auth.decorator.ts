@@ -1,7 +1,9 @@
 import { applyDecorators, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
+
+import { ACGuard, Role, UseRoles } from 'nest-access-control';
+
 import { JwtAuthGuard } from '@shared';
-import { UseRoles, Role, ACGuard } from 'nest-access-control';
 
 /**
  * Guard for verifying token

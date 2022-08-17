@@ -1,4 +1,3 @@
-import { defaultMaxFileSize, defaultStorageDir } from '@config';
 import { applyDecorators, UseInterceptors } from '@nestjs/common';
 import {
     FileFieldsInterceptor,
@@ -9,11 +8,14 @@ import {
     MulterField,
     MulterOptions,
 } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
-import { editFileName, fileFilter, UploaderOptions } from '@shared';
+
 import { existsSync, mkdirSync } from 'fs';
 import { diskStorage } from 'multer';
 import { resolve } from 'path';
 import { parseSize } from 'xbytes';
+
+import { defaultMaxFileSize, defaultStorageDir } from '@config';
+import { editFileName, fileFilter, UploaderOptions } from '@shared';
 import { MagicNumberCheckerInterceptor } from './magic-number-checker.interceptor';
 
 export function Uploader(fieldName: string | MulterField[], options?: UploaderOptions) {

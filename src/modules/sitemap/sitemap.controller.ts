@@ -1,6 +1,8 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
+
 import { Response } from 'express';
+
 import { SitemapService } from './sitemap.service';
 
 @Controller()

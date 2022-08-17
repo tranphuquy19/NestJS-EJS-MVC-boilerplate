@@ -6,8 +6,10 @@ import {
     HttpException,
     UnauthorizedException,
 } from '@nestjs/common';
-import { ERROR_PAGE, LOGIN_PAGE } from '@shared';
+
 import { Request, Response } from 'express';
+
+import { ERROR_PAGE, LOGIN_PAGE } from '@shared';
 
 interface IRequestFlash extends Request {
     flash: any;

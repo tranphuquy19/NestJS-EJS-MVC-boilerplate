@@ -1,3 +1,11 @@
+import { NestExpressApplication } from '@nestjs/platform-express';
+
+import compression from 'compression';
+import { createWriteStream, existsSync, mkdirSync } from 'fs';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import path, { dirname, isAbsolute, join } from 'path';
+
 import {
     apiUrl,
     clientUrl,
@@ -7,18 +15,12 @@ import {
     onlyErrorRequests,
     WORKING_DIR,
 } from '@config';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import compression from 'compression';
-import { createWriteStream, existsSync, mkdirSync } from 'fs';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import path, { dirname, isAbsolute, join } from 'path';
 
 /**
  * Application config for production environment
  * @param app
  */
-export function prodConfig(app: NestExpressApplication) {
+export function prodConfig(app: NestExpressApplication): void {
     app.use(helmet());
     app.use(compression());
     app.enableCors({

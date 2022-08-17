@@ -1,12 +1,14 @@
-import { email, privateVapidKey, publicVapidKey } from '@config';
-import { FcmService } from '@doracoder/fcm-nestjs';
 import { OnQueueActive, Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
-import { RedisService } from '@redis/redis.service';
+
+import { FcmService } from '@doracoder/fcm-nestjs';
 import { Job } from 'bull';
-import webPush from 'web-push';
-import { NotificationFiringDTO } from './dtos';
 import _ from 'lodash';
+import webPush from 'web-push';
+
+import { email, privateVapidKey, publicVapidKey } from '@config';
+import { RedisService } from '@redis/redis.service';
+import { NotificationFiringDTO } from './dtos';
 
 @Processor('notification')
 export class NotificationProcessor {

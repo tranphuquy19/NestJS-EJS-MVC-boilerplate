@@ -1,7 +1,9 @@
-import { apiUrl } from '@config';
 import { Injectable } from '@nestjs/common';
+
 import { Response } from 'express';
 import { SitemapStream, streamToPromise } from 'sitemap';
+
+import { apiUrl } from '@config';
 
 @Injectable()
 export class SitemapService {

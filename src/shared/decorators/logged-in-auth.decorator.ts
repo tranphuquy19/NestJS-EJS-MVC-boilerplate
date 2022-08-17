@@ -1,4 +1,5 @@
 import { applyDecorators, UseGuards } from '@nestjs/common';
+
 import { AuthenticatedGuard } from '@shared';
 
 /**

@@ -12,9 +12,10 @@ export function configServiceWorker(): void {
     const swScriptPath = path.join(WORKING_DIR, 'views', 'templates', 'sw.js.ejs');
 
     const renderMainFile = () => {
-        ejs.renderFile(mainScriptPath, { publicVapidKey }, (err, str) => {
+        ejs.renderFile(mainScriptPath, { publicVapidKey }, (err: Error, str: string) => {
             const mainPath = path.join(WORKING_DIR, 'public', 'main.js');
             writeFileSync(mainPath, str, { flag: 'w', encoding: 'utf8' });
+
             if (err) {
                 logger.error(err.message);
             } else {
@@ -24,7 +25,7 @@ export function configServiceWorker(): void {
     };
 
     const renderSwFile = () => {
-        ejs.renderFile(swScriptPath, { clientUrl }, (err, str) => {
+        ejs.renderFile(swScriptPath, { clientUrl }, (err: Error, str: string) => {
             const swPath = path.join(WORKING_DIR, 'public', 'sw.js');
             writeFileSync(swPath, str, { flag: 'w', encoding: 'utf8' });
 

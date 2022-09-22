@@ -3,7 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 
 import { AppRoles, jwtRefreshTokenExpiration, jwtTokenExpiration } from '@config';
 import { CreateUserDTO } from '@modules/user/dtos';
-import { ReqUser } from '@shared';
+import { UserEntity } from '@modules/user/entities';
+import { IReqUser, ReqUser } from '@shared';
 import { UserService } from '@user/user.service';
 import parseDuration from 'parse-duration';
 import { LoginInputDTO } from '../dtos';
@@ -15,7 +16,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
-    async validateUser(username: string, password: string): Promise<any> {
+    async validateUser(username: string, password: string): Promise<UserEntity> {
         const user = await this.userService.findByUsername(username);
 
         if (!!user && (await user.comparePassword(password))) {
@@ -32,7 +33,7 @@ export class AuthService {
         } else return this.getAuthToken(user);
     }
 
-    async jwtRefresh(data: any) {
+    async jwtRefresh(data: IReqUser) {
         const user = await this.userService.findById(data.id, { roles: [AppRoles.ADMIN] });
         if (!user) {
             throw new UnauthorizedException();
@@ -44,7 +45,7 @@ export class AuthService {
         return this.getAuthToken(user);
     }
 
-    getAuthToken(user: any) {
+    getAuthToken(user: Partial<UserEntity>) {
         const subject = { id: user.id };
 
         const payload = {

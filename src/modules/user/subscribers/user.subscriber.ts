@@ -8,15 +8,15 @@ import { UserEntity } from '../entities/user.entity';
 export class UserSubscriber implements EntitySubscriberInterface<UserEntity> {
     private readonly logger: Logger = new Logger(UserSubscriber.name);
 
-    listenTo() {
+    listenTo(): typeof UserEntity {
         return UserEntity;
     }
 
-    beforeInsert(event: InsertEvent<UserEntity>) {
+    beforeInsert(event: InsertEvent<UserEntity>): void {
         this.logger.log(`BEFORE USER INSERTED ${JSON.stringify(event.entity)}`);
     }
 
-    afterInsert(event: InsertEvent<UserEntity>) {
+    afterInsert(event: InsertEvent<UserEntity>): void {
         this.logger.log(`AFTER USER INSERTED ${JSON.stringify(event.entity)}`);
     }
 }

@@ -11,7 +11,7 @@ import { NotificationFiringDTO, NotificationProviders } from './dtos';
 @Injectable()
 export class NotificationService {
     private readonly logger = new Logger(NotificationService.name);
-    private readonly prefix = 'subs';
+    private readonly REDIS_KEY_PREFIX = 'subs';
 
     constructor(
         private readonly redisService: RedisService,
@@ -19,7 +19,10 @@ export class NotificationService {
     ) {}
 
     subscribe(subscription: any, userId: string): void {
-        this.redisService.setUniqueObjectByKey(`${this.prefix}:${userId}`, subscription);
+        this.redisService.setUniqueObjectByKey(
+            `${this.REDIS_KEY_PREFIX}:${userId}`,
+            subscription,
+        );
 
         webPush
             .sendNotification(
@@ -33,7 +36,7 @@ export class NotificationService {
     }
 
     unsubscribe(subscription: any, userId: string): void {
-        this.redisService.removeMemberOfSet(`${this.prefix}:${userId}`, subscription);
+        this.redisService.removeMemberOfSet(`${this.REDIS_KEY_PREFIX}:${userId}`, subscription);
     }
 
     async fireAll(option: NotificationFiringDTO): Promise<any> {

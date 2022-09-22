@@ -13,7 +13,7 @@ import { NotificationFiringDTO } from './dtos';
 @Processor('notification')
 export class NotificationProcessor {
     private readonly logger = new Logger(NotificationProcessor.name);
-    private readonly prefix = 'subs';
+    private readonly REDIS_KEY_PREFIX = 'subs';
 
     constructor(
         private readonly redisService: RedisService,
@@ -51,10 +51,12 @@ export class NotificationProcessor {
     }
 
     @Process('web-push-all')
-    async fireAllWebPush(job: Job): Promise<any> {
+    async fireAllWebPush(job: Job): Promise<void> {
         try {
             const option = job.data.option as NotificationFiringDTO;
-            const keys = await this.redisService.getAllKeyWithPattern(`${this.prefix}*`);
+            const keys = await this.redisService.getAllKeyWithPattern(
+                `${this.REDIS_KEY_PREFIX}*`,
+            );
             const subscriptionPromises = keys.map((key) =>
                 this.redisService.getAllMembersOfSetByKey<webPush.PushSubscription>(key),
             );
@@ -68,12 +70,12 @@ export class NotificationProcessor {
     }
 
     @Process('web-push-topic')
-    async fireToSpecifiedUsersWebPush(job: Job): Promise<any> {
+    async fireToSpecifiedUsersWebPush(job: Job): Promise<void> {
         try {
             const option = job.data.option as NotificationFiringDTO;
             const subUsersPromises = option.userIds.map((userId) =>
                 this.redisService.getAllMembersOfSetByKey<webPush.PushSubscription>(
-                    `${this.prefix}:${userId}`,
+                    `${this.REDIS_KEY_PREFIX}:${userId}`,
                 ),
             );
             const subUsers = await Promise.all(subUsersPromises);
@@ -86,7 +88,7 @@ export class NotificationProcessor {
     }
 
     @Process('fcm-all')
-    async fireAllFirebase(job: Job): Promise<any> {
+    async fireAllFirebase(job: Job): Promise<void> {
         const option = job.data.option as NotificationFiringDTO;
         const { topic, silent, data, ...firebaseData } = option.payload;
 
@@ -105,7 +107,7 @@ export class NotificationProcessor {
     }
 
     @Process('fcm-topic')
-    async fireToSpecifiedUsersFirebase(job: Job): Promise<any> {
+    async fireToSpecifiedUsersFirebase(job: Job): Promise<void> {
         const option = job.data.option as NotificationFiringDTO;
         const { silent, data, ...firebaseData } = option.payload;
 

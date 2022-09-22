@@ -12,13 +12,13 @@ export class NotificationController {
 
     @LoggedInAuth()
     @Post('subscribe')
-    subscribe(@Body() subscription: any, @User('id') userId: string) {
+    subscribe(@Body() subscription: any, @User('id') userId: string): void {
         return this.notificationService.subscribe(subscription, userId);
     }
 
     @LoggedInAuth()
     @Post('unsubscribe')
-    unsubscribe(@Body() subscription: any, @User('id') userId: string) {
+    unsubscribe(@Body() subscription: any, @User('id') userId: string): void {
         return this.notificationService.unsubscribe(subscription, userId);
     }
 

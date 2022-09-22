@@ -11,7 +11,7 @@ export class SitemapController {
     constructor(private readonly sitemapService: SitemapService) {}
 
     @Get(['sitemap.xml', 'sitemap'])
-    async generateSitemap(@Res() res: Response) {
+    async generateSitemap(@Res() res: Response): Promise<void> {
         this.sitemapService.generateSitemap(res);
     }
 }

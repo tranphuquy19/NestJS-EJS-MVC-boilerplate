@@ -18,7 +18,7 @@ import {
 } from '@app/config';
 import { LISTEN_ON, NODE_ENV, PORT, sessionMaxAge, WORKING_DIR } from '@config';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
     appGlobalConfig(app);

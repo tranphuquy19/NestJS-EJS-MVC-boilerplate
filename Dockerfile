@@ -37,6 +37,5 @@ COPY --from=development /home/node/app/dist ./dist
 COPY --from=development /home/node/app/src ./src
 COPY --from=development /home/node/app/views ./views
 COPY --from=development /home/node/app/public ./public
-COPY ./ormconfig.js nest-cli.json ./
 
 CMD ["node", "./dist/src/main.js"]

@@ -15,6 +15,7 @@
         "middlewares",
         "Millis",
         "originalname",
+        "ormconfig",
         "prebuild",
         "RBAC",
         "resave",

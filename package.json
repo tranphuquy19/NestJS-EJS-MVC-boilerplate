@@ -21,7 +21,12 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "postinstall": "husky install",
-        "commit": "cz"
+        "commit": "cz",
+        "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f ./src/config/databases/ormconfig.ts",
+        "typeorm:migration:create": "npm run typeorm:cli -- migration:create -n",
+        "typeorm:migration:generate": "npm run typeorm:cli -- migration:generate -n",
+        "typeorm:migration:run": "npm run typeorm:cli migration:run",
+        "typeorm:migration:revert": "npm run typeorm:cli migration:revert"
     },
     "dependencies": {
         "@doracoder/fcm-nestjs": "0.6.0",

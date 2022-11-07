@@ -7,6 +7,7 @@ import { AccessControlModule } from 'nest-access-control';
 import path from 'path';
 
 import { redisPort, redisUrl, roles, WORKING_DIR } from '@config';
+import * as TypeOrmConfig from '@config/databases/ormconfig';
 
 import { AuthModule } from '@auth/auth.module';
 import { FileUploaderModule } from '@file-uploader/file-uploader.module';
@@ -21,7 +22,7 @@ import { AppService } from './services';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot(),
+        TypeOrmModule.forRoot(TypeOrmConfig.default),
         AccessControlModule.forRoles(roles),
         FcmModule.forRoot({
             firebaseSpecsPath: path.join(WORKING_DIR, 'firebase.spec.json'),

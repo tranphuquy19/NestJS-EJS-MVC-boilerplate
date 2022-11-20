@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import '@shared/env-loader';
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';

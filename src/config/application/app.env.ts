@@ -39,3 +39,7 @@ export const privateVapidKey = process.env.PRIVATE_VAPID_KEY;
 // Uploader
 export const defaultStorageDir = process.env.DEFAULT_STORAGE_DIR;
 export const defaultMaxFileSize = process.env.DEFAULT_MAX_FILE_SIZE;
+
+// K8S environment variables
+export const k8sServiceHost = process.env.KUBERNETES_SERVICE_HOST;
+export const isK8s = !!k8sServiceHost;

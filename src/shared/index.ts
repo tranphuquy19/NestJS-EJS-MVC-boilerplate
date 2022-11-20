@@ -13,3 +13,4 @@ export * from './strategies';
 export * from './uploader';
 export * from './utils';
 export * from './validators';
+export * from './env-loader';

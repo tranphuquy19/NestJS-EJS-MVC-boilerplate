@@ -7,5 +7,5 @@ import { JwtRefreshGuard } from '@shared';
  * @returns JwtRefreshAuth decorator
  */
 export function JwtRefreshAuth() {
-    return applyDecorators(UseGuards(JwtRefreshGuard));
+  return applyDecorators(UseGuards(JwtRefreshGuard));
 }

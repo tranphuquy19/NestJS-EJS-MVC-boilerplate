@@ -10,9 +10,5 @@ import { JwtAuthGuard } from '@shared';
  * @returns JwtAuth decorator
  */
 export function JwtAuth(...roles: Role[]) {
-    return applyDecorators(
-        UseGuards(JwtAuthGuard, ACGuard),
-        UseRoles(...roles),
-        ApiBearerAuth(),
-    );
+  return applyDecorators(UseGuards(JwtAuthGuard, ACGuard), UseRoles(...roles), ApiBearerAuth());
 }

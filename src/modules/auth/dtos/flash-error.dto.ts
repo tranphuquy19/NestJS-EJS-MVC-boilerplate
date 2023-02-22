@@ -1,3 +1,3 @@
 export interface FlashErrorDTO {
-    message: string | string[];
+  message: string | string[];
 }

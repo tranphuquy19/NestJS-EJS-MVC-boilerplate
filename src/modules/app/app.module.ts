@@ -21,29 +21,29 @@ import { AppController } from './controllers';
 import { AppService } from './services';
 
 @Module({
-    imports: [
-        TypeOrmModule.forRoot(TypeOrmConfig.default),
-        AccessControlModule.forRoles(roles),
-        FcmModule.forRoot({
-            firebaseSpecsPath: path.join(WORKING_DIR, 'firebase.spec.json'),
-        }),
-        BullModule.forRootAsync({
-            useFactory: () => ({
-                redis: {
-                    host: redisUrl,
-                    port: redisPort,
-                },
-            }),
-        }),
-        AuthModule,
-        UserModule,
-        FileUploaderModule,
-        SitemapModule,
-        NotificationModule,
-        RedisModule,
-        LocalesModule,
-    ],
-    controllers: [AppController],
-    providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot(TypeOrmConfig.default),
+    AccessControlModule.forRoles(roles),
+    FcmModule.forRoot({
+      firebaseSpecsPath: path.join(WORKING_DIR, 'firebase.spec.json'),
+    }),
+    BullModule.forRootAsync({
+      useFactory: () => ({
+        redis: {
+          host: redisUrl,
+          port: redisPort,
+        },
+      }),
+    }),
+    AuthModule,
+    UserModule,
+    FileUploaderModule,
+    SitemapModule,
+    NotificationModule,
+    RedisModule,
+    LocalesModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

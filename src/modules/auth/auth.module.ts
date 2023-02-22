@@ -9,22 +9,22 @@ import { AuthService } from './services';
 import { SessionSerializer } from './session.serializer';
 
 @Module({
-    imports: [
-        UserModule,
-        JwtModule.register({
-            secret: jwtSecretKey,
-            signOptions: {
-                algorithm: 'HS256',
-            },
-        }),
-    ],
-    controllers: [LocalAuthController, JwtAuthController],
-    providers: [
-        AuthService,
-        LocalStrategy,
-        JwtAuthStrategy,
-        JwtRefreshStrategy,
-        SessionSerializer,
-    ],
+  imports: [
+    UserModule,
+    JwtModule.register({
+      secret: jwtSecretKey,
+      signOptions: {
+        algorithm: 'HS256',
+      },
+    }),
+  ],
+  controllers: [LocalAuthController, JwtAuthController],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtAuthStrategy,
+    JwtRefreshStrategy,
+    SessionSerializer,
+  ],
 })
 export class AuthModule {}

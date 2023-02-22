@@ -9,22 +9,22 @@ import { AuthService } from '../services';
 @Controller('jwt')
 @ApiTags('auth')
 export class JwtAuthController {
-    constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
-    @Post('login')
-    login(@Body() data: LoginInputDTO) {
-        return this.authService.jwtLogin(data);
-    }
+  @Post('login')
+  login(@Body() data: LoginInputDTO) {
+    return this.authService.jwtLogin(data);
+  }
 
-    @JwtRefreshAuth()
-    @Post('refresh')
-    refresh(@User() user: ReqUser) {
-        return this.authService.jwtRefresh(user);
-    }
+  @JwtRefreshAuth()
+  @Post('refresh')
+  refresh(@User() user: ReqUser) {
+    return this.authService.jwtRefresh(user);
+  }
 
-    @JwtAuth()
-    @Post('register')
-    register(@Body() data: CreateUserDTO, @User() reqUser: ReqUser) {
-        return this.authService.jwtRegister(data, reqUser);
-    }
+  @JwtAuth()
+  @Post('register')
+  register(@Body() data: CreateUserDTO, @User() reqUser: ReqUser) {
+    return this.authService.jwtRegister(data, reqUser);
+  }
 }

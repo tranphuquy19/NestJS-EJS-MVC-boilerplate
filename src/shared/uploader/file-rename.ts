@@ -12,50 +12,47 @@ import { randomString } from '@shared/utils';
 type cbFileName = (e: Error | null, updatedFileName: string) => void;
 
 function _validate(fileName: string, options: UploaderOptions, cb: cbFileName): void {
-    if (options.overwrite) {
-        cb(null, fileName);
-    } else {
-        const _storageDir = resolve(options.destination || defaultStorageDir);
-        const _filePath = join(_storageDir, fileName);
+  if (options.overwrite) {
+    cb(null, fileName);
+  } else {
+    const _storageDir = resolve(options.destination || defaultStorageDir);
+    const _filePath = join(_storageDir, fileName);
 
-        if (existsSync(_filePath)) {
-            cb(
-                new HttpException(
-                    `File ${fileName} already exists!`,
-                    HttpStatus.INTERNAL_SERVER_ERROR,
-                ),
-                fileName,
-            );
-        } else {
-            cb(null, fileName);
-        }
+    if (existsSync(_filePath)) {
+      cb(
+        new HttpException(`File ${fileName} already exists!`, HttpStatus.INTERNAL_SERVER_ERROR),
+        fileName,
+      );
+    } else {
+      cb(null, fileName);
     }
+  }
 }
 
 export const editFileName = (options: UploaderOptions) => {
-    return (req: Request, file: Express.Multer.File, callback: cbFileName) => {
-        const fileName = sanitizeFilename(file.originalname);
+  return (req: Request, file: Express.Multer.File, callback: cbFileName) => {
+    const fileName = sanitizeFilename(file.originalname);
 
-        const { name } = parse(fileName);
-        const fileExtName = extname(fileName);
+    const { name } = parse(fileName);
+    const fileExtName = extname(fileName);
 
-        if (options.originalName) {
-            _validate(fileName, options, callback);
+    if (options.originalName) {
+      _validate(fileName, options, callback);
+    } else {
+      if (options.fileName) {
+        if (typeof options.fileName === 'function') {
+          _validate(options.fileName(file, req), options, callback);
         } else {
-            if (options.fileName) {
-                if (typeof options.fileName === 'function') {
-                    _validate(options.fileName(file, req), options, callback);
-                } else {
-                    if (extname(options.fileName).length === 0) {
-                        _validate(`${options.fileName}${fileExtName}`, options, callback);
-                    } else {
-                        _validate(options.fileName, options, callback);
-                    }
-                }
-            } else {
-                const randomName = randomString();
-                _validate(`${name}-${randomName}${fileExtName}`, options, callback);
-            }
+          if (extname(options.fileName).length === 0) {
+            _validate(`${options.fileName}${fileExtName}`, options, callback);
+          } else {
+            _validate(options.fileName, options, callback);
+          }
         }
-    };
+      } else {
+        const randomName = randomString();
+        _validate(`${name}-${randomName}${fileExtName}`, options, callback);
+      }
+    }
+  };
 };

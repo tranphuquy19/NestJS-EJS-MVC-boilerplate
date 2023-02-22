@@ -10,11 +10,11 @@ import { apiUrls } from '@config';
  * @returns full request URL
  */
 export function fullUrl(req: Request): string {
-    return url.format({
-        protocol: req.protocol,
-        host: req.get('host'),
-        pathname: req.originalUrl,
-    });
+  return url.format({
+    protocol: req.protocol,
+    host: req.get('host'),
+    pathname: req.originalUrl,
+  });
 }
 
 /**
@@ -22,11 +22,11 @@ export function fullUrl(req: Request): string {
  * @param url
  */
 export function isApiRequest(req: Request): boolean {
-    const _url = fullUrl(req);
-    for (const _apiUrl of apiUrls) {
-        if (_url.startsWith(_apiUrl)) return true;
-    }
-    return false;
+  const _url = fullUrl(req);
+  for (const _apiUrl of apiUrls) {
+    if (_url.startsWith(_apiUrl)) return true;
+  }
+  return false;
 }
 
 /**
@@ -35,11 +35,11 @@ export function isApiRequest(req: Request): boolean {
  * @returns
  */
 export function randomString(length = 10): string {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const lastIndex = characters.length - 1;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(randomInt(0, lastIndex));
-    }
-    return result;
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const lastIndex = characters.length - 1;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(randomInt(0, lastIndex));
+  }
+  return result;
 }

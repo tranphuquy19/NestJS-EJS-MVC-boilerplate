@@ -7,5 +7,5 @@ import { LocalAuthGuard } from '@shared';
  * @returns LocalAuth decorator
  */
 export function LocalAuth() {
-    return applyDecorators(UseGuards(LocalAuthGuard));
+  return applyDecorators(UseGuards(LocalAuthGuard));
 }

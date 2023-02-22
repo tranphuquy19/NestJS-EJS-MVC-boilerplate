@@ -5,20 +5,20 @@ import sharp from 'sharp';
 import { IImageQueueData } from './image-options.interface';
 
 async function imageProcessor(job: Job, doneCallback: DoneCallback): Promise<void> {
-    const imageQueueData = job.data as IImageQueueData;
+  const imageQueueData = job.data as IImageQueueData;
 
-    const { files, options } = imageQueueData;
+  const { files, options } = imageQueueData;
 
-    const filesPromises = files.map((file) => {
-        return sharp(file.path)
-            .toFormat(options.format)
-            .png({ quality: options.quality })
-            .toFile(join(options.storageDir, file.filename));
-    });
+  const filesPromises = files.map((file) => {
+    return sharp(file.path)
+      .toFormat(options.format)
+      .png({ quality: options.quality })
+      .toFile(join(options.storageDir, file.filename));
+  });
 
-    const outputs = await Promise.all(filesPromises);
+  const outputs = await Promise.all(filesPromises);
 
-    doneCallback(null, outputs);
+  doneCallback(null, outputs);
 }
 
 export default imageProcessor;

@@ -7,14 +7,14 @@ import { STRATEGY_JWT_REFRESH } from '@shared';
 
 @Injectable()
 export class JwtRefreshGuard extends AuthGuard(STRATEGY_JWT_REFRESH) {
-    canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-        return super.canActivate(context);
-    }
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+    return super.canActivate(context);
+  }
 
-    handleRequest(err: any, user: any, info: any) {
-        if (err || !user) {
-            throw err || new UnauthorizedException(`${info}`);
-        }
-        return user;
+  handleRequest(err: any, user: any, info: any) {
+    if (err || !user) {
+      throw err || new UnauthorizedException(`${info}`);
     }
+    return user;
+  }
 }

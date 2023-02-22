@@ -4,7 +4,7 @@ import { SitemapController } from './sitemap.controller';
 import { SitemapService } from './sitemap.service';
 
 @Module({
-    controllers: [SitemapController],
-    providers: [SitemapService],
+  controllers: [SitemapController],
+  providers: [SitemapService],
 })
 export class SitemapModule {}

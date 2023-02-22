@@ -7,5 +7,5 @@ import { AuthenticatedGuard } from '@shared';
  * @returns LoggedInAuth decorator
  */
 export function LoggedInAuth() {
-    return applyDecorators(UseGuards(AuthenticatedGuard));
+  return applyDecorators(UseGuards(AuthenticatedGuard));
 }

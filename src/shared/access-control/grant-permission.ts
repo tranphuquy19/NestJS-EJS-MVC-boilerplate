@@ -13,16 +13,16 @@ import { Action, IReqUser } from '@shared';
  * @param creatorId The resource creator
  */
 export function grantPermission(
-    rolesBuilder: RolesBuilder,
-    resource: AppResources,
-    action: Action,
-    { id, roles }: IReqUser,
-    creatorId: any,
+  rolesBuilder: RolesBuilder,
+  resource: AppResources,
+  action: Action,
+  { id, roles }: IReqUser,
+  creatorId: any,
 ): Permission {
-    let behavior: string;
+  let behavior: string;
 
-    if (id && creatorId) behavior = `${action}${id === creatorId ? 'Own' : 'Any'}`;
-    else behavior = `${action}Any`;
+  if (id && creatorId) behavior = `${action}${id === creatorId ? 'Own' : 'Any'}`;
+  else behavior = `${action}Any`;
 
-    return rolesBuilder.can(roles)[behavior + ''](resource); // similar with `const permission: Permission = rolesBuilder.can(roles).readOwn(resource);`
+  return rolesBuilder.can(roles)[behavior + ''](resource); // similar with `const permission: Permission = rolesBuilder.can(roles).readOwn(resource);`
 }

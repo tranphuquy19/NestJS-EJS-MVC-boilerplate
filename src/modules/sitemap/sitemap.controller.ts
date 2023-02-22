@@ -8,10 +8,10 @@ import { SitemapService } from './sitemap.service';
 @Controller()
 @ApiExcludeController()
 export class SitemapController {
-    constructor(private readonly sitemapService: SitemapService) {}
+  constructor(private readonly sitemapService: SitemapService) {}
 
-    @Get(['sitemap.xml', 'sitemap'])
-    async generateSitemap(@Res() res: Response): Promise<void> {
-        this.sitemapService.generateSitemap(res);
-    }
+  @Get(['sitemap.xml', 'sitemap'])
+  async generateSitemap(@Res() res: Response): Promise<void> {
+    this.sitemapService.generateSitemap(res);
+  }
 }

@@ -45,6 +45,17 @@ services:
       - redis-data:/data
     restart: unless-stopped
 
+  redis_commander:
+    image: rediscommander/redis-commander:latest
+    container_name: ${STACK_NAME:-nest}-redis-commander
+    environment:
+      REDIS_HOSTS: ${STACK_NAME:-nest}-redis
+    depends_on:
+      - redis
+    ports:
+      - 6380:8081
+    restart: unless-stopped
+
 volumes:
   postgresql-data:
     driver: local

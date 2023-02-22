@@ -43,6 +43,7 @@ services:
   redis:
     profiles:
       - prod
+      - admin
       - all
     image: redis:alpine
     container_name: ${STACK_NAME:-nest}-redis
@@ -50,6 +51,20 @@ services:
     #     - 6379:6379
     volumes:
       - redis-data:/data
+    restart: unless-stopped
+  
+  redis_commander:
+    profiles:
+      - admin
+      - all
+    image: rediscommander/redis-commander:latest
+    container_name: ${STACK_NAME:-nest}-redis-commander
+    environment:
+      REDIS_HOSTS: ${STACK_NAME:-nest}-redis
+    depends_on:
+      - redis
+    ports:
+      - 6380:8081
     restart: unless-stopped
 
   app:

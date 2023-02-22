@@ -29,6 +29,7 @@ export function configSession(app: NestExpressApplication) {
       secret: sessionSecret,
       resave: false,
       saveUninitialized: false,
+      name: 'sid',
       cookie: {
         secure: false, // if true only transmit cookie over https
         httpOnly: false, // if true prevent client side JS from reading the cookie

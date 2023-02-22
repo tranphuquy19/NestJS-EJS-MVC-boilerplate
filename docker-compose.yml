@@ -1,73 +1,117 @@
 version: '3.9'
 
 services:
-    postgres:
-        container_name: ${STACK_NAME:-nest}-pgsql
-        image: postgres
-        environment:
-            POSTGRES_DB: ${DATABASE_NAME:-nest_db}
-            POSTGRES_USER: ${DATABASE_USERNAME:-postgres}
-            POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-P@s5word}
-            PGDATA: /data/postgres
-            TZ: ${TIMEZONE:-America/New_York}
-        volumes:
-            - postgresql-data:/var/lib/postgresql/data
-        # ports:
-        #     - '5432:5432'
-        restart: unless-stopped
+  postgres:
+    profiles:
+      - db
+      - prod
+      - admin
+      - all
+    container_name: ${STACK_NAME:-nest}-pgsql
+    image: postgres
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-nest_db}
+      POSTGRES_USER: ${DATABASE_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-P@s5word}
+      PGDATA: /data/postgres
+      TZ: ${TIMEZONE:-America/New_York}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    # ports:
+    #     - '5432:5432'
+    restart: unless-stopped
 
-    pgadmin:
-        container_name: ${STACK_NAME:-nest}-pgadmin
-        image: dpage/pgadmin4
-        depends_on:
-            - postgres
-            - redis
-        environment:
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-your-email@example.com}
-            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P@s5word}
-            PGADMIN_CONFIG_SERVER_MODE: 'True'
-        volumes:
-            - pgadmin-data:/var/lib/pgadmin
-            - ${DATA_FOLDER}/pgadmin/servers.json:/pgadmin4/servers.json
-        ports:
-            - '5433:80'
-        restart: unless-stopped
+  pgadmin:
+    profiles:
+      - admin
+      - all
+    container_name: ${STACK_NAME:-nest}-pgadmin
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-your-email@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P@s5word}
+      PGADMIN_CONFIG_SERVER_MODE: 'True'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ${DATA_FOLDER}/pgadmin/servers.json:/pgadmin4/servers.json
+    ports:
+      - '5433:80'
+    restart: unless-stopped
 
-    redis:
-        image: redis:alpine
-        container_name: ${STACK_NAME:-nest}-redis
-        # ports:
-        #     - 6379:6379
-        volumes:
-            - redis-data:/data
-        restart: unless-stopped
+  redis:
+    profiles:
+      - prod
+      - all
+    image: redis:alpine
+    container_name: ${STACK_NAME:-nest}-redis
+    # ports:
+    #     - 6379:6379
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
 
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-            target: production
-            args:
-                - TIMEZONE=${TIMEZONE:-Asia/Ho_Chi_Minh}
-        image: ${STACK_NAME:-nest}
-        container_name: ${STACK_NAME:-nest}-app
-        ports:
-            - ${PORT:-4000}:4000
-        volumes:
-            - app-data:/home/node/app
-            - ./.env.docker:/home/node/app/.env
-            - ./firebase.spec.json:/home/node/app/firebase.spec.json
-        depends_on:
-            - postgres
-            - redis
-        restart: unless-stopped
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+      args:
+        - TIMEZONE=${TIMEZONE:-Asia/Ho_Chi_Minh}
+    profiles:
+      - prod
+      - nodeapp
+      - all
+    image: ${STACK_NAME:-nest}
+    container_name: ${STACK_NAME:-nest}-app
+    ports:
+      - ${PORT:-4000}:4000
+    volumes:
+      - type: bind
+        source: ${PWD}/.env.docker
+        target: /home/node/app/.env
+      - type: bind
+        source: ${PWD}/firebase.spec.json
+        target: /home/node/app/firebase.spec.json
+      - type: volume
+        source: app-data
+        target: /home/node/app/data
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+  db_migrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrator
+      args:
+        - TIMEZONE=${TIMEZONE:-Asia/Ho_Chi_Minh}
+    image: ${STACK_NAME:-nest}-db-migrator
+    profiles:
+      - db
+      - nodeapp
+      - all
+    container_name: ${STACK_NAME:-nest}-db-migrator
+    command: [ "yarn", "typeorm:migration:run" ]
+    ports:
+      - ${PORT:-4000}:4000
+    volumes:
+      - type: bind
+        source: ${PWD}/.env.docker
+        target: /home/node/app/.env
+    depends_on:
+      - postgres
+    restart: "no"
 
 volumes:
-    postgresql-data:
-        driver: local
-    redis-data:
-        driver: local
-    pgadmin-data:
-        driver: local
-    app-data:
-        driver: local
+  postgresql-data:
+    driver: local
+  redis-data:
+    driver: local
+  pgadmin-data:
+    driver: local
+  app-data:
+    driver: local

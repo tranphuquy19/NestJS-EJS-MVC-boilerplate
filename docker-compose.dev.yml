@@ -4,51 +4,51 @@ version: '3.9'
 # Destroy: docker-compose -f docker-compose.dev.yml down --volumes
 
 services:
-    postgres:
-        container_name: ${STACK_NAME:-nest}-pgsql
-        image: postgres
-        environment:
-            POSTGRES_DB: ${DATABASE_NAME:-nest_db}
-            POSTGRES_USER: ${DATABASE_USERNAME:-postgres}
-            POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-P@s5word}
-            PGDATA: /data/postgres
-            TZ: ${TIMEZONE:-America/New_York}
-        volumes:
-            - postgresql-data:/var/lib/postgresql/data
-        ports:
-            - '5432:5432'
-        restart: unless-stopped
+  postgres:
+    container_name: ${STACK_NAME:-nest}-pgsql
+    image: postgres
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-nest_db}
+      POSTGRES_USER: ${DATABASE_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-P@s5word}
+      PGDATA: /data/postgres
+      TZ: ${TIMEZONE:-America/New_York}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
 
-    pgadmin:
-        container_name: ${STACK_NAME:-nest}-pgadmin
-        image: dpage/pgadmin4
-        depends_on:
-            - postgres
-            - redis
-        environment:
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-your-email@example.com}
-            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P@s5word}
-            PGADMIN_CONFIG_SERVER_MODE: 'True'
-        volumes:
-            - pgadmin-data:/var/lib/pgadmin
-            - ${DATA_FOLDER}/pgadmin/servers.json:/pgadmin4/servers.json
-        ports:
-            - '5433:80'
-        restart: unless-stopped
+  pgadmin:
+    container_name: ${STACK_NAME:-nest}-pgadmin
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-your-email@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P@s5word}
+      PGADMIN_CONFIG_SERVER_MODE: 'True'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ${DATA_FOLDER}/pgadmin/servers.json:/pgadmin4/servers.json
+    ports:
+      - '5433:80'
+    restart: unless-stopped
 
-    redis:
-        image: redis:alpine
-        container_name: ${STACK_NAME:-nest}-redis
-        ports:
-            - 6379:6379
-        volumes:
-            - redis-data:/data
-        restart: unless-stopped
+  redis:
+    image: redis:alpine
+    container_name: ${STACK_NAME:-nest}-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
 
 volumes:
-    postgresql-data:
-        driver: local
-    redis-data:
-        driver: local
-    pgadmin-data:
-        driver: local
+  postgresql-data:
+    driver: local
+  redis-data:
+    driver: local
+  pgadmin-data:
+    driver: local

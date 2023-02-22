@@ -14,16 +14,26 @@ WORKDIR /home/node/app
 COPY package.json .
 
 
-# Build app
-FROM base AS development
+# Install packages
+FROM base AS packages
 
 ENV NODE_ENV=development
 ENV PATH node_modules/.bin:$PATH
 
 COPY . .
+
 RUN --mount=type=cache,target=$YARN_CACHE_FOLDER yarn --frozen-lockfile --ignore-scripts --production=false && \
     npm rebuild bcrypt --build-from-source && \
-    yarn prebuild && yarn build && npm prune --production && \
+    yarn prebuild && yarn build
+
+
+# Database migrator image
+FROM packages AS migrator
+
+
+# Development image, builds the app
+FROM packages AS development
+RUN npm prune --production && \
     /usr/local/bin/node-prune
 
 
@@ -31,6 +41,10 @@ RUN --mount=type=cache,target=$YARN_CACHE_FOLDER yarn --frozen-lockfile --ignore
 FROM base AS production
 
 ENV NODE_ENV=production
+
+RUN mkdir -p /home/node/app && \
+    chown -R node:node /home/node/app && \
+    chmod -R 755 /home/node/app
 
 COPY --from=development /home/node/app/node_modules ./node_modules
 COPY --from=development /home/node/app/dist ./dist

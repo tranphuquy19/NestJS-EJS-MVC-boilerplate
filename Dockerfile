@@ -46,6 +46,7 @@ RUN mkdir -p /home/node/app && \
     chown -R node:node /home/node/app && \
     chmod -R 755 /home/node/app
 
+USER node
 COPY --from=development /home/node/app/node_modules ./node_modules
 COPY --from=development /home/node/app/dist ./dist
 COPY --from=development /home/node/app/src ./src

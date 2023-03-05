@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 
-import { EntityResults, PaginateParams, User } from '@shared';
+import { EntityResults, PaginateParams } from '@shared';
 import { UserEntity } from '../entities';
 
 @Injectable()

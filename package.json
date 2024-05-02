@@ -50,7 +50,7 @@
         "cookie-parser": "^1.4.5",
         "csurf": "^1.11.0",
         "dotenv": "^10.0.0",
-        "ejs": "^3.1.7",
+        "ejs": "^3.1.10",
         "express-session": "^1.17.2",
         "file-type": "^16.5.4",
         "flat": "^5.0.2",
